@@ -24,7 +24,6 @@ app.get('/landingpage', (req, res) => {
 // API endpoint to get the Google Maps API key
 app.get('/api/google-maps-key', (req, res) => {
     res.json({ key: process.env.GOOGLE_MAPS_API_KEY });
-    console.log(process.env.GOOGLE_MAPS_API_KEY);
 });
 
 // Start the server
