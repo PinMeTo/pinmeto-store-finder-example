@@ -487,7 +487,18 @@
                 mapInstance.panTo(marker.position); 
                 mapInstance.setZoom(14);
                 infoWindow.close(); 
-                infoWindow.setContent(`<b>${store.name || t('popupStoreNameDefault')}</b><br>${store.address || t('popupAddressDefault')}`);
+                
+                const content = `
+                    <div class="pmt-map-info-window">
+                        <div class="pmt-map-info-name">${store.name || t('popupStoreNameDefault')}</div>
+                        <div class="pmt-map-info-address">${store.address || t('popupAddressDefault')}</div>
+                        <hr class="pmt-map-info-divider" />
+                        ${store.phone ? `<div class="pmt-map-info-phone"><span class="pmt-phone-icon">📞</span><a href="tel:${store.phone}">${store.phone}</a></div>` : ''}
+                        ${store.hours ? `<div class="pmt-map-info-hours">${store.hours}</div>` : ''}
+                    </div>
+                `;
+                infoWindow.setHeaderDisabled(true);
+                infoWindow.setContent(content);
                 infoWindow.open({ anchor: marker, map: mapInstance });
             } catch (e) {
                 console.error("PMT SL: Google Map PanTo/Zoom Err", e);
