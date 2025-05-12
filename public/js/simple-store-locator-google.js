@@ -1,6 +1,6 @@
 (async function () {
     // --- Configuration --- 
-    const rootElementId = 'pmt-store-locator-root';
+    const rootElementId = window.PMT_STORE_LOCATOR_ROOT_ID || 'pmt-store-locator-root';
     const URL_PARAM_NAME = 'storeId'; // URL parameter for deep linking
     const LANDING_PAGE_URL = 'landingpage.html'; // Target page for the link
     // MODIFIED API_URL
