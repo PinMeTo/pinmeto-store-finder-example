@@ -29,7 +29,7 @@ function createInitialDOMStructure(container) {
     elements.storeDetailsEl.appendChild(addressMapSection);
 
     const addressMapH2 = document.createElement('h2');
-    addressMapH2.innerHTML = '<span class="pmt-lucide">&#xe9dc;</span> Address & Location';
+    addressMapH2.innerHTML = '<i class="fa-solid fa-location-dot"></i> Address & Location';
     addressMapSection.appendChild(addressMapH2);
 
     const addressMapContainer = document.createElement('div');
@@ -54,7 +54,7 @@ function createInitialDOMStructure(container) {
     elements.storeDirectionsLinkEl.href = '#';
     elements.storeDirectionsLinkEl.target = '_blank';
     elements.storeDirectionsLinkEl.rel = 'noopener noreferrer';
-    elements.storeDirectionsLinkEl.innerHTML = '<span class="pmt-lucide">&#xe96c;</span> Get Directions';
+    elements.storeDirectionsLinkEl.innerHTML = '<i class="fa-solid fa-location-arrow"></i> Get Directions';
     elements.directionsParagraphEl.appendChild(elements.storeDirectionsLinkEl);
 
     elements.storeMapWrapperEl = document.createElement('div');
@@ -73,7 +73,7 @@ function createInitialDOMStructure(container) {
     elements.storeDetailsEl.appendChild(elements.phoneSectionEl);
 
     const phoneH2 = document.createElement('h2');
-    phoneH2.innerHTML = '<span class="pmt-lucide">&#xea1f;</span> Phone';
+    phoneH2.innerHTML = '<i class="fa-solid fa-phone"></i> Phone';
     elements.phoneSectionEl.appendChild(phoneH2);
 
     elements.storePhoneEl = document.createElement('p');
@@ -85,7 +85,7 @@ function createInitialDOMStructure(container) {
     elements.storeDetailsEl.appendChild(openingHoursSection);
 
     const openingHoursH2 = document.createElement('h2');
-    openingHoursH2.innerHTML = '<span class="pmt-lucide">&#xe848;</span> Opening Hours';
+    openingHoursH2.innerHTML = '<i class="fa-regular fa-clock"></i> Opening Hours';
     openingHoursSection.appendChild(openingHoursH2);
 
     elements.storeOpeningHoursEl = document.createElement('ul');
@@ -98,7 +98,7 @@ function createInitialDOMStructure(container) {
     elements.storeDetailsEl.appendChild(elements.exceptionsSectionEl);
 
     const exceptionsH2 = document.createElement('h2');
-    exceptionsH2.innerHTML = '<span class="pmt-lucide">&#xe80e;</span> Special Opening Hours';
+    exceptionsH2.innerHTML = '<i class="fa-regular fa-calendar-check"></i> Special Opening Hours';
     elements.exceptionsSectionEl.appendChild(exceptionsH2);
 
     elements.storeExceptionsEl = document.createElement('ul');
@@ -580,7 +580,7 @@ function createInitialDOMStructure(container) {
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = '../simple-landing-page.css'; // Ensure this path is correct
+    link.href = 'css/simple-landing-page.css'; // Ensure this path is correct
     document.head.appendChild(link);
 
     if (document.readyState === 'loading') {

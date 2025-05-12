@@ -5,21 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>H&M Store Information</title>
 
-    <link rel="stylesheet" href="css/simple-landing-page.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-   
-
-    <style>
     
+    <style>
+    @font-face {
+        font-family: 'LucideIcons';
+        src: url('https://cdn.jsdelivr.net/npm/lucide-static@latest/font/Lucide.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    .pmt-lucide {
+        font-family: 'LucideIcons';
+        font-size: 1.25rem;
+        line-height: 1;
+        vertical-align: middle;
+        margin-right: 0.5rem;
+        display: inline-block;
+    }
+    .fa-solid, .fa-regular {
+        margin-right: 0.5em;
+        color: #2563eb;
+        font-size: 1.1em;
+        vertical-align: middle;
+    }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
     <div id="pmt-store-landing-page-container"></div> 
     <script src="js/simple-landing-page-google.js"></script>
+    <script>
+    addressMapH2.innerHTML = '<i class="fa-solid fa-location-dot"></i> Address & Location';
+    phoneH2.innerHTML = '<i class="fa-solid fa-phone"></i> Phone';
+    openingHoursH2.innerHTML = '<i class="fa-regular fa-clock"></i> Opening Hours';
+    exceptionsH2.innerHTML = '<i class="fa-regular fa-calendar-star"></i> Special Opening Hours';
+    elements.directionsParagraphEl.textContent = 'Get Directions';
+    elements.directionsParagraphEl.innerHTML = '<i class="fa-solid fa-location-arrow"></i> ';
+    elements.directionsParagraphEl.appendChild(elements.storeDirectionsLinkEl);
+    </script>
 </body>
 </html>

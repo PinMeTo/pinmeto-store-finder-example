@@ -5,12 +5,13 @@ html, body, #pmt-store-landing-page-container {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background: #f4f6fa;
 }
 
 #pmt-store-landing-page-container {
     min-height: 100vh;
     width: 100vw;
-    background: #f9fafb;
+    background: #f4f6fa;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,44 +19,60 @@ html, body, #pmt-store-landing-page-container {
 }
 
 #pmt-store-landing-page-container .pmt-container {
-    max-width: 700px;
+    max-width: 600px;
     width: 100%;
-    margin: 40px auto;
+    margin: 48px auto;
     background: #fff;
-    padding: 32px 28px 28px 28px;
-    border-radius: 12px;
-    box-shadow: 0 4px 24px 0 rgba(60,64,67,0.10), 0 1.5px 4px 0 rgba(60,64,67,0.08);
+    padding: 40px 32px 32px 32px;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(60,64,67,0.12), 0 1.5px 4px 0 rgba(60,64,67,0.08);
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    border: 1px solid #e5e7eb;
 }
 
 #pmt-store-landing-page-container h1 {
-    font-size: 2.1em;
-    font-weight: 700;
-    margin: 0 0 28px 0;
-    color: #1a202c;
+    font-size: 2.3em;
+    font-weight: 800;
+    margin: 0 0 36px 0;
+    color: #22223b;
     text-align: center;
+    letter-spacing: 0.01em;
 }
 
 #pmt-store-landing-page-container h2 {
-    font-size: 1.2em;
-    font-weight: 600;
-    margin: 32px 0 12px 0;
-    color: #374151;
-    border-bottom: 1px solid #e5e7eb;
-    padding-bottom: 5px;
+    font-size: 1.1em;
+    font-weight: 700;
+    margin: 36px 0 14px 0;
+    color: #22223b;
     display: flex;
     align-items: center;
+    gap: 0.5em;
+    position: relative;
+}
+#pmt-store-landing-page-container h2::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 22px;
+    background: linear-gradient(135deg, #2563eb 60%, #60a5fa 100%);
+    border-radius: 3px;
+    margin-right: 12px;
 }
 
 #pmt-store-landing-page-container section {
-    margin-bottom: 18px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ececec;
+}
+#pmt-store-landing-page-container section:last-child {
+    border-bottom: none;
 }
 #pmt-store-landing-page-container section > p,
 #pmt-store-landing-page-container section > ul,
 #pmt-store-landing-page-container section > div:not(.pmt-address-map-container):not(.pmt-concepts-container) {
-    margin-left: 24px;
+    margin-left: 18px;
     color: #4b5563;
 }
 #pmt-store-landing-page-container ul {
@@ -65,6 +82,7 @@ html, body, #pmt-store-landing-page-container {
 }
 #pmt-store-landing-page-container li {
     margin-bottom: 6px;
+    font-size: 1em;
 }
 #pmt-store-landing-page-container li.pmt-no-exceptions-message {
     font-style: italic;
@@ -84,7 +102,7 @@ html, body, #pmt-store-landing-page-container {
     align-items: flex-start;
     gap: 20px;
     flex-wrap: wrap;
-    margin-left: 24px;
+    margin-left: 18px;
     margin-top: 10px;
 }
 #pmt-store-landing-page-container #pmt-store-address-container {
@@ -95,32 +113,42 @@ html, body, #pmt-store-landing-page-container {
 #pmt-store-landing-page-container #pmt-store-address {
     color: #4b5563;
     margin-bottom: 10px;
+    font-size: 1.05em;
 }
 #pmt-store-landing-page-container #pmt-directions-paragraph {
     margin-top: 10px;
-    font-size: 0.98em;
+    font-size: 1em;
 }
 #pmt-store-landing-page-container #pmt-directions-paragraph a {
-    color: #2563eb;
+    color: #fff;
+    background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     gap: 0.3em;
-    font-weight: 500;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 6px 16px;
+    box-shadow: 0 2px 8px rgba(60,64,67,0.08);
+    transition: background 0.18s;
 }
 #pmt-store-landing-page-container #pmt-directions-paragraph a:hover {
-    text-decoration: underline;
+    background: linear-gradient(90deg, #1d4ed8 60%, #2563eb 100%);
 }
 #pmt-store-landing-page-container #pmt-store-map-wrapper {
     flex-basis: 250px;
     flex-shrink: 0;
     width: 250px;
     height: 250px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(60,64,67,0.10);
+    border: 1px solid #e5e7eb;
 }
 #pmt-store-landing-page-container #pmt-store-map {
     width: 100%;
     height: 100%;
-    border-radius: 8px;
+    border-radius: 12px;
     background: #eee;
 }
   
@@ -129,23 +157,25 @@ html, body, #pmt-store-landing-page-container {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-left: 24px;
+    margin-left: 18px;
 }
 #pmt-store-landing-page-container .pmt-concept-badge {
     display: inline-block;
     background-color: #e0f2fe;
     color: #0c4a6e;
-    font-size: 0.8em;
+    font-size: 0.9em;
     font-weight: 500;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 12px;
 }
   
 /* --- Phone Link Styling --- */
 #pmt-store-landing-page-container #pmt-store-phone a {
-    color: inherit;
+    color: #2563eb;
     text-decoration: none;
     cursor: pointer;
+    font-weight: 500;
+    font-size: 1.05em;
 }
 #pmt-store-landing-page-container #pmt-store-phone a:hover,
 #pmt-store-landing-page-container #pmt-store-phone a:focus {
@@ -225,4 +255,22 @@ html, body, #pmt-store-landing-page-container {
 #pmt-store-landing-page-container #pmt-message-box.pmt-info {
     background-color: #dbeafe;
     color: #1e40af;
+}
+
+@media (max-width: 700px) {
+    #pmt-store-landing-page-container .pmt-container {
+        padding: 18px 4vw 18px 4vw;
+        margin: 16px auto;
+    }
+    #pmt-store-landing-page-container .pmt-address-map-container {
+        flex-direction: column;
+        gap: 10px;
+        margin-left: 0;
+    }
+    #pmt-store-landing-page-container #pmt-store-map-wrapper {
+        width: 100%;
+        min-width: 180px;
+        height: 200px;
+        margin: 0 auto;
+    }
 }
