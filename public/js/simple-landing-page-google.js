@@ -14,8 +14,8 @@ function createInitialDOMStructure(container) {
     // Create Message Box (fixed position, initially hidden)
     elements.messageBoxEl = document.createElement('div');
     elements.messageBoxEl.id = 'pmt-message-box';
-    elements.messageBoxEl.style.display = 'none'; 
-    document.body.appendChild(elements.messageBoxEl);
+    elements.messageBoxEl.style.display = 'none';
+    container.appendChild(elements.messageBoxEl);
 
     // Create Store Details container (initially hidden)
     elements.storeDetailsEl = document.createElement('div');
@@ -161,6 +161,7 @@ function createInitialDOMStructure(container) {
     const DAY_KEYS_ORDER = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
     const DEFAULT_STORE_CODE = '1337';
     const NO_EXCEPTIONS_MESSAGE = "No special opening hours";
+    const rootElementId = window.PMT_LANDING_PAGE_ROOT_ID || 'pmt-store-landing-page-container';
 
     // --- DOM Elements Reference ---
 
@@ -548,9 +549,9 @@ function createInitialDOMStructure(container) {
     // --- Initialization ---
 
     async function initializeApp() { // Changed to async
-        const container = document.getElementById('pmt-store-landing-page-container');
+        const container = document.getElementById(rootElementId);
         if (!container) {
-            console.error("Main container '#pmt-store-landing-page-container' not found!");
+            console.error(`Main container '#${rootElementId}' not found!`);
             const errorDiv = document.createElement('div');
             errorDiv.textContent = 'Initialization Error: Root container not found.';
             errorDiv.style.color = 'red'; errorDiv.style.padding = '20px'; errorDiv.style.textAlign = 'center';

@@ -1,5 +1,59 @@
 ---
-description:
-globs:
+description: 
+globs: 
 alwaysApply: false
 ---
+# JavaScript Standards
+
+## Plain JavaScript Usage
+
+This project uses plain JavaScript without any frameworks. Follow these guidelines:
+
+### Core Principles
+- Use vanilla JavaScript (ES6+) features
+- Avoid framework-specific code
+- Keep dependencies minimal
+- Use native browser APIs when possible
+
+### File Structure
+- JavaScript files are stored in `public/js/`
+- Main entry points:
+  - [simple-store-locator-google.js](mdc:public/js/simple-store-locator-google.js)
+  - [simple-landing-page-google.js](mdc:public/js/simple-landing-page-google.js)
+
+### Code Style
+- Use async/await for asynchronous operations
+- Implement proper error handling with try/catch
+- Use const/let instead of var
+- Follow IIFE pattern for module encapsulation
+- Use template literals for string interpolation
+
+### DOM Manipulation
+- Use native DOM APIs
+- Cache DOM references when reused
+- Use event delegation when appropriate
+- Implement proper cleanup in event listeners
+
+### API Integration
+- Use fetch API for HTTP requests
+- Handle API responses with proper error checking
+- Implement retry logic for critical operations
+- Cache API responses when appropriate
+
+### Security
+- Never expose API keys in client-side code
+- Use environment variables for sensitive data
+- Implement proper CORS policies
+- Sanitize user input
+
+### Performance
+- Minimize DOM operations
+- Use debouncing for frequent events
+- Implement lazy loading where appropriate
+- Cache expensive computations
+
+### Testing
+- Write unit tests for critical functions
+- Test error handling paths
+- Verify browser compatibility
+- Test performance with large datasets

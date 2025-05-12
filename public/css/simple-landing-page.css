@@ -1,99 +1,228 @@
 /* --- Basic Styling --- */
-body {
-    font-family: 'Inter', sans-serif; margin: 0; padding: 20px; background-color: #f9fafb; color: #1f2937; line-height: 1.6;
-  }
-  .pmt-container {
-    max-width: 800px; margin: 20px auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  h1 {
-    font-size: 2em; font-weight: bold; margin-top: 0; margin-bottom: 25px; color: #111827;
-  }
-  h2 {
-    font-size: 1.4em; font-weight: 600; margin-top: 0; margin-bottom: 10px; color: #374151; border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; display: flex; align-items: center;
-  }
-  section { margin-bottom: 25px; }
-  section > p, section > ul, section > div:not(.pmt-address-map-container):not(.pmt-concepts-container) {
-      margin-left: 30px; color: #4b5563;
-  }
-  ul { list-style: none; padding-left: 0; margin-top: 5px; }
-  li { margin-bottom: 6px; }
-  li.pmt-no-exceptions-message { font-style: italic; color: #6b7280; }
-  li span.pmt-label { font-weight: 500; display: inline-block; }
-  li span.pmt-day-name-label { width: 90px; }
+html, body, #pmt-store-landing-page-container {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#pmt-store-landing-page-container {
+    min-height: 100vh;
+    width: 100vw;
+    background: #f9fafb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#pmt-store-landing-page-container .pmt-container {
+    max-width: 700px;
+    width: 100%;
+    margin: 40px auto;
+    background: #fff;
+    padding: 32px 28px 28px 28px;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px 0 rgba(60,64,67,0.10), 0 1.5px 4px 0 rgba(60,64,67,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#pmt-store-landing-page-container h1 {
+    font-size: 2.1em;
+    font-weight: 700;
+    margin: 0 0 28px 0;
+    color: #1a202c;
+    text-align: center;
+}
+
+#pmt-store-landing-page-container h2 {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin: 32px 0 12px 0;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+#pmt-store-landing-page-container section {
+    margin-bottom: 18px;
+}
+#pmt-store-landing-page-container section > p,
+#pmt-store-landing-page-container section > ul,
+#pmt-store-landing-page-container section > div:not(.pmt-address-map-container):not(.pmt-concepts-container) {
+    margin-left: 24px;
+    color: #4b5563;
+}
+#pmt-store-landing-page-container ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 5px;
+}
+#pmt-store-landing-page-container li {
+    margin-bottom: 6px;
+}
+#pmt-store-landing-page-container li.pmt-no-exceptions-message {
+    font-style: italic;
+    color: #6b7280;
+}
+#pmt-store-landing-page-container li span.pmt-label {
+    font-weight: 500;
+    display: inline-block;
+}
+#pmt-store-landing-page-container li span.pmt-day-name-label {
+    width: 90px;
+}
   
-  /* --- Address & Map Layout --- */
-  .pmt-address-map-container {
-    display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-left: 30px; margin-top: 10px;
-  }
-  #pmt-store-address-container {
-    flex: 1; min-width: 200px; margin: 0;
-  }
-  #pmt-store-address {
-     color: #4b5563; margin-bottom: 10px; /* Add margin bottom */
-  }
-  #pmt-directions-paragraph {
-      margin-top: 10px; /* Add space above directions link */
-      font-size: 0.95em;
-  }
-  #pmt-directions-paragraph a {
-      color: #1d4ed8; /* Blue link color */
-      text-decoration: none;
-      display: inline-flex; /* Align icon and text */
-      align-items: center; /* Align icon and text */
-      gap: 0.3em; /* Space between icon and text */
-  }
-  #pmt-directions-paragraph a:hover {
-      text-decoration: underline;
-  }
-  #pmt-store-map-wrapper {
-    flex-basis: 250px; flex-shrink: 0; width: 250px; height: 250px;
-  }
-  #pmt-store-map {
-    width: 100%; height: 100%; border-radius: 8px; background: #eee;
-  }
+/* --- Address & Map Layout --- */
+#pmt-store-landing-page-container .pmt-address-map-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-left: 24px;
+    margin-top: 10px;
+}
+#pmt-store-landing-page-container #pmt-store-address-container {
+    flex: 1;
+    min-width: 200px;
+    margin: 0;
+}
+#pmt-store-landing-page-container #pmt-store-address {
+    color: #4b5563;
+    margin-bottom: 10px;
+}
+#pmt-store-landing-page-container #pmt-directions-paragraph {
+    margin-top: 10px;
+    font-size: 0.98em;
+}
+#pmt-store-landing-page-container #pmt-directions-paragraph a {
+    color: #2563eb;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-weight: 500;
+}
+#pmt-store-landing-page-container #pmt-directions-paragraph a:hover {
+    text-decoration: underline;
+}
+#pmt-store-landing-page-container #pmt-store-map-wrapper {
+    flex-basis: 250px;
+    flex-shrink: 0;
+    width: 250px;
+    height: 250px;
+}
+#pmt-store-landing-page-container #pmt-store-map {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background: #eee;
+}
   
-  /* --- Concepts Layout --- */
-  .pmt-concepts-container { display: flex; flex-wrap: wrap; gap: 8px; margin-left: 30px; }
-  .pmt-concept-badge { display: inline-block; background-color: #e0f2fe; color: #0c4a6e; font-size: 0.8em; font-weight: 500; padding: 3px 10px; border-radius: 12px; }
+/* --- Concepts Layout --- */
+#pmt-store-landing-page-container .pmt-concepts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-left: 24px;
+}
+#pmt-store-landing-page-container .pmt-concept-badge {
+    display: inline-block;
+    background-color: #e0f2fe;
+    color: #0c4a6e;
+    font-size: 0.8em;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
   
-  /* --- Phone Link Styling --- */
-  #pmt-store-phone a {
-    color: inherit; /* Make it look like normal text */
-    text-decoration: none; /* Remove underline */
-    cursor: pointer; /* Indicate it's clickable */
-  }
-  #pmt-store-phone a:hover,
-  #pmt-store-phone a:focus {
-    text-decoration: underline; /* Add underline on hover/focus */
-  }
+/* --- Phone Link Styling --- */
+#pmt-store-landing-page-container #pmt-store-phone a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+#pmt-store-landing-page-container #pmt-store-phone a:hover,
+#pmt-store-landing-page-container #pmt-store-phone a:focus {
+    text-decoration: underline;
+}
   
-  .pmt-hidden { display: none; }
-  #pmt-loading-state, #pmt-error-state { text-align: center; padding: 40px 0; }
-  #pmt-loading-state p { margin-left: 0; color: #6b7280; }
-  #pmt-error-state { background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 20px; margin-top: 20px; }
-  #pmt-error-message { color: #b91c1c; font-weight: 500; margin-left: 0; }
-  #pmt-error-state p:last-child { color: #dc2626; font-size: 0.9em; margin-top: 8px; margin-left: 0; }
+#pmt-store-landing-page-container .pmt-hidden {
+    display: none;
+}
+#pmt-store-landing-page-container #pmt-loading-state,
+#pmt-store-landing-page-container #pmt-error-state {
+    text-align: center;
+    padding: 40px 0;
+}
+#pmt-store-landing-page-container #pmt-loading-state p {
+    margin-left: 0;
+    color: #6b7280;
+}
+#pmt-store-landing-page-container #pmt-error-state {
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+#pmt-store-landing-page-container #pmt-error-message {
+    color: #b91c1c;
+    font-weight: 500;
+    margin-left: 0;
+}
+#pmt-store-landing-page-container #pmt-error-state p:last-child {
+    color: #dc2626;
+    font-size: 0.9em;
+    margin-top: 8px;
+    margin-left: 0;
+}
   
-  /* --- Lucide Icon Styling --- */
-  @font-face {
+/* --- Lucide Icon Styling --- */
+@font-face {
     font-family: 'LucideIcons';
     src: url(https://cdn.jsdelivr.net/npm/lucide-static@latest/font/Lucide.ttf) format('truetype');
-  }
-  .pmt-lucide {
-      font-family: 'LucideIcons';
-      font-size: 1.25rem; /* Match h2 icon size */
-      line-height: 1;
-      vertical-align: middle;
-      margin-right: 0.5rem; /* Match h2 icon spacing */
-      display: inline-block; /* Needed for proper alignment */
-  }
-   #pmt-directions-paragraph a .pmt-lucide {
-      font-size: 1rem; /* Slightly smaller icon for the link */
-      margin-right: 0; /* Remove margin, use gap instead */
-   }
+}
+#pmt-store-landing-page-container .pmt-lucide {
+    font-family: 'LucideIcons';
+    font-size: 1.25rem;
+    line-height: 1;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    display: inline-block;
+}
+#pmt-store-landing-page-container #pmt-directions-paragraph a .pmt-lucide {
+    font-size: 1rem;
+    margin-right: 0;
+}
   
-  /* --- Message Box Styling --- */
-  #pmt-message-box { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 1000; font-family: 'Inter', sans-serif; }
-  #pmt-message-box.pmt-success { background-color: #d1fae5; color: #065f46; }
-  #pmt-message-box.pmt-error { background-color: #fee2e2; color: #991b1b; }
-  #pmt-message-box.pmt-info { background-color: #dbeafe; color: #1e40af; }
+/* --- Message Box Styling --- */
+#pmt-store-landing-page-container #pmt-message-box {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    font-family: 'Inter', sans-serif;
+}
+#pmt-store-landing-page-container #pmt-message-box.pmt-success {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+#pmt-store-landing-page-container #pmt-message-box.pmt-error {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+#pmt-store-landing-page-container #pmt-message-box.pmt-info {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
