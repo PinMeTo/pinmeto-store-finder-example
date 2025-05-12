@@ -213,24 +213,6 @@ html, body, #pmt-store-landing-page-container {
     margin-left: 0;
 }
   
-/* --- Lucide Icon Styling --- */
-@font-face {
-    font-family: 'LucideIcons';
-    src: url(https://cdn.jsdelivr.net/npm/lucide-static@latest/font/Lucide.ttf) format('truetype');
-}
-#pmt-store-landing-page-container .pmt-lucide {
-    font-family: 'LucideIcons';
-    font-size: 1.25rem;
-    line-height: 1;
-    vertical-align: middle;
-    margin-right: 0.5rem;
-    display: inline-block;
-}
-#pmt-store-landing-page-container #pmt-directions-paragraph a .pmt-lucide {
-    font-size: 1rem;
-    margin-right: 0;
-}
-  
 /* --- Message Box Styling --- */
 #pmt-store-landing-page-container #pmt-message-box {
     display: none;

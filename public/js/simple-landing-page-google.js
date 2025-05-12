@@ -112,7 +112,8 @@ function createInitialDOMStructure(container) {
     elements.storeDetailsEl.appendChild(elements.conceptsSectionEl);
 
     const conceptsH2 = document.createElement('h2');
-    conceptsH2.innerHTML = '<span class="pmt-lucide">&#xea73;</span> Concepts';
+    conceptsH2.id = 'pmt-concepts-heading';
+    conceptsH2.innerHTML = 'Concepts';
     elements.conceptsSectionEl.appendChild(conceptsH2);
 
     elements.storeConceptsEl = document.createElement('div');
