@@ -1,209 +1,112 @@
-# PinMeTo Store Finder & Landing Page
+# PinMeTo Store Finder & Landing Page – Integration Guide
 
-This project provides two main components:
-1. A Store Locator with Google Maps integration
-2. A Store Landing Page for individual store information
+This guide explains how to embed the PinMeTo Store Locator and Store Landing Page JavaScript files on your own website (www). No build tools or local development setup is required.
 
-## Prerequisites
+---
 
-- Node.js (v14 or higher)
-- Google Maps API key
-- PinMeTo API credentials
+## 1. Store Locator
 
-## Installation
+Embed a searchable map of your stores on any page.
 
-1. Clone the repository:
-```bash
-git clone [repository-url]
-cd PinMeTo-Store-Finder
-```
+### How to Use
 
-2. Install dependencies:
-```bash
-npm install
-```
+1. **Add a container to your HTML:**
+   ```html
+   <div id="pmt-store-locator-root"></div>
+   ```
 
-3. Create a `.env` file in the root directory with your API keys:
-```env
-GOOGLE_MAPS_API_KEY=your_google_maps_api_key
-PINMETO_API_KEY=your_pinmeto_api_key
-```
+2. **Include the Store Locator JS file:**
+   ```html
+   <script src="/js/simple-store-locator-google.js"></script>
+   ```
+   *(Adjust the path if you host the file elsewhere.)*
 
-## Store Locator
+3. **Include the CSS:**
+   The script will automatically load `/css/simple-store-locator.css`. Ensure this file is available at that path, or edit the JS to point to your CSS location.
 
-The store locator provides a searchable map interface to find nearby stores.
+4. **Google Maps API Key:**
+   - The script expects a backend endpoint at `/api/google-maps-key` that returns `{ "key": "YOUR_GOOGLE_MAPS_API_KEY" }`.
+   - Alternatively, you can modify the JS to hardcode your API key if you do not have a backend endpoint.
 
-### Features
-- Interactive Google Maps integration
-- Store search by location
-- Custom marker clustering
-- Responsive design
-- Customizable store markers
-- Info windows with store details
+5. **PinMeTo API Endpoint:**
+   - The script is preconfigured to use the PinMeTo public API. If you need to change the API URL, edit the `API_URL` constant at the top of `simple-store-locator-google.js`.
 
-### Usage
+### Customization
+- **Translations:**
+  - The locator auto-detects language from `<html lang="xx">` or a `data-language` attribute on the root container.
+  - To add a new language, copy an existing file in `public/locales/` (e.g., `en.json`), translate it, and name it with the appropriate language code (e.g., `de.json`).
+- **Styling:**
+  - Edit `public/css/simple-store-locator.css` to change the appearance.
+- **Icons:**
+  - The locator uses Font Awesome icons. Include Font Awesome in your `<head>`:
+    ```html
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    ```
 
-1. Include the store locator in your HTML:
-```html
-<div id="pmt-store-locator-container"></div>
-<script src="js/store-locator-google.js"></script>
-```
+---
 
-2. Customize the appearance by modifying `public/css/store-locator.css`
+## 2. Store Landing Page
 
-3. Configure the store locator by setting options in the JavaScript:
-```javascript
-window.PMT_STORE_LOCATOR_CONFIG = {
-    apiUrl: 'your-api-endpoint',
-    defaultZoom: 12,
-    maxResults: 20,
-    useCustomMarkers: true
-};
-```
+Display detailed information about a single store, including address, hours, map, and more.
 
-## Store Landing Page
+### How to Use
 
-The landing page displays detailed information about a specific store.
+1. **Add a container to your HTML:**
+   ```html
+   <div id="pmt-store-landing-page-container"></div>
+   ```
 
-### Features
-- Store details (address, phone, opening hours)
-- Interactive Google Maps integration
-- Special opening hours/exceptions
-- Store concepts/services
-- Responsive design
-- Font Awesome icons
+2. **Include the Landing Page JS file:**
+   ```html
+   <script src="/js/simple-landing-page-google.js"></script>
+   ```
+   *(Adjust the path if you host the file elsewhere.)*
 
-### Usage
+3. **Include the CSS:**
+   The script will automatically load `/css/simple-landing-page.css`. Ensure this file is available at that path, or edit the JS to point to your CSS location.
 
-1. Include the landing page in your HTML:
-```html
-<div id="pmt-store-landing-page-container"></div>
-<script src="js/simple-landing-page-google.js"></script>
-```
+4. **Google Maps API Key:**
+   - The script expects a backend endpoint at `/api/google-maps-key` that returns `{ "key": "YOUR_GOOGLE_MAPS_API_KEY" }`.
+   - Alternatively, you can modify the JS to hardcode your API key if you do not have a backend endpoint.
 
-2. Customize the appearance by modifying `public/css/simple-landing-page.css`
+5. **PinMeTo API Endpoint:**
+   - The script is preconfigured to use the PinMeTo public API. If you need to change the API URL, edit the `API_URL` constant at the top of `simple-landing-page-google.js`.
 
-3. Access a specific store by adding the store ID to the URL:
-```
-your-domain.com/landingpage.html?storeId=123
-```
+6. **Show a Specific Store:**
+   - Link to the landing page with a store ID in the URL:
+     ```
+     yourdomain.com/landingpage.html?storeId=123
+     ```
 
-### Available Store Information
-- Store name
-- Address and location
-- Phone number
-- Regular opening hours
-- Special opening hours/exceptions
-- Store concepts/services
-- Interactive map with directions
+### Configuration
+- **Default Store Image:**
+  - Set the `PMT_LANDING_PAGE_DEFAULT_IMAGE_URL` constant in the JS file to your preferred fallback image.
+- **Breadcrumb URLs:**
+  - Set `PMT_STORE_LOCATOR_URL` and `PMT_HOME_URL` constants in the JS file for correct breadcrumb and SEO links.
 
-## API Integration
+### Customization
+- **Translations:**
+  - The landing page auto-detects language from `<html lang="xx">` or a `data-language` attribute on the root container.
+  - To add a new language, copy an existing file in `public/locales/` (e.g., `en.json`), translate it, and name it with the appropriate language code (e.g., `de.json`).
+- **Styling:**
+  - Edit `public/css/simple-landing-page.css` to change the appearance.
+- **Icons:**
+  - The landing page uses Font Awesome icons. Include Font Awesome in your `<head>`:
+    ```html
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    ```
 
-### Store Locator API
-The store locator expects the API to return store data in the following format:
-```json
-{
-    "stores": [
-        {
-            "storeId": "string",
-            "name": "string",
-            "address": {
-                "street": "string",
-                "city": "string",
-                "postalCode": "string",
-                "country": "string"
-            },
-            "location": {
-                "lat": "number",
-                "lon": "number"
-            },
-            "contact": {
-                "phone": "string"
-            }
-        }
-    ]
-}
-```
+---
 
-### Landing Page API
-The landing page expects the API to return store data in the following format:
-```json
-{
-    "storeId": "string",
-    "name": "string",
-    "address": {
-        "street": "string",
-        "city": "string",
-        "postalCode": "string",
-        "country": "string"
-    },
-    "location": {
-        "lat": "number",
-        "lon": "number"
-    },
-    "contact": {
-        "phone": "string"
-    },
-    "openHours": {
-        "mon": { "state": "string", "span": [{ "open": "string", "close": "string" }] },
-        "tue": { "state": "string", "span": [{ "open": "string", "close": "string" }] },
-        "wed": { "state": "string", "span": [{ "open": "string", "close": "string" }] },
-        "thu": { "state": "string", "span": [{ "open": "string", "close": "string" }] },
-        "fri": { "state": "string", "span": [{ "open": "string", "close": "string" }] },
-        "sat": { "state": "string", "span": [{ "open": "string", "close": "string" }] },
-        "sun": { "state": "string", "span": [{ "open": "string", "close": "string" }] }
-    },
-    "specialOpenHours": [
-        {
-            "start": "string",
-            "label": "string",
-            "open": "string",
-            "close": "string"
-        }
-    ],
-    "concepts": ["string"],
-    "customData": {
-        "services_list": ["string"]
-    }
-}
-```
+## 3. Notes & Requirements
 
-## Customization
+- **Font Awesome:** Required for icons. Add the CDN link above to your `<head>`.
+- **Google Maps:** Requires a valid API key and the `/api/google-maps-key` endpoint or a hardcoded key in the JS.
+- **Locales:** Place translation files in `public/locales/` and ensure the correct language code is set in your HTML or container.
+- **No build or npm setup is required.**
 
-### CSS Customization
-Both components use scoped CSS to prevent style leakage. You can customize the appearance by modifying:
-- `public/css/store-locator.css` for the store locator
-- `public/css/simple-landing-page.css` for the landing page
+---
 
-### Icon Customization
-The components use Font Awesome icons. You can change icons by modifying the icon classes in the JavaScript files.
+## 4. License
 
-### Map Customization
-The Google Maps integration can be customized by modifying the map options in the JavaScript files.
-
-## Security
-
-- Google Maps API key is fetched securely from the server
-- API endpoints are protected
-- All user inputs are sanitized
-- CORS is properly configured
-
-## Browser Support
-
-The components support all modern browsers:
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. See the LICENSE file for details.
