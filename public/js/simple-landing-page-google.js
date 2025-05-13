@@ -8,8 +8,10 @@
     const DEFAULT_STORE_CODE = '1337';
     const rootElementId = window.PMT_LANDING_PAGE_ROOT_ID || 'pmt-store-landing-page-container';
 
-    // Add this configuration constant:
-    const USE_PATH_PARAMETER = false; // Set to true to use path parameter, false for query string
+    // Allow USE_PATH_PARAMETER to be set via window for test/demo pages
+    const USE_PATH_PARAMETER = typeof window !== 'undefined' && typeof window.USE_PATH_PARAMETER !== 'undefined'
+        ? window.USE_PATH_PARAMETER
+        : false; // Set to true to use path parameter, false for query string
 
     // At the top, after configuration section, add:
     // You can configure the default image URL here:
@@ -836,7 +838,7 @@
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'css/simple-landing-page.css'; // Ensure this path is correct
+    link.href = '/css/simple-landing-page.css'; // Ensure this path is correct
     document.head.appendChild(link);
 
     if (document.readyState === 'loading') {

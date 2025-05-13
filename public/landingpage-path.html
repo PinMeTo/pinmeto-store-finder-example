@@ -1,0 +1,34 @@
+<!--
+  landingpage-path.html
+  This is a test version of the landing page that uses path parameters (e.g., /landingpage-path/123) for deep linking.
+  Make sure your server is configured to rewrite all /landingpage-path/* URLs to this file.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H&M Store Information (Path Parameter Test)</title>
+    <style>
+    .fa-solid, .fa-regular {
+        margin-right: 0.5em;
+        color: #2563eb;
+        font-size: 1.1em;
+        vertical-align: middle;
+    }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+    <div id="pmt-store-landing-page-container"></div> 
+    <script>
+    // Enable path parameter mode for this test page
+    window.USE_PATH_PARAMETER = true;
+    </script>
+    <script src="/js/simple-landing-page-google.js"></script>
+</body>
+</html> 
