@@ -28,6 +28,12 @@
   <div id="pmt-store-locator-root" data-google-maps-api-key="YOUR_API_KEY"></div>
   ```
 
+- **Deep Linking to Store Detail:**
+  Use `data-use-path-parameter="true"` to generate links as `/landingpage-url/storeId` (path parameter). Default is query string (`/landingpage-url?storeId=storeId`).
+  ```html
+  <div id="pmt-store-locator-root" data-use-path-parameter="true"></div>
+  ```
+
 - **PinMeTo API Endpoint:**  
   Edit the `API_URL` constant in `simple-store-locator-google.js` if you need a different endpoint.
 
@@ -49,6 +55,7 @@ You can set all major configuration options for the store locator via data attri
 | `data-landing-page-url`       | Store landing page URL                  | `landingpage.html`                             |
 | `data-locales-path`           | Path to language files (default: `locales/`) | `/custom/locales/`                        |
 | `data-google-maps-api-key`    | Google Maps API key (highest priority)  | `YOUR_API_KEY`                                 |
+| `data-use-path-parameter`     | Use path parameter for store detail deep linking | `true` or `false`                      |
 
 **Example:**
 ```html
@@ -60,6 +67,7 @@ You can set all major configuration options for the store locator via data attri
   data-landing-page-url="landingpage.html"
   data-locales-path="/custom/locales/"
   data-google-maps-api-key="YOUR_API_KEY"
+  data-use-path-parameter="true"
 ></div>
 ```
 

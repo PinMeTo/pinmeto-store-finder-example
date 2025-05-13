@@ -28,6 +28,7 @@
     
     // Add to config section:
     const GOOGLE_MAPS_API_KEY_FROM_DATA = getConfigFromDataAttr(rootEl, 'data-google-maps-api-key', null);
+    const USE_PATH_PARAMETER = (getConfigFromDataAttr(rootEl, 'data-use-path-parameter', 'false') === 'true');
     
     // --- Application State ---
     let allStores = [];
@@ -413,7 +414,9 @@
             itemDiv.setAttribute('aria-selected', isSelected);
             itemDiv.setAttribute('aria-label', `${store.name || t('fallbackStoreName')} - ${store.address || t('fallbackAddress')}`);
 
-            const detailsLinkUrl = `${LANDING_PAGE_URL}?${URL_PARAM_NAME}=${encodeURIComponent(store.id)}`;
+            const detailsLinkUrl = USE_PATH_PARAMETER
+                ? `${LANDING_PAGE_URL.replace(/\/$/, '')}/${encodeURIComponent(store.id)}`
+                : `${LANDING_PAGE_URL}?${URL_PARAM_NAME}=${encodeURIComponent(store.id)}`;
             let directionsLinkHtml = '';
             if (store.lat != null && store.lng != null) {
                 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
