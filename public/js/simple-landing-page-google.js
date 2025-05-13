@@ -1,4 +1,27 @@
-// Function to create the initial DOM structure
+
+
+(async function() { // Changed to async IIFE
+    // --- Configuration ---
+
+    const API_URL = 'https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json';
+    let GOOGLE_MAPS_API_KEY = null; // Initialize as null
+    const WEEKDAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const DAY_KEYS_ORDER = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+    const DEFAULT_STORE_CODE = '1337';
+    const NO_EXCEPTIONS_MESSAGE = "No special opening hours";
+    const rootElementId = window.PMT_LANDING_PAGE_ROOT_ID || 'pmt-store-landing-page-container';
+
+    // --- DOM Elements Reference ---
+
+    let domElements = {};
+
+    // --- Map Instance Variable ---
+
+    let mapInstance = null; // Will hold the Google Map instance
+
+    // --- Helper Functions ---
+
+    // Function to create the initial DOM structure
 function createInitialDOMStructure(container) {
     // Clear container first
     container.innerHTML = '';
@@ -152,27 +175,6 @@ function createInitialDOMStructure(container) {
     return elements;
 }
 
-
-(async function() { // Changed to async IIFE
-    // --- Configuration ---
-
-    const API_URL = 'https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json';
-    let GOOGLE_MAPS_API_KEY = null; // Initialize as null
-    const WEEKDAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    const DAY_KEYS_ORDER = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-    const DEFAULT_STORE_CODE = '1337';
-    const NO_EXCEPTIONS_MESSAGE = "No special opening hours";
-    const rootElementId = window.PMT_LANDING_PAGE_ROOT_ID || 'pmt-store-landing-page-container';
-
-    // --- DOM Elements Reference ---
-
-    let domElements = {};
-
-    // --- Map Instance Variable ---
-
-    let mapInstance = null; // Will hold the Google Map instance
-
-    // --- Helper Functions ---
 
     function showMessage(message, type = 'info', duration = 3000) {
         if (!domElements.messageBoxEl) return;
