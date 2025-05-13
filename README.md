@@ -1,3 +1,15 @@
+# Why Use PinMeTo Store Locator & Landing Page Scripts?
+
+- **Easy Integration:** Add powerful store search and landing pages to any website with just a few lines of code—no build tools or frameworks required.
+- **Boost Store Discovery:** Help your customers quickly find nearby locations, see opening hours, and get directions.
+- **SEO Optimized:** Dynamic meta tags, structured data, and rich results help your stores rank higher in search engines.
+- **Accessible:** ARIA labels and roles ensure usability for all users, including those using assistive technologies.
+- **Internationalization:** Built-in translation support for multiple languages; easy to add more.
+- **Customizable:** Style and configure to match your brand and business needs.
+- **Reliable:** Uses your live PinMeTo data and Google Maps for accurate, up-to-date information.
+
+---
+
 # PinMeTo Store Finder & Landing Page – Integration Guide
 
 This guide explains how to embed the PinMeTo Store Locator and Store Landing Page JavaScript files on your own website (www). No build tools or local development setup is required.
