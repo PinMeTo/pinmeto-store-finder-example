@@ -13,6 +13,12 @@
     // You can configure the default image URL here:
     const PMT_LANDING_PAGE_DEFAULT_IMAGE_URL = 'https://yourdomain.com/images/store-default.jpg';
 
+    // You can configure the store locator URL here:
+    const PMT_STORE_LOCATOR_URL = 'https://yourdomain.com/store-locator';
+
+    // You can configure the home page URL here:
+    const PMT_HOME_URL = 'https://yourdomain.com/';
+
     // --- DOM Elements Reference ---
 
     let domElements = {};
@@ -340,7 +346,52 @@ function updateMetaTags(store) {
     const description = `Visit ${storeName}${city ? ' in ' + city : ''}. Find opening hours, address, phone number, and services. Get directions and more information about our store.`;
     const title = `${storeName}${city ? ' – ' + city : ''} | Opening Hours, Address & Contact`;
 
-    // Opening hours for JSON-LD
+    // --- Social Media Links for sameAs ---
+    let sameAs = [];
+    if (store.network && typeof store.network === 'object') {
+        for (const key in store.network) {
+            if (store.network[key]?.link) {
+                sameAs.push(store.network[key].link);
+            }
+        }
+    }
+
+    // --- BreadcrumbList JSON-LD ---
+    const breadcrumbJson = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": PMT_HOME_URL
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Store Locator",
+                "item": PMT_STORE_LOCATOR_URL
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": storeName,
+                "item": url
+            }
+        ]
+    };
+    // Add or update BreadcrumbList JSON-LD
+    let breadcrumbScript = document.querySelector('script[data-pmt-breadcrumb]');
+    if (!breadcrumbScript) {
+        breadcrumbScript = document.createElement('script');
+        breadcrumbScript.type = 'application/ld+json';
+        breadcrumbScript.setAttribute('data-pmt-breadcrumb', 'true');
+        document.head.appendChild(breadcrumbScript);
+    }
+    breadcrumbScript.textContent = JSON.stringify(breadcrumbJson, null, 2);
+
+    // --- Opening hours for JSON-LD ---
     let openingHoursArr = [];
     if (store.openHours) {
         for (const [day, data] of Object.entries(store.openHours)) {
@@ -392,7 +443,8 @@ function updateMetaTags(store) {
         } : undefined,
         "telephone": phone,
         "openingHours": openingHoursArr,
-        "url": url
+        "url": url,
+        ...(sameAs.length > 0 ? { sameAs } : {})
     });
 }
 
