@@ -8,6 +8,9 @@
     const DEFAULT_STORE_CODE = '1337';
     const rootElementId = window.PMT_LANDING_PAGE_ROOT_ID || 'pmt-store-landing-page-container';
 
+    // Add this configuration constant:
+    const USE_PATH_PARAMETER = false; // Set to true to use path parameter, false for query string
+
     // At the top, after configuration section, add:
     // You can configure the default image URL here:
     const PMT_LANDING_PAGE_DEFAULT_IMAGE_URL = 'https://yourdomain.com/images/store-default.jpg';
@@ -750,17 +753,9 @@
             errorStateEl, errorMessageEl, storeMapWrapperEl, directionsParagraphEl
         } = currentDomElements;
 
-        const urlParams = new URLSearchParams(window.location.search);
-        let storeId = urlParams.get('storeId');
-        let isDefault = false;
+        const storeIdFromConfig = getStoreIdFromConfig();
 
-        if (!storeId) {
-            storeId = DEFAULT_STORE_CODE;
-            isDefault = true;
-            console.log(`No storeId in URL, using default: ${storeId}`);
-        }
-
-        if (loadingMessageEl) loadingMessageEl.textContent = `Fetching data for store ${storeId}${isDefault ? ' (default)' : ''}...`;
+        if (loadingMessageEl) loadingMessageEl.textContent = `Fetching data for store ${storeIdFromConfig}...`;
         if (loadingStateEl) loadingStateEl.classList.remove('pmt-hidden');
         if (errorStateEl) errorStateEl.classList.add('pmt-hidden');
         if (storeDetailsEl) storeDetailsEl.classList.add('pmt-hidden');
@@ -781,16 +776,14 @@
                 throw new Error("API response has unexpected format (expected an array of stores).");
             }
 
-            const selectedStore = stores.find(store => store.storeId?.toLowerCase() === storeId.toLowerCase());
+            const selectedStore = stores.find(store => store.storeId?.toLowerCase() === storeIdFromConfig.toLowerCase());
 
             if (selectedStore) {
                 // displayStoreDetails is now async but we don't necessarily need to await it here
                 // if we don't have follow-up actions dependent on its completion within this function.
                 displayStoreDetails(selectedStore, currentDomElements);
             } else {
-                const errorMsg = isDefault
-                    ? `Default store with ID "${storeId}" not found in API response.`
-                    : `Store with ID "${storeId}" not found.`;
+                const errorMsg = `Store with ID "${storeIdFromConfig}" not found.`;
                 throw new Error(errorMsg);
             }
 
@@ -803,9 +796,7 @@
                 if (errorMessageEl) errorMessageEl.textContent = error.message || t('errorFetching');
                 const errorDetailEl = errorStateEl.querySelector('p:last-child');
                 if (errorDetailEl) {
-                    errorDetailEl.textContent = isDefault
-                        ? 'The default store could not be found. Check the API or the default store ID.'
-                        : t('checkStoreCode');
+                    errorDetailEl.textContent = t('checkStoreCode');
                 }
             }
             showMessage(t('errorFetching'), 'error');
@@ -839,11 +830,8 @@
             if (domElements.storeMapWrapperEl) domElements.storeMapWrapperEl.style.display = 'none';
         }
 
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const storeIdFromUrl = urlParams.get('storeId');
-        // loadStoreData is async but we don't need to await it if initializeApp has no further direct dependencies on its completion.
-        loadStoreData(storeIdFromUrl, domElements); 
+        const storeIdFromConfig = getStoreIdFromConfig();
+        loadStoreData(storeIdFromConfig, domElements);
     }
 
     const link = document.createElement('link');
@@ -855,6 +843,26 @@
         document.addEventListener('DOMContentLoaded', initializeApp);
     } else {
         initializeApp();
+    }
+
+    // Add this helper function near the top-level helpers:
+    function getStoreIdFromConfig() {
+        if (USE_PATH_PARAMETER) {
+            // Example: /landingpage/123 or /store/123
+            const pathParts = window.location.pathname.split('/');
+            // Adjust index based on your URL structure
+            // For /landingpage/123, storeId is at index 2
+            let storeId = pathParts[2] || null;
+            // Fallback to query string if not found in path
+            if (!storeId) {
+                const urlParams = new URLSearchParams(window.location.search);
+                storeId = urlParams.get('storeId');
+            }
+            return storeId;
+        } else {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('storeId');
+        }
     }
 
 })();
