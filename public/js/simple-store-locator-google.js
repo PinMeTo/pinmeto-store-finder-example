@@ -26,6 +26,9 @@
     let GOOGLE_MAPS_API_KEY = null; // Initialize as null
     const INLINE_CSS_PATH = '/css/simple-store-locator.css'; // Path to the extracted CSS
     
+    // Add to config section:
+    const GOOGLE_MAPS_API_KEY_FROM_DATA = getConfigFromDataAttr(rootEl, 'data-google-maps-api-key', null);
+    
     // --- Application State ---
     let allStores = [];
     let filteredStores = [];
@@ -123,6 +126,19 @@
     
     // --- Fetch Google Maps API Key ---
     async function fetchGoogleMapsApiKey() {
+        // 1. Data attribute
+        if (GOOGLE_MAPS_API_KEY_FROM_DATA) {
+            GOOGLE_MAPS_API_KEY = GOOGLE_MAPS_API_KEY_FROM_DATA;
+            console.log('PMT Store Locator: Google Maps API key loaded from data attribute.');
+            return;
+        }
+        // 2. window.USE_GOOGLE_MAPS_API_KEY
+        if (typeof window !== 'undefined' && typeof window.USE_GOOGLE_MAPS_API_KEY === 'string') {
+            GOOGLE_MAPS_API_KEY = window.USE_GOOGLE_MAPS_API_KEY;
+            console.log('PMT Store Locator: Google Maps API key loaded from window.USE_GOOGLE_MAPS_API_KEY.');
+            return;
+        }
+        // 3. Fetch from backend
         try {
             const response = await fetch('/api/google-maps-key');
             if (!response.ok) {

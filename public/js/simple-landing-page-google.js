@@ -29,6 +29,7 @@
 
     // Add to config section:
     const LOCALES_PATH = getConfigFromDataAttr(rootEl, 'data-locales-path', 'locales/');
+    const GOOGLE_MAPS_API_KEY_FROM_DATA = getConfigFromDataAttr(rootEl, 'data-google-maps-api-key', null);
 
     // --- DOM Elements Reference ---
 
@@ -337,6 +338,19 @@
     }
 
     async function fetchGoogleMapsApiKey() {
+        // 1. Data attribute
+        if (GOOGLE_MAPS_API_KEY_FROM_DATA) {
+            GOOGLE_MAPS_API_KEY = GOOGLE_MAPS_API_KEY_FROM_DATA;
+            console.log('PMT Landing Page: Google Maps API key loaded from data attribute.');
+            return;
+        }
+        // 2. window.USE_GOOGLE_MAPS_API_KEY
+        if (typeof window !== 'undefined' && typeof window.USE_GOOGLE_MAPS_API_KEY === 'string') {
+            GOOGLE_MAPS_API_KEY = window.USE_GOOGLE_MAPS_API_KEY;
+            console.log('PMT Landing Page: Google Maps API key loaded from window.USE_GOOGLE_MAPS_API_KEY.');
+            return;
+        }
+        // 3. Fetch from backend
         try {
             const response = await fetch('/api/google-maps-key');
             if (!response.ok) {
