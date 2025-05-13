@@ -1,27 +1,31 @@
 (async function() { // Changed to async IIFE
     // --- Configuration ---
 
-    const API_URL = 'https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json';
+    // Helper to get config from data attribute or fallback
+    function getConfigFromDataAttr(rootEl, attr, fallback) {
+        if (rootEl && rootEl.hasAttribute(attr)) {
+            return rootEl.getAttribute(attr);
+        }
+        return fallback;
+    }
+
+    const rootElementId = window.PMT_LANDING_PAGE_ROOT_ID || 'pmt-store-landing-page-container';
+    const rootEl = document.getElementById(rootElementId);
+
+    // API URL
+    const API_URL = getConfigFromDataAttr(rootEl, 'data-api-url', 'https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json');
+
     let GOOGLE_MAPS_API_KEY = null; // Initialize as null
     const WEEKDAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const DAY_KEYS_ORDER = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
     const DEFAULT_STORE_CODE = '1337';
-    const rootElementId = window.PMT_LANDING_PAGE_ROOT_ID || 'pmt-store-landing-page-container';
 
-    // Allow USE_PATH_PARAMETER to be set via window for test/demo pages
-    const USE_PATH_PARAMETER = typeof window !== 'undefined' && typeof window.USE_PATH_PARAMETER !== 'undefined'
-        ? window.USE_PATH_PARAMETER
-        : false; // Set to true to use path parameter, false for query string
-
-    // At the top, after configuration section, add:
-    // You can configure the default image URL here:
-    const PMT_LANDING_PAGE_DEFAULT_IMAGE_URL = 'https://yourdomain.com/images/store-default.jpg';
-
-    // You can configure the store locator URL here:
-    const PMT_STORE_LOCATOR_URL = 'https://yourdomain.com/store-locator';
-
-    // You can configure the home page URL here:
-    const PMT_HOME_URL = 'https://yourdomain.com/';
+    // Default image URL
+    const PMT_LANDING_PAGE_DEFAULT_IMAGE_URL = getConfigFromDataAttr(rootEl, 'data-default-image-url', 'https://yourdomain.com/images/store-default.jpg');
+    // Store locator URL
+    const PMT_STORE_LOCATOR_URL = getConfigFromDataAttr(rootEl, 'data-store-locator-url', 'https://yourdomain.com/store-locator');
+    // Home URL
+    const PMT_HOME_URL = getConfigFromDataAttr(rootEl, 'data-home-url', 'https://yourdomain.com/');
 
     // --- DOM Elements Reference ---
 
@@ -848,8 +852,25 @@
     }
 
     // Add this helper function near the top-level helpers:
+    function getUsePathParameter() {
+        // 1. Check data attribute on root element
+        if (rootEl && rootEl.hasAttribute('data-use-path-parameter')) {
+            const attr = rootEl.getAttribute('data-use-path-parameter');
+            if (typeof attr === 'string') {
+                return attr === 'true' || attr === '1';
+            }
+        }
+        // 2. Check window.USE_PATH_PARAMETER
+        if (typeof window !== 'undefined' && typeof window.USE_PATH_PARAMETER !== 'undefined') {
+            return window.USE_PATH_PARAMETER;
+        }
+        // 3. Default
+        return false;
+    }
+
     function getStoreIdFromConfig() {
-        if (USE_PATH_PARAMETER) {
+        const usePath = getUsePathParameter();
+        if (usePath) {
             // Example: /landingpage/123 or /store/123
             const pathParts = window.location.pathname.split('/');
             // Adjust index based on your URL structure
