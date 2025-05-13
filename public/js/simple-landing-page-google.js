@@ -27,6 +27,9 @@
     // Home URL
     const PMT_HOME_URL = getConfigFromDataAttr(rootEl, 'data-home-url', 'https://yourdomain.com/');
 
+    // Add to config section:
+    const LOCALES_PATH = getConfigFromDataAttr(rootEl, 'data-locales-path', 'locales/');
+
     // --- DOM Elements Reference ---
 
     let domElements = {};
@@ -813,7 +816,7 @@
 
     async function initializeApp() { // Changed to async
         currentLanguage = detectLanguage();
-        await fetchTranslations(`locales/${currentLanguage}.json`);
+        await fetchTranslations(`${LOCALES_PATH}${currentLanguage}.json`);
         const container = document.getElementById(rootElementId);
         if (!container) {
             console.error(`Main container '#${rootElementId}' not found!`);

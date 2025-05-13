@@ -20,6 +20,8 @@
     const FALLBACK_USER_LON = parseFloat(getConfigFromDataAttr(rootEl, 'data-fallback-user-lon', 13.00382));
     // Landing page URL
     const LANDING_PAGE_URL = getConfigFromDataAttr(rootEl, 'data-landing-page-url', 'landingpage.html');
+    // Locales path
+    const LOCALES_PATH = getConfigFromDataAttr(rootEl, 'data-locales-path', 'locales/');
 
     let GOOGLE_MAPS_API_KEY = null; // Initialize as null
     const INLINE_CSS_PATH = '/css/simple-store-locator.css'; // Path to the extracted CSS
@@ -774,7 +776,7 @@
         try {
             console.log('PMT Store Locator (Google Maps with PinMeTo data): Initializing App...');
             ensureRootElement(); 
-            await fetchTranslations(`locales/${currentLanguage}.json`); 
+            await fetchTranslations(`${LOCALES_PATH}${currentLanguage}.json`); 
 
             renderLayout(); 
 

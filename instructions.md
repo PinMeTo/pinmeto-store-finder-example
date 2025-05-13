@@ -44,6 +44,7 @@ You can set all major configuration options for the store locator via data attri
 | `data-fallback-user-lat`      | Fallback latitude if geolocation fails  | `55.60498`                                     |
 | `data-fallback-user-lon`      | Fallback longitude if geolocation fails | `13.00382`                                     |
 | `data-landing-page-url`       | Store landing page URL                  | `landingpage.html`                             |
+| `data-locales-path`           | Path to language files (default: `locales/`) | `/custom/locales/`                        |
 
 **Example:**
 ```html
@@ -53,6 +54,7 @@ You can set all major configuration options for the store locator via data attri
   data-fallback-user-lat="55.60498"
   data-fallback-user-lon="13.00382"
   data-landing-page-url="landingpage.html"
+  data-locales-path="/custom/locales/"
 ></div>
 ```
 
@@ -126,6 +128,7 @@ You can set all major configuration options for the landing page via data attrib
 | `data-store-locator-url`      | Store locator page URL                  | `https://yourdomain.com/store-locator`         |
 | `data-home-url`               | Home page URL for breadcrumbs           | `https://yourdomain.com/`                      |
 | `data-use-path-parameter`     | Use path parameter for deep linking     | `true` or `false`                              |
+| `data-locales-path`           | Path to language files (default: `locales/`) | `/custom/locales/`                        |
 
 **Example:**
 ```html
@@ -136,6 +139,7 @@ You can set all major configuration options for the landing page via data attrib
   data-store-locator-url="https://yourdomain.com/store-locator"
   data-home-url="https://yourdomain.com/"
   data-use-path-parameter="true"
+  data-locales-path="/custom/locales/"
 ></div>
 ```
 
