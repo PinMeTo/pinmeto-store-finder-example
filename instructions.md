@@ -58,6 +58,36 @@
 yourdomain.com/landingpage.html?storeId=123
 ```
 
+#### Configurable Deep Linking: Query String or Path Parameter
+
+You can choose how the landing page script extracts the store ID for deep linking:
+
+- **Query String (default):**
+  - Example: `/landingpage.html?storeId=123`
+- **Path Parameter:**
+  - Example: `/landingpage/123`
+
+**How to configure:**
+
+At the top of `simple-landing-page-google.js`, set:
+```js
+const USE_PATH_PARAMETER = false; // false = query string (default), true = path parameter
+```
+- `false`: Use query string (`?storeId=123`)
+- `true`: Use path parameter (`/landingpage/123`)
+
+> If using path parameters, your static host must rewrite all `/landingpage/*` URLs to serve `landingpage.html`.
+> The script will fallback to query string if the path parameter is missing.
+
+#### Path Parameter vs. Query String: Pros & Cons
+
+| Approach         | Pros                                                                 | Cons                                                      |
+|------------------|----------------------------------------------------------------------|-----------------------------------------------------------|
+| Query String     | - Easiest to implement<br>- Works everywhere<br>- No host config    | - Less pretty URLs<br>- Not as SEO-friendly for locations |
+| Path Parameter   | - Clean, user-friendly URLs<br>- More SEO-friendly<br>- Shareable   | - Requires host rewrite rules<br>- More setup required    |
+
+---
+
 #### Configuration
 
 - **Default Store Image:**  
