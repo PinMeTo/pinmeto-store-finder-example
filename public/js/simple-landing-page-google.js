@@ -9,6 +9,10 @@
     const NO_EXCEPTIONS_MESSAGE = "No special opening hours";
     const rootElementId = window.PMT_LANDING_PAGE_ROOT_ID || 'pmt-store-landing-page-container';
 
+    // At the top, after configuration section, add:
+    // You can configure the default image URL here:
+    const PMT_LANDING_PAGE_DEFAULT_IMAGE_URL = 'https://yourdomain.com/images/store-default.jpg';
+
     // --- DOM Elements Reference ---
 
     let domElements = {};
@@ -330,7 +334,7 @@ function updateMetaTags(store) {
     const phone = store.contact?.phone || '';
     const lat = store.location?.lat;
     const lon = store.location?.lon;
-    const image = store.imageUrl || 'https://yourdomain.com/images/store-default.jpg'; // fallback
+    const image = store.imageUrl || PMT_LANDING_PAGE_DEFAULT_IMAGE_URL;
     const url = window.location.href;
     const canonicalUrl = url.split(/[?#]/)[0] + window.location.search;
     const description = `Visit ${storeName}${city ? ' in ' + city : ''}. Find opening hours, address, phone number, and services. Get directions and more information about our store.`;
