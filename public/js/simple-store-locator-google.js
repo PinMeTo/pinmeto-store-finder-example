@@ -2,16 +2,28 @@
     // --- Configuration --- 
     const rootElementId = window.PMT_STORE_LOCATOR_ROOT_ID || 'pmt-store-locator-root';
     const URL_PARAM_NAME = 'storeId'; // URL parameter for deep linking
-    const LANDING_PAGE_URL = 'landingpage.html'; // Target page for the link
-    // MODIFIED API_URL
-    const API_URL = "https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json";
+
+    // Helper to get config from data attribute or fallback
+    function getConfigFromDataAttr(rootEl, attr, fallback) {
+        if (rootEl && rootEl.hasAttribute(attr)) {
+            return rootEl.getAttribute(attr);
+        }
+        return fallback;
+    }
+
+    const rootEl = document.getElementById(rootElementId);
+
+    // API URL
+    const API_URL = getConfigFromDataAttr(rootEl, 'data-api-url', "https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json");
+    // Fallback reference location
+    const FALLBACK_USER_LAT = parseFloat(getConfigFromDataAttr(rootEl, 'data-fallback-user-lat', 55.60498));
+    const FALLBACK_USER_LON = parseFloat(getConfigFromDataAttr(rootEl, 'data-fallback-user-lon', 13.00382));
+    // Landing page URL
+    const LANDING_PAGE_URL = getConfigFromDataAttr(rootEl, 'data-landing-page-url', 'landingpage.html');
+
     let GOOGLE_MAPS_API_KEY = null; // Initialize as null
     const INLINE_CSS_PATH = '/css/simple-store-locator.css'; // Path to the extracted CSS
     
-    // --- Fallback Reference Location (Malmö, Sweden) ---
-    const FALLBACK_USER_LAT = 55.60498;
-    const FALLBACK_USER_LON = 13.00382;
-
     // --- Application State ---
     let allStores = [];
     let filteredStores = [];
