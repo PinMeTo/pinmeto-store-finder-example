@@ -6,7 +6,6 @@
     const WEEKDAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const DAY_KEYS_ORDER = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
     const DEFAULT_STORE_CODE = '1337';
-    const NO_EXCEPTIONS_MESSAGE = "No special opening hours";
     const rootElementId = window.PMT_LANDING_PAGE_ROOT_ID || 'pmt-store-landing-page-container';
 
     // At the top, after configuration section, add:
