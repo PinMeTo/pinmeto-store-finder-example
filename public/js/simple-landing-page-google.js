@@ -403,7 +403,7 @@
 
             console.log('PMT Landing Page: Loading Google Maps SDK...');
             const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=marker&callback=pmtLandingPageGoogleMapsLoaded`;
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=marker&loading=async&callback=pmtLandingPageGoogleMapsLoaded`;
             script.async = true;
             window.pmtLandingPageGoogleMapsLoaded = () => {
                 console.log('PMT Landing Page: Google Maps SDK loaded.');
