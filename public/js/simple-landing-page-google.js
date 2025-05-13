@@ -27,6 +27,64 @@
 
     let mapInstance = null; // Will hold the Google Map instance
 
+    // --- Translation Helper ---
+    let translations = {};
+    let currentLanguage = 'en';
+
+    function t(key, replacements = {}) {
+        let text = translations[key] || key;
+        for (const placeholder in replacements) {
+            text = text.replace(`{${placeholder}}`, replacements[placeholder]);
+        }
+        return text;
+    }
+
+    async function fetchTranslations(localeFilePath) {
+        try {
+            const response = await fetch(localeFilePath);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}, path: ${localeFilePath}`);
+            }
+            translations = await response.json();
+            console.log(`PMT Landing Page: Translations loaded for ${currentLanguage}.`);
+        } catch (e) {
+            console.error(`PMT Landing Page Error: Failed to load locale file: ${localeFilePath}. Falling back to English defaults.`, e);
+            currentLanguage = 'en';
+            translations = {
+                storeTitle: "Store Information",
+                loading: "Loading store information...",
+                fetchingData: "Fetching store data...",
+                errorLoading: "Error Loading Store",
+                addressAndLocation: "Address & Location",
+                phone: "Phone",
+                openingHours: "Opening Hours",
+                specialOpeningHours: "Special Opening Hours",
+                noSpecialHours: "No special opening hours",
+                concepts: "Concepts",
+                getDirections: "Get Directions",
+                storeDetails: "Store Details",
+                fallbackStoreName: "Store name missing",
+                fallbackAddress: "Address details missing.",
+                fallbackHours: "No regular opening hours specified.",
+                closed: "Closed",
+                notSpecified: "Not specified",
+                errorFetching: "An error occurred while fetching store data.",
+                checkStoreCode: "Check the store code in the URL or try again later.",
+                mapLoadError: "Could not load map SDK.",
+                mapDisplayError: "Could not display map.",
+                displayingInfo: "Displaying information for {storeName}",
+                loadingMap: "Loading..."
+            };
+        }
+    }
+
+    // --- Language Detection ---
+    function detectLanguage() {
+        let lang = document.getElementById(rootElementId)?.dataset.language || document.documentElement.lang || 'en';
+        if (lang.includes('-')) lang = lang.split('-')[0];
+        return lang.toLowerCase();
+    }
+
     // --- Helper Functions ---
 
     // Function to create the initial DOM structure
@@ -460,7 +518,7 @@ async function displayStoreDetails(store, currentDomElements) { // Changed to as
 
     console.log("Store data received:", store);
 
-    if (storeNameEl) storeNameEl.textContent = store.name || 'Store name missing';
+    if (storeNameEl) storeNameEl.textContent = store.name || t('fallbackStoreName');
 
     if (storeAddressEl) {
         let addressParts = [];
@@ -468,7 +526,7 @@ async function displayStoreDetails(store, currentDomElements) { // Changed to as
         if (store.address?.city) addressParts.push(store.address.city);
         if (store.address?.postalCode) addressParts.push(store.address.postalCode);
         if (store.address?.country) addressParts.push(store.address.country);
-        storeAddressEl.textContent = addressParts.length > 0 ? addressParts.join(', ') : 'Address details missing.';
+        storeAddressEl.textContent = addressParts.length > 0 ? addressParts.join(', ') : t('fallbackAddress');
     }
 
     const lat = parseFloat(store.location?.lat);
@@ -488,7 +546,7 @@ async function displayStoreDetails(store, currentDomElements) { // Changed to as
     if (!isNaN(lat) && !isNaN(lon) && storeMapWrapperEl && storeMapEl && directionsParagraphEl && storeDirectionsLinkEl) {
         if (typeof google === 'undefined' || !google.maps || !google.maps.Map || !google.maps.marker) {
             console.error("Google Maps SDK not available. Map cannot be displayed.");
-            showMessage('Could not load map SDK.', 'error');
+            showMessage(t('mapLoadError'), 'error');
             if (storeMapWrapperEl) storeMapWrapperEl.classList.add('pmt-hidden');
         } else {
             storeMapWrapperEl.classList.remove('pmt-hidden');
@@ -514,7 +572,7 @@ async function displayStoreDetails(store, currentDomElements) { // Changed to as
             } catch (mapError) {
                 console.error("!!! Error initializing Google Map:", mapError);
                 if (storeMapWrapperEl) storeMapWrapperEl.classList.add('pmt-hidden');
-                showMessage('Could not display map.', 'error');
+                showMessage(t('mapDisplayError'), 'error');
             }
         }
     } else {
@@ -556,7 +614,7 @@ async function displayStoreDetails(store, currentDomElements) { // Changed to as
                 storeOpeningHoursEl.appendChild(li);
             });
         } else {
-            storeOpeningHoursEl.innerHTML = '<li>No regular opening hours specified.</li>';
+            storeOpeningHoursEl.innerHTML = '<li>' + t('fallbackHours') + '</li>';
         }
     }
 
@@ -598,7 +656,7 @@ async function displayStoreDetails(store, currentDomElements) { // Changed to as
         }
         if (!hasRelevantExceptions) {
             const li = document.createElement('li');
-            li.textContent = NO_EXCEPTIONS_MESSAGE;
+            li.textContent = t('noSpecialHours');
             li.className = 'pmt-no-exceptions-message';
             storeExceptionsEl.appendChild(li);
         }
@@ -637,7 +695,7 @@ async function displayStoreDetails(store, currentDomElements) { // Changed to as
     if (storeDetailsEl) storeDetailsEl.classList.remove('pmt-hidden');
     if (loadingStateEl) loadingStateEl.classList.add('pmt-hidden');
     if (errorStateEl) errorStateEl.classList.add('pmt-hidden');
-    showMessage(`Displaying information for ${store.name}`, 'success', 2000);
+    showMessage(t('displayingInfo', { storeName: store.name || 'Store' }), 'success', 2000);
 
     // In displayStoreDetails, at the very start, add:
     updateMetaTags(store);
@@ -697,25 +755,27 @@ async function loadStoreData(storeCode, currentDomElements) {
 
     } catch (error) {
         console.error('Error loading store data:', error);
-        if (storeNameEl) storeNameEl.textContent = 'Error Loading Store';
+        if (storeNameEl) storeNameEl.textContent = t('errorLoading');
         if (loadingStateEl) loadingStateEl.classList.add('pmt-hidden');
         if (errorStateEl) {
             errorStateEl.classList.remove('pmt-hidden');
-            if (errorMessageEl) errorMessageEl.textContent = error.message || 'Could not load store data.';
+            if (errorMessageEl) errorMessageEl.textContent = error.message || t('errorFetching');
             const errorDetailEl = errorStateEl.querySelector('p:last-child');
             if (errorDetailEl) {
                 errorDetailEl.textContent = isDefault
                     ? 'The default store could not be found. Check the API or the default store ID.'
-                    : 'Check the store code in the URL or try again later.';
+                    : t('checkStoreCode');
             }
         }
-        showMessage('An error occurred while fetching store data.', 'error');
+        showMessage(t('errorFetching'), 'error');
     }
 }
 
 // --- Initialization ---
 
 async function initializeApp() { // Changed to async
+    currentLanguage = detectLanguage();
+    await fetchTranslations(`locales/${currentLanguage}.json`);
     const container = document.getElementById(rootElementId);
     if (!container) {
         console.error(`Main container '#${rootElementId}' not found!`);
@@ -733,7 +793,7 @@ async function initializeApp() { // Changed to async
         console.log("PMT Landing Page: Google Maps SDK ready.");
     } catch (sdkError) {
         console.error("PMT Landing Page: Failed to initialize Google Maps SDK. Map functionality will be disabled.", sdkError);
-        showMessage("Map service failed to load. Store map will not be available.", "error", 5000);
+        showMessage(t('mapLoadError'), 'error', 5000);
         // Optionally, you could hide map-related elements here or set a flag
         if (domElements.storeMapWrapperEl) domElements.storeMapWrapperEl.style.display = 'none';
     }
