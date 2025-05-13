@@ -436,7 +436,7 @@
                         });
 
                         // Add click listener to the marker
-                        marker.addListener('click', () => {
+                        marker.addListener('gmp-click', () => {
                             console.log(`PMT SL: Marker clicked for store ${store.id}`);
                             // First open the info window
                             infoWindow.open({ anchor: marker, map: mapInstance });
