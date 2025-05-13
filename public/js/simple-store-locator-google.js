@@ -291,19 +291,53 @@
     function renderLayout() {
         rootElement.className = ""; // Clear previous classes 
 
-        const leftPanel = document.createElement('div'); leftPanel.className = "pmt-sl-left-panel";
-        const header = document.createElement('header'); header.className = "pmt-sl-header"; header.innerHTML = `<h1>${t('appTitle')}</h1>`;
-        const searchArea = document.createElement('div'); searchArea.className = "pmt-sl-search-area";
-        searchInputElement = document.createElement('input'); searchInputElement.type = "text"; searchInputElement.placeholder = t('searchPlaceholder'); searchInputElement.setAttribute("aria-label", t('searchAriaLabel')); searchInputElement.className = "pmt-sl-search-input";
+        const leftPanel = document.createElement('div'); 
+        leftPanel.className = "pmt-sl-left-panel";
+        leftPanel.setAttribute('role', 'complementary');
+        leftPanel.setAttribute('aria-label', t('appTitle'));
+
+        const header = document.createElement('header'); 
+        header.className = "pmt-sl-header"; 
+        header.innerHTML = `<h1>${t('appTitle')}</h1>`;
+
+        const searchArea = document.createElement('div'); 
+        searchArea.className = "pmt-sl-search-area";
+        searchArea.setAttribute('role', 'search');
+        searchArea.setAttribute('aria-label', t('searchPlaceholder'));
+
+        searchInputElement = document.createElement('input'); 
+        searchInputElement.type = "text"; 
+        searchInputElement.placeholder = t('searchPlaceholder'); 
+        searchInputElement.setAttribute("aria-label", t('searchAriaLabel'));
+        searchInputElement.setAttribute('role', 'searchbox');
+        searchInputElement.setAttribute('aria-autocomplete', 'list');
+        searchInputElement.className = "pmt-sl-search-input";
         searchInputElement.disabled = isLoading;
         searchInputElement.addEventListener('input', handleSearchInput);
         searchArea.appendChild(searchInputElement);
-        listContainerElement = document.createElement('div'); listContainerElement.className = "pmt-sl-list-container"; listContainerElement.id = "pmt-store-list-container";
-        footerElement = document.createElement('footer'); footerElement.className = "pmt-sl-footer"; updateFooter();
+
+        listContainerElement = document.createElement('div'); 
+        listContainerElement.className = "pmt-sl-list-container"; 
+        listContainerElement.id = "pmt-store-list-container";
+        listContainerElement.setAttribute('role', 'list');
+        listContainerElement.setAttribute('aria-label', t('storesFound', { count: 0 }));
+
+        footerElement = document.createElement('footer'); 
+        footerElement.className = "pmt-sl-footer"; 
+        footerElement.setAttribute('role', 'contentinfo');
+        updateFooter();
         leftPanel.append(header, searchArea, listContainerElement, footerElement);
 
-        const rightPanel = document.createElement('div'); rightPanel.className = "pmt-sl-right-panel";
-        mapContainerElement = document.createElement('div'); mapContainerElement.className = "pmt-sl-map-container"; mapContainerElement.id = "pmt-map-container"; // Google Maps will use this ID
+        const rightPanel = document.createElement('div'); 
+        rightPanel.className = "pmt-sl-right-panel";
+        rightPanel.setAttribute('role', 'complementary');
+        rightPanel.setAttribute('aria-label', t('mapView'));
+
+        mapContainerElement = document.createElement('div'); 
+        mapContainerElement.className = "pmt-sl-map-container"; 
+        mapContainerElement.id = "pmt-map-container";
+        mapContainerElement.setAttribute('role', 'application');
+        mapContainerElement.setAttribute('aria-label', t('interactiveMap'));
         rightPanel.appendChild(mapContainerElement);
 
         rootElement.append(leftPanel, rightPanel);
@@ -314,9 +348,30 @@
         if (!listContainerElement) return;
         listContainerElement.innerHTML = '';
 
-        if (isLoading) { listContainerElement.innerHTML = `<div class="pmt-loader"></div>`; return; }
-        if (error) { listContainerElement.innerHTML = `<p class="pmt-sl-error-text">${t('errorLoadingStores', { error: error })}</p>`; return; }
-        if (!filteredStores || filteredStores.length === 0) { listContainerElement.innerHTML = `<p class="pmt-sl-muted-text">${t('noStoresFound')}</p>`; return; }
+        if (isLoading) { 
+            const loader = document.createElement('div');
+            loader.className = "pmt-loader";
+            loader.setAttribute('role', 'status');
+            loader.setAttribute('aria-label', t('loading'));
+            listContainerElement.appendChild(loader);
+            return; 
+        }
+        if (error) { 
+            const errorEl = document.createElement('p');
+            errorEl.className = "pmt-sl-error-text";
+            errorEl.setAttribute('role', 'alert');
+            errorEl.textContent = t('errorLoadingStores', { error: error });
+            listContainerElement.appendChild(errorEl);
+            return; 
+        }
+        if (!filteredStores || filteredStores.length === 0) { 
+            const noResults = document.createElement('p');
+            noResults.className = "pmt-sl-muted-text";
+            noResults.setAttribute('role', 'status');
+            noResults.textContent = t('noStoresFound');
+            listContainerElement.appendChild(noResults);
+            return; 
+        }
 
         const listFragment = document.createDocumentFragment();
         filteredStores.forEach(store => {
@@ -324,51 +379,70 @@
             const itemDiv = document.createElement('div');
             itemDiv.id = `pmt-store-item-${store.id}`;
             itemDiv.className = `pmt-store-list-item ${isSelected ? 'selected' : ''}`;
+            itemDiv.setAttribute('role', 'listitem');
+            itemDiv.setAttribute('aria-selected', isSelected);
+            itemDiv.setAttribute('aria-label', `${store.name || t('fallbackStoreName')} - ${store.address || t('fallbackAddress')}`);
+
             const detailsLinkUrl = `${LANDING_PAGE_URL}?${URL_PARAM_NAME}=${encodeURIComponent(store.id)}`;
             let directionsLinkHtml = '';
             if (store.lat != null && store.lng != null) {
                 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
-                directionsLinkHtml = `<a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" class="pmt-sl-directions-link">${t('getDirections')}</a>`;
+                directionsLinkHtml = `<a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" class="pmt-sl-directions-link" aria-label="${t('getDirections')} - ${store.name || t('fallbackStoreName')}">${t('getDirections')}</a>`;
             }
+
             let phoneHtml;
             const rawPhone = store.phone;
             if (rawPhone && rawPhone !== t('fallbackPhone')) {
                 const cleanedPhone = cleanPhoneNumber(rawPhone);
-                phoneHtml = `<a href="tel:${cleanedPhone}" class="pmt-sl-phone-link">${rawPhone}</a>`;
+                phoneHtml = `<a href="tel:${cleanedPhone}" class="pmt-sl-phone-link" aria-label="${t('phoneLabel')} ${rawPhone}">${rawPhone}</a>`;
             } else {
                 phoneHtml = t('fallbackPhone');
             }
+
             const addressParts = [];
-            const streetAddress = store.address; // Already formatted by formatAddress
-            if (streetAddress && streetAddress !== t('fallbackAddress') && streetAddress !== t('fallbackAddressMissing')) { addressParts.push(streetAddress); }
+            const streetAddress = store.address;
+            if (streetAddress && streetAddress !== t('fallbackAddress') && streetAddress !== t('fallbackAddressMissing')) { 
+                addressParts.push(streetAddress); 
+            }
             if (store.city) { addressParts.push(store.city); }
             let addressCityString = addressParts.join(', ');
             if (store.zip) { addressCityString += (addressCityString ? `, ${store.zip}` : store.zip); }
             if (!addressCityString) { addressCityString = t('fallbackAddress');}
+
             let distanceHtml = '';
-            if (store.distance != null) { distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; }
+            if (store.distance != null) { 
+                distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; 
+            }
 
             itemDiv.innerHTML = `
-                <div class="pmt-store-list-item-header"><h3>${store.name || t('fallbackStoreName')}</h3></div>
+                <div class="pmt-store-list-item-header" role="heading" aria-level="3">
+                    <h3>${store.name || t('fallbackStoreName')}</h3>
+                </div>
                 <div class="pmt-store-list-item-content">
                    <p>${addressCityString}</p>
                    ${distanceHtml}
                    <p><span>${t('phoneLabel')}</span> ${phoneHtml}</p>
                    <p><span>${t('hoursLabel')}</span> ${store.hours || t('fallbackHours')}</p>
                    <div class="pmt-sl-item-links">
-                       <a href="${detailsLinkUrl}" rel="noopener noreferrer" class="pmt-sl-details-link">${t('storeDetails')}</a>
+                       <a href="${detailsLinkUrl}" rel="noopener noreferrer" class="pmt-sl-details-link" aria-label="${t('storeDetails')} - ${store.name || t('fallbackStoreName')}">${t('storeDetails')}</a>
                        ${directionsLinkHtml}
                    </div>
                 </div>`;
+
             itemDiv.addEventListener('click', (event) => {
                 if (event.target.closest('a')) return;
                 handleSelection(store.id);
             });
+
             listFragment.appendChild(itemDiv);
         });
-        listContainerElement.appendChild(listFragment); 
-        updateFooter(); 
-        if (initialStoreIdFromUrl && selectedStoreId === initialStoreIdFromUrl) { scrollListIfNeeded(); }
+
+        listContainerElement.appendChild(listFragment);
+        listContainerElement.setAttribute('aria-label', t('storesFound', { count: filteredStores.length }));
+        updateFooter();
+        if (initialStoreIdFromUrl && selectedStoreId === initialStoreIdFromUrl) { 
+            scrollListIfNeeded(); 
+        }
     }
     
     function updateFooter() {
