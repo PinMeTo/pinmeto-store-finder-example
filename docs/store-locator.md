@@ -56,6 +56,7 @@ You can set all major configuration options for the store locator via data attri
 | `data-locales-path`           | Path to language files (default: `locales/`) | `/custom/locales/`                        |
 | `data-google-maps-api-key`    | Google Maps API key (highest priority)  | `YOUR_API_KEY`                                 |
 | `data-use-path-parameter`     | Use path parameter for store detail deep linking | `true` or `false`                      |
+| `data-css-path`               | Path to the CSS file for the store locator         | `/css/simple-store-locator.css`                  |
 
 **Example:**
 ```html
@@ -66,6 +67,7 @@ You can set all major configuration options for the store locator via data attri
   data-fallback-user-lon="13.00382"
   data-landing-page-url="landingpage.html"
   data-locales-path="/custom/locales/"
+  data-css-path="/custom/path/to/your.css"
   data-google-maps-api-key="YOUR_API_KEY"
   data-use-path-parameter="true"
 ></div>

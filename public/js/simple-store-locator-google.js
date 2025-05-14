@@ -24,7 +24,7 @@
     const LOCALES_PATH = getConfigFromDataAttr(rootEl, 'data-locales-path', 'locales/');
 
     let GOOGLE_MAPS_API_KEY = null; // Initialize as null
-    const INLINE_CSS_PATH = '/css/simple-store-locator.css'; // Path to the extracted CSS
+    const CSS_PATH = getConfigFromDataAttr(rootEl, 'data-css-path', '/css/simple-store-locator.css');
     
     // Add to config section:
     const GOOGLE_MAPS_API_KEY_FROM_DATA = getConfigFromDataAttr(rootEl, 'data-google-maps-api-key', null);
@@ -819,7 +819,7 @@
                 selectedStoreId = initialStoreIdFromUrl; 
             }
 
-            loadCSS(INLINE_CSS_PATH);
+            loadCSS(CSS_PATH);
             await loadGoogleMapsSDK(); 
             
             initializeMap(); // initializeMap will now use the IIFE-scoped currentUserLat/Lon
