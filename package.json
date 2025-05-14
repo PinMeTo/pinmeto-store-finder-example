@@ -1,7 +1,7 @@
 {
-  "name": "pinmeto-store-finder",
-  "version": "1.0.0",
-  "description": "A simple HTML/JS/CSS starter template",
+  "name": "pinmeto-store-finder-example",
+  "version": "0.8.0",
+  "description": "A simple HTML/JS/CSS starter template for the PinMeTo Store Finder",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

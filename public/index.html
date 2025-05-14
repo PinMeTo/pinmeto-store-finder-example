@@ -31,7 +31,12 @@
     <h1>My Web Page</h1>
     <p>The store locator will be loaded below:</p>
 
-    <div id="pmt-store-locator-root" >
+    <div id="pmt-store-locator-root"
+    data-use-path-parameter="true"
+    data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json"
+    data-locales-path="/locales/"
+    data-landing-page-url="landingpage-path"
+     >
         <p style="padding: 1em; color: #555;">Loading Store Locator...</p>
     </div>
 
