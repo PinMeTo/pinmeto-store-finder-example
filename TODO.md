@@ -28,6 +28,14 @@
   - [ ] Enhance screen reader support
   - [ ] Add high contrast mode
 
+  ### Store Information
+- [ ] Add social media integration
+  - [ ] Display social media links
+  - [ ] Add social media icons
+- [ ] Implement categories display
+  - [ ] Show store categories
+  - [ ] Add category descriptions
+
 ## Landing Page
 
 ### Store Information
