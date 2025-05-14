@@ -410,6 +410,51 @@ html.dark .pmt-sl-error-text {
     display: inline-block;
 }
 
+/* Social Media Links Styles */
+.pmt-sl-social-links {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.pmt-sl-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.pmt-sl-social-link:hover,
+.pmt-sl-social-link:focus {
+    background-color: #e0e0e0;
+    transform: scale(1.1);
+}
+
+.pmt-sl-social-link i {
+    font-size: 0.875rem;
+}
+
+/* Map Info Window Social Links */
+.pmt-map-info-window .pmt-sl-social-links {
+    margin-top: 0.75rem;
+    justify-content: flex-start;
+}
+
+.pmt-map-info-window .pmt-sl-social-link {
+    width: 1.75rem;
+    height: 1.75rem;
+}
+
+.pmt-map-info-window .pmt-sl-social-link i {
+    font-size: 1rem;
+}
+
 /* Remove default close button */
 /* .gm-ui-hover-effect {
     top: 0 !important;
