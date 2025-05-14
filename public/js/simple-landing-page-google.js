@@ -257,6 +257,25 @@
         elements.storeConceptsEl.setAttribute('role', 'list');
         elements.conceptsSectionEl.appendChild(elements.storeConceptsEl);
 
+        // --- Social Media Section ---
+        elements.socialMediaSectionEl = document.createElement('section');
+        elements.socialMediaSectionEl.id = 'pmt-social-media-section';
+        elements.socialMediaSectionEl.className = 'pmt-hidden';
+        elements.socialMediaSectionEl.setAttribute('role', 'region');
+        elements.socialMediaSectionEl.setAttribute('aria-label', 'Social Media');
+        elements.storeDetailsEl.appendChild(elements.socialMediaSectionEl);
+
+        const socialMediaH2 = document.createElement('h2');
+        socialMediaH2.innerHTML = '<i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Social Media';
+        socialMediaH2.setAttribute('role', 'heading');
+        socialMediaH2.setAttribute('aria-level', '2');
+        elements.socialMediaSectionEl.appendChild(socialMediaH2);
+
+        elements.socialMediaLinksEl = document.createElement('div');
+        elements.socialMediaLinksEl.id = 'pmt-social-media-links';
+        elements.socialMediaLinksEl.className = 'pmt-social-links';
+        elements.socialMediaSectionEl.appendChild(elements.socialMediaLinksEl);
+
         // --- Loading State ---
         elements.loadingStateEl = document.createElement('div');
         elements.loadingStateEl.id = 'pmt-loading-state';
@@ -468,7 +487,9 @@
         const image = store.imageUrl || PMT_LANDING_PAGE_DEFAULT_IMAGE_URL;
         const url = window.location.href;
         const canonicalUrl = url.split(/[?#]/)[0] + window.location.search;
-        const description = `Visit ${storeName}${city ? ' in ' + city : ''}. Find opening hours, address, phone number, and services. Get directions and more information about our store.`;
+        const description = store.longDescription && typeof store.longDescription === 'string' && store.longDescription.trim().length > 0
+            ? store.longDescription.trim()
+            : `Visit ${storeName}${city ? ' in ' + city : ''}. Find opening hours, address, phone number, and services. Get directions and more information about our store.`;
         const title = `${storeName}${city ? ' – ' + city : ''} | Opening Hours, Address & Contact`;
 
         // --- Social Media Links for sameAs ---
@@ -573,6 +594,28 @@
         });
     }
 
+    // Add social media link formatting function
+    function formatSocialMediaLinks(network) {
+        if (!network) return '';
+        
+        const links = [];
+        const socialIcons = {
+            facebook: '<i class="fab fa-facebook"></i>',
+            google: '<i class="fab fa-google"></i>',
+            bing: '<i class="fab fa-microsoft"></i>',
+            apple: '<i class="fab fa-apple"></i>'
+        };
+
+        for (const [platform, data] of Object.entries(network)) {
+            if (data && data.link) {
+                const icon = socialIcons[platform] || '<i class="fas fa-link"></i>';
+                links.push(`<a href="${data.link}" target="_blank" rel="noopener noreferrer" class="pmt-social-link" aria-label="${platform}">${icon}</a>`);
+            }
+        }
+
+        return links.join('');
+    }
+
     // --- Display Logic ---
 
     async function displayStoreDetails(store, currentDomElements) { // Changed to async
@@ -580,7 +623,8 @@
             storeNameEl, storeDetailsEl, storeAddressEl,
             directionsParagraphEl, storeDirectionsLinkEl, phoneSectionEl, storePhoneEl,
             storeOpeningHoursEl, exceptionsSectionEl, storeExceptionsEl, conceptsSectionEl,
-            storeConceptsEl, loadingStateEl, errorStateEl, storeMapWrapperEl, storeMapEl
+            storeConceptsEl, loadingStateEl, errorStateEl, storeMapWrapperEl, storeMapEl,
+            socialMediaSectionEl, socialMediaLinksEl
         } = currentDomElements;
 
         console.log("Store data received:", store);
@@ -757,6 +801,14 @@
                     storeConceptsEl.appendChild(badge);
                 });
             }
+        }
+
+        // Update social media links
+        if (store.network && Object.keys(store.network).length > 0) {
+            currentDomElements.socialMediaSectionEl.classList.remove('pmt-hidden');
+            currentDomElements.socialMediaLinksEl.innerHTML = formatSocialMediaLinks(store.network);
+        } else {
+            currentDomElements.socialMediaSectionEl.classList.add('pmt-hidden');
         }
 
         if (storeDetailsEl) storeDetailsEl.classList.remove('pmt-hidden');
