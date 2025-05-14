@@ -46,7 +46,6 @@
     let currentLanguage = 'en';
     let currentUserLat = FALLBACK_USER_LAT; // ADDED: Initialize with fallback
     let currentUserLon = FALLBACK_USER_LON; // ADDED: Initialize with fallback
-    let markerClusterer = null; // Will hold the MarkerClusterer instance
 
     // --- DOM Element References ---
     let rootElement = null;
