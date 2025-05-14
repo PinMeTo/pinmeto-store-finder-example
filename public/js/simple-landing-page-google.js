@@ -30,6 +30,7 @@
     // Add to config section:
     const LOCALES_PATH = getConfigFromDataAttr(rootEl, 'data-locales-path', 'locales/');
     const GOOGLE_MAPS_API_KEY_FROM_DATA = getConfigFromDataAttr(rootEl, 'data-google-maps-api-key', null);
+    const CSS_PATH = getConfigFromDataAttr(rootEl, 'data-css-path', '/css/simple-landing-page.css');
 
     // --- DOM Elements Reference ---
 
@@ -911,7 +912,7 @@
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = '/css/simple-landing-page.css'; // Ensure this path is correct
+    link.href = CSS_PATH; // Use the configurable path
     document.head.appendChild(link);
 
     if (document.readyState === 'loading') {
