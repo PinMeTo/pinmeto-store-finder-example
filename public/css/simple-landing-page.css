@@ -256,3 +256,80 @@ html, body, #pmt-store-landing-page-container {
         margin: 0 auto;
     }
 }
+
+/* Social Media Section - Improved */
+#pmt-social-media-section {
+    margin-top: 1.5rem;
+    padding: 0 0 1.5rem 0;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 1px solid #ececec;
+}
+#pmt-social-media-section:last-child {
+    border-bottom: none;
+}
+#pmt-social-media-section h2 {
+    margin-bottom: 0.5rem;
+    color: #22223b;
+    font-size: 1.1em;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    background: none;
+    padding: 0;
+}
+#pmt-social-media-section h2 .fa-share-nodes {
+    font-size: 1em;
+    color: #2563eb;
+    margin-right: 0.4em;
+}
+.pmt-social-links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-left: 18px;
+    margin-top: 0.2rem;
+}
+.pmt-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: #f4f6fa;
+    border: 1px solid #e5e7eb;
+    color: #2563eb;
+    text-decoration: none;
+    transition: background 0.18s, border 0.18s, color 0.18s, transform 0.18s;
+    box-shadow: none;
+}
+.pmt-social-link:hover,
+.pmt-social-link:focus {
+    background: #e0e7ef;
+    border: 1px solid #2563eb;
+    color: #174ea6;
+    transform: scale(1.08);
+}
+.pmt-social-link i {
+    font-size: 1.1rem;
+}
+@media (prefers-color-scheme: dark) {
+    #pmt-social-media-section {
+        background: none;
+        border-bottom: 1px solid #374151;
+    }
+    .pmt-social-link {
+        background: #23293a;
+        border: 1px solid #374151;
+        color: #60a5fa;
+    }
+    .pmt-social-link:hover,
+    .pmt-social-link:focus {
+        background: #1e293b;
+        border: 1px solid #60a5fa;
+        color: #2563eb;
+    }
+}
