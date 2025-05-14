@@ -67,6 +67,7 @@ You can set all major configuration options for the landing page via data attrib
 | `data-use-path-parameter`     | Use path parameter for deep linking     | `true` or `false`                              |
 | `data-locales-path`           | Path to language files (default: `locales/`) | `/custom/locales/`                        |
 | `data-google-maps-api-key`    | Google Maps API key (highest priority)  | `YOUR_API_KEY`                                 |
+| `data-css-path`               | Path to the CSS file for the landing page         | `/css/simple-landing-page.css`                  |
 
 **Google Maps API Key Priority:**
 1. `data-google-maps-api-key` attribute (recommended)
@@ -83,6 +84,7 @@ You can set all major configuration options for the landing page via data attrib
   data-home-url="https://yourdomain.com/"
   data-use-path-parameter="true"
   data-locales-path="/custom/locales/"
+  data-css-path="/custom/path/to/your.css"
   data-google-maps-api-key="YOUR_API_KEY"
 ></div>
 ```
