@@ -320,21 +320,18 @@ html.dark .pmt-sl-error-text {
 }
 
 /* Google Maps Info Window Styles */
-/*.gm-style .gm-style-iw-c {
-    padding: 0 !important;
-    border-radius: 8px !important;
-    box-shadow: 0 2px 7px 1px rgba(0,0,0,0.3) !important;
-}
-
-.gm-style .gm-style-iw-d {
-    overflow: hidden !important;
+.gm-style-iw-c {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    background: transparent !important;
     padding: 0 !important;
 }
-
-.gm-style .gm-style-iw-t::after {
-    background: linear-gradient(45deg, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100%) !important;
-    box-shadow: -2px 2px 2px 0 rgba(178,178,178,.4) !important;
-}*/
+.gm-style-iw-d {
+    overflow: visible !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
 
 /* Map Info Window Styles */
 #pmt-store-locator-root .pmt-map-info-window {
