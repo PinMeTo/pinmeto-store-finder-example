@@ -252,10 +252,28 @@
     }
 
     // MODIFIED formatOpeningHours for PinMeTo structure 
-    function formatOpeningHours(openHoursData) {
+    function formatOpeningHours(openHoursData, specialOpenHours) {
         if (!openHoursData || typeof openHoursData !== 'object') return t('fallbackHours');
 
         const now = new Date();
+        const today = now.toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+
+        // Check for special hours for today
+        if (specialOpenHours && Array.isArray(specialOpenHours)) {
+            const todaySpecialHours = specialOpenHours.find(ex => ex.start === today);
+            if (todaySpecialHours) {
+                if (todaySpecialHours.state === 'Closed' || !todaySpecialHours.span || todaySpecialHours.span.length === 0) {
+                    return t('hoursClosed');
+                }
+                const firstSpan = todaySpecialHours.span[0];
+                if (firstSpan && firstSpan.open && firstSpan.close) {
+                    const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
+                    return `${formatTime(firstSpan.open)} - ${formatTime(firstSpan.close)}`;
+                }
+            }
+        }
+
+        // If no special hours for today, use regular hours
         const dayIndex = now.getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
         const dayMap = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
         const currentDayKey = dayMap[dayIndex];
@@ -275,7 +293,7 @@
     }
     
     // Add new function to format full week hours
-    function formatFullWeekHours(openHoursData) {
+    function formatFullWeekHours(openHoursData, specialOpenHours) {
         if (!openHoursData || typeof openHoursData !== 'object') return [];
 
         const dayMap = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -285,11 +303,32 @@
         const reorderedDayMap = [...dayMap.slice(FIRST_DAY_OF_WEEK), ...dayMap.slice(0, FIRST_DAY_OF_WEEK)];
         const reorderedDayNames = [...dayNames.slice(FIRST_DAY_OF_WEEK), ...dayNames.slice(0, FIRST_DAY_OF_WEEK)];
         
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date().toISOString().split('T')[0];
+        
+        // Find special hours for today if they exist
+        const todaySpecialHours = specialOpenHours?.find(ex => ex.start === today);
+        
         return reorderedDayMap.map((dayKey, index) => {
             const dayInfo = openHoursData[dayKey];
             let timeStr = t('hoursClosed');
+            let isSpecial = false;
             
-            if (dayInfo && dayInfo.state === 'Open' && dayInfo.span && dayInfo.span.length > 0) {
+            // Check if this is today and has special hours
+            if (dayKey === dayMap[new Date().getDay()] && todaySpecialHours) {
+                if (todaySpecialHours.state === 'Open' && todaySpecialHours.span && todaySpecialHours.span.length > 0) {
+                    const spans = todaySpecialHours.span.map(span => {
+                        if (span.open && span.close) {
+                            const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
+                            return `${formatTime(span.open)} - ${formatTime(span.close)}`;
+                        }
+                        return '';
+                    }).filter(Boolean);
+                    
+                    timeStr = spans.join(', ');
+                    isSpecial = true;
+                }
+            } else if (dayInfo && dayInfo.state === 'Open' && dayInfo.span && dayInfo.span.length > 0) {
                 const spans = dayInfo.span.map(span => {
                     if (span.open && span.close) {
                         const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
@@ -303,7 +342,8 @@
             
             return {
                 day: reorderedDayNames[index],
-                hours: timeStr
+                hours: timeStr,
+                isSpecial: isSpecial
             };
         });
     }
@@ -491,9 +531,9 @@
             }
 
             // Create week hours list
-            const weekHours = formatFullWeekHours(store.openHours);
-            const weekHoursHtml = weekHours.map(({ day, hours }) => 
-                `<li><span class="pmt-day-name">${day}:</span> ${hours}</li>`
+            const weekHours = formatFullWeekHours(store.openHours, store.specialOpenHours);
+            const weekHoursHtml = weekHours.map(({ day, hours, isSpecial }) => 
+                `<li class="${isSpecial ? 'pmt-special-hours' : ''}"><span class="pmt-day-name">${day}:</span> ${hours}</li>`
             ).join('');
 
             const hoursHtml = store.hours && store.hours !== t('fallbackHours') 
@@ -833,7 +873,7 @@
                     city: s.address?.city || '', 
                     zip: s.address?.zip || '', 
                     phone: s.contact?.phone || t('fallbackPhone'),
-                    hours: formatOpeningHours(s.openHours),
+                    hours: formatOpeningHours(s.openHours, s.specialOpenHours),
                     openHours: s.openHours,
                     lat: latitude,
                     lng: longitude,

@@ -504,6 +504,15 @@ html.dark .pmt-sl-error-text {
     color: var(--pmt-sl-text-primary);
 }
 
+.pmt-week-hours-list .pmt-special-hours {
+    color: var(--pmt-sl-link-color);
+    font-weight: 500;
+}
+
+.pmt-week-hours-list .pmt-special-hours .pmt-day-name {
+    color: var(--pmt-sl-link-color);
+}
+
 /* Hours Button Styles */
 .pmt-hours-button {
     background: none;
