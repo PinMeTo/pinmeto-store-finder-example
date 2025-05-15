@@ -414,8 +414,16 @@
             itemDiv.setAttribute('aria-label', `${store.name || t('fallbackStoreName')} - ${store.address || t('fallbackAddress')}`);
 
             const detailsLinkUrl = USE_PATH_PARAMETER
-                ? `${LANDING_PAGE_URL.replace(/\/$/, '')}/${encodeURIComponent(store.id)}`
-                : `${LANDING_PAGE_URL}?${URL_PARAM_NAME}=${encodeURIComponent(store.id)}`;
+                ? (() => {
+                    const qIndex = LANDING_PAGE_URL.indexOf('?');
+                    if (qIndex === -1) {
+                        return `${LANDING_PAGE_URL.replace(/\/$/, '')}/${encodeURIComponent(store.id)}`;
+                    } else {
+                        // Insert store id before query string
+                        return `${LANDING_PAGE_URL.slice(0, qIndex).replace(/\/$/, '')}/${encodeURIComponent(store.id)}${LANDING_PAGE_URL.slice(qIndex)}`;
+                    }
+                })()
+                : `${LANDING_PAGE_URL}${LANDING_PAGE_URL.includes('?') ? '&' : '?'}${URL_PARAM_NAME}=${encodeURIComponent(store.id)}`;
             let directionsLinkHtml = '';
             if (store.lat != null && store.lng != null) {
                 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
