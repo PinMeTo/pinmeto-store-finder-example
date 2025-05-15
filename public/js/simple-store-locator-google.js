@@ -773,6 +773,14 @@
                 infoWindow.setHeaderDisabled(true);
                 infoWindow.setContent(content);
                 infoWindow.open({ anchor: marker, map: mapInstance });
+                // Prevent phone link from being auto-focused/selected
+                setTimeout(() => {
+                    const infoWindowEl = document.querySelector('.pmt-map-info-window');
+                    if (infoWindowEl) {
+                        const phoneLink = infoWindowEl.querySelector('a[href^="tel:"]');
+                        if (phoneLink) phoneLink.blur();
+                    }
+                }, 100);
             } catch (e) {
                 console.error("PMT SL: Google Map PanTo/Zoom Err", e);
             }
