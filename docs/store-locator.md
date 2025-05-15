@@ -57,6 +57,7 @@ You can set all major configuration options for the store locator via data attri
 | `data-google-maps-api-key`    | Google Maps API key (highest priority)  | `YOUR_API_KEY`                                 |
 | `data-use-path-parameter`     | Use path parameter for store detail deep linking | `true` or `false`                      |
 | `data-css-path`               | Path to the CSS file for the store locator         | `/css/simple-store-locator.css`                  |
+| `data-first-day-of-week`      | First day of week for opening hours display (0=Sunday, 1=Monday, etc.) | `1` |
 
 **Example:**
 ```html
@@ -70,7 +71,30 @@ You can set all major configuration options for the store locator via data attri
   data-css-path="/custom/path/to/your.css"
   data-google-maps-api-key="YOUR_API_KEY"
   data-use-path-parameter="true"
+  data-first-day-of-week="1"
 ></div>
+```
+
+### First Day of Week Configuration
+
+The `data-first-day-of-week` attribute controls how the opening hours are displayed in the expanded view:
+
+- `0`: Week starts on Sunday (US format)
+- `1`: Week starts on Monday (European format, default)
+- `2`: Week starts on Tuesday
+- etc.
+
+This setting affects:
+- The order of days in the expanded opening hours view
+- The display of the full week's hours when clicking on today's hours
+
+Example with different configurations:
+```html
+<!-- European format (Monday first) -->
+<div id="pmt-store-locator-root" data-first-day-of-week="1"></div>
+
+<!-- US format (Sunday first) -->
+<div id="pmt-store-locator-root" data-first-day-of-week="0"></div>
 ```
 
 --- 

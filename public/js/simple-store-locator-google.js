@@ -22,6 +22,8 @@
     const LANDING_PAGE_URL = getConfigFromDataAttr(rootEl, 'data-landing-page-url', 'landingpage.html');
     // Locales path
     const LOCALES_PATH = getConfigFromDataAttr(rootEl, 'data-locales-path', 'locales/');
+    // First day of week (0 = Sunday, 1 = Monday, etc.)
+    const FIRST_DAY_OF_WEEK = parseInt(getConfigFromDataAttr(rootEl, 'data-first-day-of-week', '1'));
 
     let GOOGLE_MAPS_API_KEY = null; // Initialize as null
     const CSS_PATH = getConfigFromDataAttr(rootEl, 'data-css-path', '/css/simple-store-locator.css');
@@ -272,6 +274,40 @@
         return t('hoursUnavailable');
     }
     
+    // Add new function to format full week hours
+    function formatFullWeekHours(openHoursData) {
+        if (!openHoursData || typeof openHoursData !== 'object') return [];
+
+        const dayMap = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        
+        // Reorder days based on FIRST_DAY_OF_WEEK
+        const reorderedDayMap = [...dayMap.slice(FIRST_DAY_OF_WEEK), ...dayMap.slice(0, FIRST_DAY_OF_WEEK)];
+        const reorderedDayNames = [...dayNames.slice(FIRST_DAY_OF_WEEK), ...dayNames.slice(0, FIRST_DAY_OF_WEEK)];
+        
+        return reorderedDayMap.map((dayKey, index) => {
+            const dayInfo = openHoursData[dayKey];
+            let timeStr = t('hoursClosed');
+            
+            if (dayInfo && dayInfo.state === 'Open' && dayInfo.span && dayInfo.span.length > 0) {
+                const spans = dayInfo.span.map(span => {
+                    if (span.open && span.close) {
+                        const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
+                        return `${formatTime(span.open)} - ${formatTime(span.close)}`;
+                    }
+                    return '';
+                }).filter(Boolean);
+                
+                timeStr = spans.join(', ');
+            }
+            
+            return {
+                day: reorderedDayNames[index],
+                hours: timeStr
+            };
+        });
+    }
+
     function cleanPhoneNumber(phone) { if (!phone) return ''; return phone.replace(/[\s()-]/g, ''); }
     
     // --- Haversine Distance Calculation ---
@@ -419,11 +455,11 @@
                     if (qIndex === -1) {
                         return `${LANDING_PAGE_URL.replace(/\/$/, '')}/${encodeURIComponent(store.id)}`;
                     } else {
-                        // Insert store id before query string
                         return `${LANDING_PAGE_URL.slice(0, qIndex).replace(/\/$/, '')}/${encodeURIComponent(store.id)}${LANDING_PAGE_URL.slice(qIndex)}`;
                     }
                 })()
                 : `${LANDING_PAGE_URL}${LANDING_PAGE_URL.includes('?') ? '&' : '?'}${URL_PARAM_NAME}=${encodeURIComponent(store.id)}`;
+
             let directionsLinkHtml = '';
             if (store.lat != null && store.lng != null) {
                 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
@@ -454,6 +490,21 @@
                 distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; 
             }
 
+            // Create week hours list
+            const weekHours = formatFullWeekHours(store.openHours);
+            const weekHoursHtml = weekHours.map(({ day, hours }) => 
+                `<li><span class="pmt-day-name">${day}:</span> ${hours}</li>`
+            ).join('');
+
+            const hoursHtml = store.hours && store.hours !== t('fallbackHours') 
+                ? `<p><span>${t('hoursLabel')}</span> <button class="pmt-hours-button" aria-label="${t('viewFullHours')}">${store.hours}</button></p>
+                   <div class="pmt-week-hours">
+                       <ul class="pmt-week-hours-list">
+                           ${weekHoursHtml}
+                       </ul>
+                   </div>`
+                : `<p><span>${t('hoursLabel')}</span> ${store.hours || t('fallbackHours')}</p>`;
+
             itemDiv.innerHTML = `
                 <div class="pmt-store-list-item-header" role="heading" aria-level="3">
                     <h3>${store.name || t('fallbackStoreName')}</h3>
@@ -462,12 +513,23 @@
                    <p>${addressCityString}</p>
                    ${distanceHtml}
                    <p><span>${t('phoneLabel')}</span> ${phoneHtml}</p>
-                   <p><span>${t('hoursLabel')}</span> ${store.hours || t('fallbackHours')}</p>
+                   ${hoursHtml}
                    <div class="pmt-sl-item-links">
                        <a href="${detailsLinkUrl}" rel="noopener noreferrer" class="pmt-sl-details-link" aria-label="${t('storeDetails')} - ${store.name || t('fallbackStoreName')}">${t('storeDetails')}</a>
                        ${directionsLinkHtml}
                    </div>
                 </div>`;
+
+            // Add click handler for hours button
+            const hoursButton = itemDiv.querySelector('.pmt-hours-button');
+            if (hoursButton) {
+                hoursButton.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent store selection
+                    itemDiv.classList.toggle('expanded');
+                    // Update aria-expanded attribute
+                    hoursButton.setAttribute('aria-expanded', itemDiv.classList.contains('expanded'));
+                });
+            }
 
             itemDiv.addEventListener('click', (event) => {
                 if (event.target.closest('a')) return;
@@ -743,7 +805,7 @@
     }
     
     // MODIFIED fetchAndProcessStores for PinMeTo structure
-    async function fetchAndProcessStores(currentLat, currentLon) { // currentLat, currentLon are passed here
+    async function fetchAndProcessStores(currentLat, currentLon) {
         isLoading = true; error = null;
         if (searchInputElement) searchInputElement.disabled = true;
         renderStoreList(); updateFooter();
@@ -771,12 +833,13 @@
                     city: s.address?.city || '', 
                     zip: s.address?.zip || '', 
                     phone: s.contact?.phone || t('fallbackPhone'),
-                    hours: formatOpeningHours(s.openHours), 
+                    hours: formatOpeningHours(s.openHours),
+                    openHours: s.openHours,
                     lat: latitude,
                     lng: longitude,
                     distance: distanceKm
                 };
-            }); 
+            });
             
             allStores.sort((a, b) => {
                 if (a.distance === null && b.distance === null) return 0;
