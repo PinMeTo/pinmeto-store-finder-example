@@ -557,7 +557,7 @@ html.dark .pmt-sl-error-text {
     color: var(--pmt-sl-text-muted);
 }
 .pmt-powered-by svg {
-    height: 1.2em;
+    height: 1.8em;
     width: auto;
     display: inline-block;
 }
