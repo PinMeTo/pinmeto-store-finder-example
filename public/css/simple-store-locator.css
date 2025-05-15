@@ -468,3 +468,54 @@ html.dark .pmt-sl-error-text {
 .gm-ui-hover-effect:hover {
     opacity: 1;
 }*/
+
+/* Remove the modal styles and add expanded list item styles */
+.pmt-store-list-item.expanded {
+    background-color: var(--pmt-sl-bg-secondary);
+}
+
+.pmt-store-list-item .pmt-week-hours {
+    display: none;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--pmt-sl-border-color);
+}
+
+.pmt-store-list-item.expanded .pmt-week-hours {
+    display: block;
+}
+
+.pmt-week-hours-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pmt-week-hours-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0;
+    font-size: 0.75rem;
+    color: var(--pmt-sl-text-secondary);
+}
+
+.pmt-week-hours-list .pmt-day-name {
+    font-weight: 500;
+    color: var(--pmt-sl-text-primary);
+}
+
+/* Hours Button Styles */
+.pmt-hours-button {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.pmt-hours-button:hover {
+    color: var(--pmt-sl-link-color);
+}

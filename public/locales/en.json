@@ -52,5 +52,6 @@
     "errorLoadingGoogleMaps": "Error loading Google Maps.",
     "mapView": "Map View",
     "interactiveMap": "Interactive Map",
-    "notSpecified": "Not specified"
+    "notSpecified": "Not specified",
+    "viewFullHours": "View full week's opening hours"
 }
