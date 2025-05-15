@@ -546,3 +546,28 @@ html.dark .pmt-sl-error-text {
     text-underline-offset: 2px;
     text-decoration-thickness: 1px;
 }
+
+.pmt-powered-by {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4em;
+    font-size: 0.85em;
+    margin-top: 0.25em;
+    color: var(--pmt-sl-text-muted);
+}
+.pmt-powered-by svg {
+    height: 1.2em;
+    width: auto;
+    display: inline-block;
+}
+.pmt-powered-by-text {
+    font-weight: 400;
+    color: var(--pmt-sl-text-muted);
+}
+.pmt-powered-by-brand {
+    font-weight: 600;
+    color: #2196F3;
+    letter-spacing: 0.01em;
+    margin-left: 0.1em;
+}

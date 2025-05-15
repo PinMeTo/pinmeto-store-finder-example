@@ -605,6 +605,20 @@
         if (!footerElement) return;
         const storeCountText = !isLoading && !error ? t('storesFound', { count: filteredStores.length }) : (isLoading ? t('loading') : ' ');
         footerElement.textContent = `${storeCountText} ${t(locationStatusMessageKey)}`;
+
+        // Add Powered by PinMeTo with SVG
+        let poweredBy = document.getElementById('pmt-powered-by');
+        if (!poweredBy) {
+            poweredBy = document.createElement('div');
+            poweredBy.id = 'pmt-powered-by';
+            poweredBy.innerHTML = `
+                <span class="pmt-powered-by-text">Powered by</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="40" viewBox="0 0 24 40" fill="none" style="vertical-align: middle;"><path d="M12 0C5.37258 0 0 5.37258 0 12C0 22.2857 12 40 12 40C12 40 24 22.2857 24 12C24 5.37258 18.6274 0 12 0ZM12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18Z" fill="#2196F3"/><path d="M12 2C6.47715 2 2 6.47715 2 12C2 20.2857 12 36 12 36C12 36 22 20.2857 22 12C22 6.47715 17.5228 2 12 2ZM12 16C9.23858 16 7 13.7614 7 11C7 8.23858 9.23858 6 12 6C14.7614 6 17 8.23858 17 11C17 13.7614 14.7614 16 12 16Z" fill="#FF9966"/></svg>
+                <span class="pmt-powered-by-brand">PinMeTo</span>
+            `;
+            poweredBy.className = 'pmt-powered-by';
+            footerElement.appendChild(poweredBy);
+        }
     }
     
     function scrollListIfNeeded() { if (selectedStoreId && listContainerElement) { const e = document.getElementById(`pmt-store-item-${selectedStoreId}`); if (e) e.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' }); } }
