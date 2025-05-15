@@ -3,12 +3,12 @@
 ## Store Locator
 
 ### Opening Hours
-- [ ] Implement special opening hours handling
-  - [ ] Add support for special event hours
-  - [ ] Add visual indicators for special hours
-- [ ] Add full week view for opening hours
-  - [ ] Add ability to switch between daily and weekly view
-  - [ ] Add support for multiple time slots per day
+- [x] Implement special opening hours handling
+  - [x] Add support for special hours
+  - [x] Add visual indicators for special hours
+- [x] Add full week view for opening hours
+  - [x] Add ability to switch between daily and weekly view
+  - [x] Add support for multiple time slots per day
 
 ### Search & Filtering
 - [ ] Improve search functionality
@@ -29,9 +29,9 @@
   - [ ] Add high contrast mode
 
   ### Store Information
-- [ ] Add social media integration
-  - [ ] Display social media links
-  - [ ] Add social media icons
+- [x] Add social media integration
+  - [x] Display social media links
+  - [x] Add social media icons
 - [ ] Implement categories display
   - [ ] Show store categories
   - [ ] Add category descriptions
@@ -58,7 +58,6 @@
 
 ## Future Considerations
 - [ ] Analytics
-  - [ ] Add posibil
   - [ ] Add conversion tracking
   - [ ] Add performance monitoring
 - [ ] Internationalization
