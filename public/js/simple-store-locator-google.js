@@ -265,11 +265,14 @@
                 if (todaySpecialHours.state === 'Closed' || !todaySpecialHours.span || todaySpecialHours.span.length === 0) {
                     return t('hoursClosed');
                 }
-                const firstSpan = todaySpecialHours.span[0];
-                if (firstSpan && firstSpan.open && firstSpan.close) {
-                    const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
-                    return `${formatTime(firstSpan.open)} - ${formatTime(firstSpan.close)}`;
-                }
+                const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
+                const spans = todaySpecialHours.span.map(span => {
+                    if (span.open && span.close) {
+                        return `${formatTime(span.open)} - ${formatTime(span.close)}`;
+                    }
+                    return '';
+                }).filter(Boolean);
+                return spans.join(', ');
             }
         }
 
@@ -284,12 +287,14 @@
             return t('hoursClosed');
         }
 
-        const firstSpan = dayInfo.span[0];
-        if (firstSpan && firstSpan.open && firstSpan.close) {
-            const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
-            return `${formatTime(firstSpan.open)} - ${formatTime(firstSpan.close)}`;
-        }
-        return t('hoursUnavailable');
+        const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
+        const spans = dayInfo.span.map(span => {
+            if (span.open && span.close) {
+                return `${formatTime(span.open)} - ${formatTime(span.close)}`;
+            }
+            return '';
+        }).filter(Boolean);
+        return spans.join(', ');
     }
     
     // Add new function to format full week hours
@@ -317,9 +322,9 @@
             // Check if this is today and has special hours
             if (dayKey === dayMap[new Date().getDay()] && todaySpecialHours) {
                 if (todaySpecialHours.state === 'Open' && todaySpecialHours.span && todaySpecialHours.span.length > 0) {
+                    const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
                     const spans = todaySpecialHours.span.map(span => {
                         if (span.open && span.close) {
-                            const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
                             return `${formatTime(span.open)} - ${formatTime(span.close)}`;
                         }
                         return '';
@@ -329,9 +334,9 @@
                     isSpecial = true;
                 }
             } else if (dayInfo && dayInfo.state === 'Open' && dayInfo.span && dayInfo.span.length > 0) {
+                const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
                 const spans = dayInfo.span.map(span => {
                     if (span.open && span.close) {
-                        const formatTime = (timeStr) => timeStr.slice(0, 2) + ":" + timeStr.slice(2);
                         return `${formatTime(span.open)} - ${formatTime(span.close)}`;
                     }
                     return '';

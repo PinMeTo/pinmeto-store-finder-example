@@ -497,11 +497,14 @@ html.dark .pmt-sl-error-text {
     padding: 0.25rem 0;
     font-size: 0.75rem;
     color: var(--pmt-sl-text-secondary);
+    flex-wrap: wrap;
+    gap: 0.25rem;
 }
 
 .pmt-week-hours-list .pmt-day-name {
     font-weight: 500;
     color: var(--pmt-sl-text-primary);
+    min-width: 80px;
 }
 
 .pmt-week-hours-list .pmt-special-hours {
