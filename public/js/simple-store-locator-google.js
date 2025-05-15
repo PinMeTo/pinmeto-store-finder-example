@@ -58,7 +58,8 @@
     
     // --- Translation Helper ---
     function t(key, replacements = {}) {
-        let text = translations[key] || key;
+        // Support dot notation for nested keys
+        let text = key.split('.').reduce((o, i) => (o ? o[i] : undefined), translations) || key;
         for (const placeholder in replacements) {
             text = text.replace(`{${placeholder}}`, replacements[placeholder]);
         }
@@ -302,7 +303,15 @@
         if (!openHoursData || typeof openHoursData !== 'object') return [];
 
         const dayMap = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayNames = [
+            t('weekdays.sunday'),
+            t('weekdays.monday'),
+            t('weekdays.tuesday'),
+            t('weekdays.wednesday'),
+            t('weekdays.thursday'),
+            t('weekdays.friday'),
+            t('weekdays.saturday')
+        ];
         
         // Reorder days based on FIRST_DAY_OF_WEEK
         const reorderedDayMap = [...dayMap.slice(FIRST_DAY_OF_WEEK), ...dayMap.slice(0, FIRST_DAY_OF_WEEK)];
@@ -709,13 +718,56 @@
                 mapInstance.setZoom(14);
                 infoWindow.close(); 
                 
+                const addressParts = [];
+                const streetAddress = store.address;
+                if (streetAddress && streetAddress !== t('fallbackAddress') && streetAddress !== t('fallbackAddressMissing')) { 
+                    addressParts.push(streetAddress); 
+                }
+                if (store.city) { addressParts.push(store.city); }
+                let addressCityString = addressParts.join(', ');
+                if (store.zip) { addressCityString += (addressCityString ? `, ${store.zip}` : store.zip); }
+                if (!addressCityString) { addressCityString = t('fallbackAddress');}
+
+                let distanceHtml = '';
+                if (store.distance != null) { 
+                    distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; 
+                }
+
+                let phoneHtml;
+                const rawPhone = store.phone;
+                if (rawPhone && rawPhone !== t('fallbackPhone')) {
+                    const cleanedPhone = cleanPhoneNumber(rawPhone);
+                    phoneHtml = `<a href="tel:${cleanedPhone}" class="pmt-sl-phone-link" aria-label="${t('phoneLabel')} ${rawPhone}">${rawPhone}</a>`;
+                } else {
+                    phoneHtml = t('fallbackPhone');
+                }
+
+                // Create week hours list
+                const weekHours = formatFullWeekHours(store.openHours, store.specialOpenHours);
+                const weekHoursHtml = weekHours.map(({ day, hours, isSpecial }) => 
+                    `<li class="${isSpecial ? 'pmt-special-hours' : ''}"><span class="pmt-day-name">${day}:</span> ${hours}</li>`
+                ).join('');
+
+                const hoursHtml = store.hours && store.hours !== t('fallbackHours') 
+                    ? `<p><span>${t('hoursLabel')}</span> ${store.hours}</p>
+                       <div class="pmt-week-hours">
+                           <ul class="pmt-week-hours-list">
+                               ${weekHoursHtml}
+                           </ul>
+                       </div>`
+                    : `<p><span>${t('hoursLabel')}</span> ${store.hours || t('fallbackHours')}</p>`;
+
                 const content = `
                     <div class="pmt-map-info-window">
-                        <div class="pmt-map-info-name">${store.name || t('popupStoreNameDefault')}</div>
-                        <div class="pmt-map-info-address">${store.address || t('popupAddressDefault')}</div>
-                        <hr class="pmt-map-info-divider" />
-                        ${store.phone ? `<div class="pmt-map-info-phone"><span class="pmt-phone-icon">📞</span><a href="tel:${store.phone}">${store.phone}</a></div>` : ''}
-                        ${store.hours ? `<div class="pmt-map-info-hours">${store.hours}</div>` : ''}
+                        <div class="pmt-store-list-item-header">
+                            <h3>${store.name || t('fallbackStoreName')}</h3>
+                        </div>
+                        <div class="pmt-store-list-item-content">
+                            <p>${addressCityString}</p>
+                            ${distanceHtml}
+                            <p><span>${t('phoneLabel')}</span> ${phoneHtml}</p>
+                            ${hoursHtml}
+                        </div>
                     </div>
                 `;
                 infoWindow.setHeaderDisabled(true);

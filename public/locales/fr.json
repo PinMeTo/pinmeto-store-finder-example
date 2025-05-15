@@ -48,5 +48,15 @@
     "mapLoadError": "Impossible de charger le service de carte.",
     "mapDisplayError": "Impossible d'afficher la carte.",
     "displayingInfo": "Affichage des informations pour {storeName}",
-    "loadingMap": "Chargement..."
+    "loadingMap": "Chargement...",
+    "viewFullHours": "Voir les horaires d'ouverture de la semaine",
+    "weekdays": {
+        "sunday": "Dimanche",
+        "monday": "Lundi",
+        "tuesday": "Mardi",
+        "wednesday": "Mercredi",
+        "thursday": "Jeudi",
+        "friday": "Vendredi",
+        "saturday": "Samedi"
+    }
 }

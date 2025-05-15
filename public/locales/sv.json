@@ -48,5 +48,15 @@
     "mapLoadError": "Kunde inte ladda karttjänsten.",
     "mapDisplayError": "Kunde inte visa kartan.",
     "displayingInfo": "Visar information för {storeName}",
-    "loadingMap": "Laddar..."
+    "loadingMap": "Laddar...",
+    "viewFullHours": "Visa hela veckans öppettider",
+    "weekdays": {
+        "sunday": "Söndag",
+        "monday": "Måndag",
+        "tuesday": "Tisdag",
+        "wednesday": "Onsdag",
+        "thursday": "Torsdag",
+        "friday": "Fredag",
+        "saturday": "Lördag"
+    }
 }

@@ -53,5 +53,14 @@
     "mapView": "Map View",
     "interactiveMap": "Interactive Map",
     "notSpecified": "Not specified",
-    "viewFullHours": "View full week's opening hours"
+    "viewFullHours": "View full week's opening hours",
+    "weekdays": {
+        "sunday": "Sunday",
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday"
+    }
 }

@@ -48,5 +48,15 @@
     "mapLoadError": "Nie można załadować usługi map.",
     "mapDisplayError": "Nie można wyświetlić mapy.",
     "displayingInfo": "Wyświetlanie informacji o {storeName}",
-    "loadingMap": "Ładowanie..."
+    "loadingMap": "Ładowanie...",
+    "viewFullHours": "Zobacz godziny otwarcia na cały tydzień",
+    "weekdays": {
+        "sunday": "Niedziela",
+        "monday": "Poniedziałek",
+        "tuesday": "Wtorek",
+        "wednesday": "Środa",
+        "thursday": "Czwartek",
+        "friday": "Piątek",
+        "saturday": "Sobota"
+    }
 } 
