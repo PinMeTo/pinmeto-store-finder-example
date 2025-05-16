@@ -635,7 +635,14 @@
 
         console.log("Store data received:", store);
 
-        if (storeNameEl) storeNameEl.textContent = store.name || t('fallbackStoreName');
+        // Show store name with location descriptor if available
+        if (storeNameEl) {
+            let nameText = store.name || t('fallbackStoreName');
+            if (store.locationDescriptor && String(store.locationDescriptor).trim() !== '') {
+                nameText += ` (${store.locationDescriptor.trim()})`;
+            }
+            storeNameEl.textContent = nameText;
+        }
 
         if (storeAddressEl) {
             let addressParts = [];
