@@ -841,7 +841,7 @@
                     const rawPhone = store.phone;
                     if (rawPhone && rawPhone !== t('fallbackPhone')) {
                         const cleanedPhone = cleanPhoneNumber(rawPhone);
-                        phoneHtml = `<a href="tel:${cleanedPhone}" class="pmt-sl-phone-link" aria-label="${t('phoneLabel')} ${rawPhone}">${rawPhone}</a>`;
+                        phoneHtml = `<a href="tel:${cleanedPhone}" class="pmt-sl-phone-link pmt-no-select" aria-label="${t('phoneLabel')} ${rawPhone}">${rawPhone}</a>`;
                     } else {
                         phoneHtml = t('fallbackPhone');
                     }
@@ -881,6 +881,19 @@
                     infoWindow.setHeaderDisabled(true);
                     infoWindow.setContent(content);
                     infoWindow.open({ anchor: marker, map: mapInstance });
+
+                    // After infoWindow.open({ anchor: marker, map: mapInstance }); in handleMapSelection, add:
+                    setTimeout(() => {
+                        const infoWindowEl = document.querySelector('.pmt-map-info-window');
+                        if (infoWindowEl) {
+                            const phoneLink = infoWindowEl.querySelector('a.pmt-sl-phone-link');
+                            if (phoneLink) phoneLink.blur();
+                        }
+                        if (window.getSelection) {
+                            const sel = window.getSelection();
+                            if (sel && sel.removeAllRanges) sel.removeAllRanges();
+                        }
+                    }, 100);
                 } catch (e) {
                     console.error("PMT SL: Google Map PanTo/Zoom Err", e);
                 }

@@ -610,3 +610,9 @@ html.dark .pmt-sl-error-text {
         display: none !important;
     }
 }
+
+.pmt-no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
