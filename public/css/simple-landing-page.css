@@ -369,3 +369,61 @@ html, body, #pmt-store-landing-page-container {
     margin: 18px 0 10px 0;
     font-size: 1.08em;
 }
+
+/* --- Photo Album Layout --- */
+.pmt-map-album-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 420px;
+}
+.pmt-photo-album-section {
+    width: 100%;
+    margin-top: 18px;
+}
+.pmt-photo-album-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+}
+.pmt-photo-album-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(60,64,67,0.10);
+}
+
+.pmt-powered-by {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95em;
+    margin: 18px 0 8px 0;
+    padding: 0;
+    gap: 0.4em;
+}
+.pmt-powered-by-text {
+    font-size: 0.95em;
+    color: #888;
+    margin-right: 0.3em;
+}
+.pmt-powered-by-link {
+    display: flex;
+    align-items: center;
+    gap: 0.2em;
+    text-decoration: none;
+    font-size: 1em;
+}
+.pmt-powered-by-link svg {
+    width: 18px;
+    height: 30px;
+    vertical-align: middle;
+}
+.pmt-powered-by-brand {
+    font-weight: 600;
+    color: #3399FF;
+    font-size: 1em;
+    margin-left: 0.1em;
+}
