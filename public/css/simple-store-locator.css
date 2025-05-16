@@ -468,20 +468,6 @@ html.dark .pmt-sl-error-text {
     font-size: 1rem;
 }
 
-/* Remove default close button */
-/* .gm-ui-hover-effect {
-    top: 0 !important;
-    right: 0 !important;
-    width: 24px !important;
-    height: 24px !important;
-    margin: 8px !important;
-    opacity: 0.7;
-}
-
-.gm-ui-hover-effect:hover {
-    opacity: 1;
-}*/
-
 /* Remove the modal styles and add expanded list item styles */
 .pmt-store-list-item.expanded {
     background-color: var(--pmt-sl-bg-secondary);
@@ -573,4 +559,54 @@ html.dark .pmt-sl-error-text {
     color: #2196F3;
     letter-spacing: 0.01em;
     margin-left: 0.1em;
+}
+
+/* Mobile Layout */
+@media (max-width: 767px) {
+    .pmt-sl-left-panel {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .pmt-sl-header,
+    .pmt-sl-search-area {
+        flex-shrink: 0;
+    }
+
+    .pmt-sl-map-container {
+        height: 200px; /* Fixed height for mobile map */
+        margin: 0.5rem;
+        border-radius: 0.375rem;
+    }
+
+    .pmt-sl-list-container {
+        flex: 1;
+        overflow-y: auto;
+        margin-top: 0.5rem;
+    }
+
+    /* Hide the right panel on mobile since map is now in left panel */
+    .pmt-sl-right-panel {
+        display: none;
+    }
+
+    #pmt-map-container-mobile {
+        display: block;
+    }
+    #pmt-map-container {
+        display: none !important;
+    }
+}
+
+/* Desktop Layout */
+@media (min-width: 768px) {
+    .pmt-sl-map-container {
+        height: 100%;
+        margin: 0;
+    }
+
+    #pmt-map-container-mobile {
+        display: none !important;
+    }
 }

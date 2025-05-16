@@ -436,6 +436,13 @@
         searchInputElement.addEventListener('input', handleSearchInput);
         searchArea.appendChild(searchInputElement);
 
+        // Create map container for mobile view
+        const mobileMapContainer = document.createElement('div');
+        mobileMapContainer.className = "pmt-sl-map-container";
+        mobileMapContainer.id = "pmt-map-container-mobile";
+        mobileMapContainer.setAttribute('role', 'application');
+        mobileMapContainer.setAttribute('aria-label', t('interactiveMap'));
+
         listContainerElement = document.createElement('div'); 
         listContainerElement.className = "pmt-sl-list-container"; 
         listContainerElement.id = "pmt-store-list-container";
@@ -446,7 +453,9 @@
         footerElement.className = "pmt-sl-footer"; 
         footerElement.setAttribute('role', 'contentinfo');
         updateFooter();
-        leftPanel.append(header, searchArea, listContainerElement, footerElement);
+
+        // Add elements to left panel in correct order
+        leftPanel.append(header, searchArea, mobileMapContainer, listContainerElement, footerElement);
 
         const rightPanel = document.createElement('div'); 
         rightPanel.className = "pmt-sl-right-panel";
@@ -636,30 +645,57 @@
 
     // --- Google Maps Functions ---
     function initializeMap() {
-        if (!mapContainerElement || mapInstance || typeof google === 'undefined' || typeof google.maps === 'undefined' || typeof google.maps.marker === 'undefined') {
-             console.warn("PMT SL: Google Maps SDK (with marker lib) not ready or map container not found.");
+        if (typeof google === 'undefined' || typeof google.maps === 'undefined' || typeof google.maps.marker === 'undefined') {
+            console.warn("PMT SL: Google Maps SDK (with marker lib) not ready.");
             return;
         }
+
         try {
             console.log("PMT SL: Init Google Map");
-            mapInstance = new google.maps.Map(mapContainerElement, { // Using fallback location
-                center: { lat: currentUserLat, lng: currentUserLon }, // Use current user location or fallback
-                zoom: 5, // Default zoom, will be adjusted by fitBounds or handleMapSelection
-                mapId: "PMT_STORE_LOCATOR_MAP_ID", // Recommended for Advanced Markers
-                mapTypeControl: false,
-                streetViewControl: false,
-                fullscreenControl: false
-            });
+            const isMobile = window.matchMedia('(max-width: 767px)').matches;
+
+            if (isMobile) {
+                // Only initialize mobile map
+                const mobileMapContainer = document.getElementById('pmt-map-container-mobile');
+                if (mobileMapContainer) {
+                    window.pmtMobileMapInstance = new google.maps.Map(mobileMapContainer, {
+                        center: { lat: currentUserLat, lng: currentUserLon },
+                        zoom: 5,
+                        mapId: "PMT_STORE_LOCATOR_MAP_ID",
+                        mapTypeControl: false,
+                        streetViewControl: false,
+                        fullscreenControl: false
+                    });
+                }
+                mapInstance = null; // Don't use desktop map
+            } else {
+                // Only initialize desktop map
+                if (mapContainerElement) {
+                    mapInstance = new google.maps.Map(mapContainerElement, {
+                        center: { lat: currentUserLat, lng: currentUserLon },
+                        zoom: 5,
+                        mapId: "PMT_STORE_LOCATOR_MAP_ID",
+                        mapTypeControl: false,
+                        streetViewControl: false,
+                        fullscreenControl: false
+                    });
+                }
+                window.pmtMobileMapInstance = null; // Don't use mobile map
+            }
+
             infoWindow = new google.maps.InfoWindow();
             console.log("PMT SL: Google Map OK");
         } catch (e) {
             console.error("PMT SL: Google MapInit Err", e);
-            mapContainerElement.innerHTML = `<p class="pmt-sl-error-text">${t('errorInitializingMap')}</p>`;
-        }       
+            const errorMessage = `<p class=\"pmt-sl-error-text\">${t('errorInitializingMap')}</p>`;
+            if (mapContainerElement) mapContainerElement.innerHTML = errorMessage;
+            const mobileMapContainer = document.getElementById('pmt-map-container-mobile');
+            if (mobileMapContainer) mobileMapContainer.innerHTML = errorMessage;
+        }
     }
 
     function updateMapMarkers() {
-        if (!mapInstance || typeof google === 'undefined' || typeof google.maps === 'undefined' || typeof google.maps.marker === 'undefined') return;
+        if (typeof google === 'undefined' || typeof google.maps === 'undefined' || typeof google.maps.marker === 'undefined') return;
         console.log(`PMT SL: Update Google Map Advanced Markers`);
 
         // Clear existing markers
@@ -684,27 +720,54 @@
                     if (!isNaN(parsedLat) && !isNaN(parsedLng)) {
                         const position = { lat: parsedLat, lng: parsedLng };
                         
-                        const marker = new google.maps.marker.AdvancedMarkerElement({
-                            position: position,
-                            map: mapInstance,
-                            title: store.name || t('popupStoreNameDefault'),
-                        });
+                        // Create marker for desktop map
+                        if (mapInstance) {
+                            const marker = new google.maps.marker.AdvancedMarkerElement({
+                                position: position,
+                                map: mapInstance,
+                                title: store.name || t('popupStoreNameDefault'),
+                            });
 
-                        // Add click listener to the marker
-                        marker.addListener('gmp-click', () => {
-                            console.log(`PMT SL: Marker clicked for store ${store.id}`);
-                            // First open the info window
-                            infoWindow.open({ anchor: marker, map: mapInstance });
-                            // Then select the store in the list
-                            handleSelection(store.id);
-                            // Scroll the selected store into view
-                            const storeElement = document.getElementById(`pmt-store-item-${store.id}`);
-                            if (storeElement) {
-                                storeElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                            }
-                        });
+                            // Add click listener to the marker
+                            marker.addListener('gmp-click', () => {
+                                console.log(`PMT SL: Marker clicked for store ${store.id}`);
+                                // First open the info window
+                                infoWindow.open({ anchor: marker, map: mapInstance });
+                                // Then select the store in the list
+                                handleSelection(store.id);
+                                // Scroll the selected store into view
+                                const storeElement = document.getElementById(`pmt-store-item-${store.id}`);
+                                if (storeElement) {
+                                    storeElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                }
+                            });
 
-                        mapMarkers[store.id] = marker;
+                            mapMarkers[store.id] = marker;
+                        }
+
+                        // Create marker for mobile map
+                        if (window.pmtMobileMapInstance) {
+                            const mobileMarker = new google.maps.marker.AdvancedMarkerElement({
+                                position: position,
+                                map: window.pmtMobileMapInstance,
+                                title: store.name || t('popupStoreNameDefault'),
+                            });
+
+                            // Add click listener to the mobile marker
+                            mobileMarker.addListener('gmp-click', () => {
+                                console.log(`PMT SL: Mobile marker clicked for store ${store.id}`);
+                                // First open the info window
+                                infoWindow.open({ anchor: mobileMarker, map: window.pmtMobileMapInstance });
+                                // Then select the store in the list
+                                handleSelection(store.id);
+                                // Scroll the selected store into view
+                                const storeElement = document.getElementById(`pmt-store-item-${store.id}`);
+                                if (storeElement) {
+                                    storeElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                }
+                            });
+                        }
+
                         bounds.extend(position);
                         markersAddedCount++;
                     } else {
@@ -721,101 +784,123 @@
         console.log(`PMT SL: ${markersAddedCount} Google Map Advanced Markers added.`);
         if (markersAddedCount > 0) {
             if (!selectedStoreId) {
-                mapInstance.fitBounds(bounds, 50);
+                if (mapInstance) mapInstance.fitBounds(bounds, 50);
+                if (window.pmtMobileMapInstance) window.pmtMobileMapInstance.fitBounds(bounds, 50);
             }
         } else {
-            mapInstance.setCenter({ lat: currentUserLat, lng: currentUserLon });
-            mapInstance.setZoom(5);
+            if (mapInstance) {
+                mapInstance.setCenter({ lat: currentUserLat, lng: currentUserLon });
+                mapInstance.setZoom(5);
+            }
+            if (window.pmtMobileMapInstance) {
+                window.pmtMobileMapInstance.setCenter({ lat: currentUserLat, lng: currentUserLon });
+                window.pmtMobileMapInstance.setZoom(5);
+            }
         }
     }
-    
+
     function handleMapSelection() {
-        if (!mapInstance || typeof google === 'undefined' || typeof google.maps === 'undefined' || !selectedStoreId) {
+        if (typeof google === 'undefined' || typeof google.maps === 'undefined' || !selectedStoreId) {
             if (infoWindow) infoWindow.close();
             return;
         }
-        const marker = mapMarkers[selectedStoreId];
+
         const store = filteredStores.find(s => s.id === selectedStoreId);
-       
-        if (marker && store) {
-            try {
-                mapInstance.panTo(marker.position); 
-                mapInstance.setZoom(14);
-                infoWindow.close(); 
-                
-                const addressParts = [];
-                const streetAddress = store.address;
-                if (streetAddress && streetAddress !== t('fallbackAddress') && streetAddress !== t('fallbackAddressMissing')) { 
-                    addressParts.push(streetAddress); 
-                }
-                if (store.city) { addressParts.push(store.city); }
-                let addressCityString = addressParts.join(', ');
-                if (store.zip) { addressCityString += (addressCityString ? `, ${store.zip}` : store.zip); }
-                if (!addressCityString) { addressCityString = t('fallbackAddress');}
+        if (!store) return;
 
-                let distanceHtml = '';
-                if (store.distance != null) { 
-                    distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; 
-                }
-
-                let phoneHtml;
-                const rawPhone = store.phone;
-                if (rawPhone && rawPhone !== t('fallbackPhone')) {
-                    const cleanedPhone = cleanPhoneNumber(rawPhone);
-                    phoneHtml = `<a href="tel:${cleanedPhone}" class="pmt-sl-phone-link" aria-label="${t('phoneLabel')} ${rawPhone}">${rawPhone}</a>`;
-                } else {
-                    phoneHtml = t('fallbackPhone');
-                }
-
-                // Create week hours list
-                const weekHours = formatFullWeekHours(store.openHours, store.specialOpenHours);
-                const weekHoursHtml = weekHours.map(({ day, hours, isSpecial }) => 
-                    `<li class="${isSpecial ? 'pmt-special-hours' : ''}"><span class="pmt-day-name">${day}:</span> ${hours}</li>`
-                ).join('');
-
-                const hoursHtml = store.hours && store.hours !== t('fallbackHours') 
-                    ? `<p><span>${t('hoursLabel')}</span>${store.hours}</p>
-                       <div class="pmt-week-hours">
-                           <ul class="pmt-week-hours-list">
-                               ${weekHoursHtml}
-                           </ul>
-                       </div>`
-                    : `<p><span>${t('hoursLabel')}</span> ${store.hours || t('fallbackHours')}</p>`;
-
-                // Helper to render social links
-                let socialLinksHtml = renderSocialLinks(store.network);
-
-                const content = `
-                    <div class="pmt-map-info-window">
-                        <div class="pmt-store-list-item-header">
-                            <h3>${store.name || t('fallbackStoreName')}</h3>
-                        </div>
-                        <div class="pmt-store-list-item-content">
-                            <p>${addressCityString}</p>
-                            ${distanceHtml}
-                            <p><span>${t('phoneLabel')}</span> ${phoneHtml}</p>
-                            ${hoursHtml}
-                            ${socialLinksHtml}
-                        </div>
-                    </div>
-                `;
-                infoWindow.setHeaderDisabled(true);
-                infoWindow.setContent(content);
-                infoWindow.open({ anchor: marker, map: mapInstance });
-                // Prevent phone link from being auto-focused/selected
-                setTimeout(() => {
-                    const infoWindowEl = document.querySelector('.pmt-map-info-window');
-                    if (infoWindowEl) {
-                        const phoneLink = infoWindowEl.querySelector('a[href^="tel:"]');
-                        if (phoneLink) phoneLink.blur();
+        // Handle desktop map
+        if (mapInstance) {
+            const marker = mapMarkers[selectedStoreId];
+            if (marker) {
+                try {
+                    mapInstance.panTo(marker.position); 
+                    mapInstance.setZoom(14);
+                    infoWindow.close(); 
+                    
+                    const addressParts = [];
+                    const streetAddress = store.address;
+                    if (streetAddress && streetAddress !== t('fallbackAddress') && streetAddress !== t('fallbackAddressMissing')) { 
+                        addressParts.push(streetAddress); 
                     }
-                }, 100);
-            } catch (e) {
-                console.error("PMT SL: Google Map PanTo/Zoom Err", e);
+                    if (store.city) { addressParts.push(store.city); }
+                    let addressCityString = addressParts.join(', ');
+                    if (store.zip) { addressCityString += (addressCityString ? `, ${store.zip}` : store.zip); }
+                    if (!addressCityString) { addressCityString = t('fallbackAddress');}
+
+                    let distanceHtml = '';
+                    if (store.distance != null) { 
+                        distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; 
+                    }
+
+                    let phoneHtml;
+                    const rawPhone = store.phone;
+                    if (rawPhone && rawPhone !== t('fallbackPhone')) {
+                        const cleanedPhone = cleanPhoneNumber(rawPhone);
+                        phoneHtml = `<a href="tel:${cleanedPhone}" class="pmt-sl-phone-link" aria-label="${t('phoneLabel')} ${rawPhone}">${rawPhone}</a>`;
+                    } else {
+                        phoneHtml = t('fallbackPhone');
+                    }
+
+                    // Create week hours list
+                    const weekHours = formatFullWeekHours(store.openHours, store.specialOpenHours);
+                    const weekHoursHtml = weekHours.map(({ day, hours, isSpecial }) => 
+                        `<li class="${isSpecial ? 'pmt-special-hours' : ''}"><span class="pmt-day-name">${day}:</span> ${hours}</li>`
+                    ).join('');
+
+                    const hoursHtml = store.hours && store.hours !== t('fallbackHours') 
+                        ? `<p><span>${t('hoursLabel')}</span>${store.hours}</p>
+                           <div class="pmt-week-hours">
+                               <ul class="pmt-week-hours-list">
+                                   ${weekHoursHtml}
+                               </ul>
+                           </div>`
+                        : `<p><span>${t('hoursLabel')}</span> ${store.hours || t('fallbackHours')}</p>`;
+
+                    // Helper to render social links
+                    let socialLinksHtml = renderSocialLinks(store.network);
+
+                    const content = `
+                        <div class="pmt-map-info-window">
+                            <div class="pmt-store-list-item-header">
+                                <h3>${store.name || t('fallbackStoreName')}</h3>
+                            </div>
+                            <div class="pmt-store-list-item-content">
+                                <p>${addressCityString}</p>
+                                ${distanceHtml}
+                                <p><span>${t('phoneLabel')}</span> ${phoneHtml}</p>
+                                ${hoursHtml}
+                                ${socialLinksHtml}
+                            </div>
+                        </div>
+                    `;
+                    infoWindow.setHeaderDisabled(true);
+                    infoWindow.setContent(content);
+                    infoWindow.open({ anchor: marker, map: mapInstance });
+                } catch (e) {
+                    console.error("PMT SL: Google Map PanTo/Zoom Err", e);
+                }
             }
-        } else {
-            console.warn(`PMT SL: Google Map Advanced Marker not found for store ${selectedStoreId}`);
-            if (infoWindow) infoWindow.close();
+        }
+
+        // Handle mobile map
+        if (window.pmtMobileMapInstance) {
+            const mobileMarker = mapMarkers[selectedStoreId];
+            if (mobileMarker) {
+                try {
+                    window.pmtMobileMapInstance.panTo(mobileMarker.position);
+                    window.pmtMobileMapInstance.setZoom(14);
+                    infoWindow.close();
+
+                    // Reuse the same content for mobile map
+                    const content = infoWindow.getContent();
+                    if (content) {
+                        infoWindow.setContent(content);
+                        infoWindow.open({ anchor: mobileMarker, map: window.pmtMobileMapInstance });
+                    }
+                } catch (e) {
+                    console.error("PMT SL: Mobile Google Map PanTo/Zoom Err", e);
+                }
+            }
         }
     }
     
