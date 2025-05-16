@@ -45,6 +45,8 @@
 - [ ] Implement categories display
   - [ ] Show store categories
   - [ ] Add category descriptions
+- [ ] Show store Images
+- [ ] Show reviews
 
 ### General Improvements
 - [ ] Content Enhancements

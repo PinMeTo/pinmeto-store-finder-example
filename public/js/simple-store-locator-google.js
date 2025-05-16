@@ -853,7 +853,7 @@
                     ).join('');
 
                     const hoursHtml = store.hours && store.hours !== t('fallbackHours') 
-                        ? `<p><span>${t('hoursLabel')}</span>${store.hours}</p>
+                        ? `<p><span>${t('hoursLabel')}</span> ${store.hours}</p>
                            <div class="pmt-week-hours">
                                <ul class="pmt-week-hours-list">
                                    ${weekHoursHtml}
