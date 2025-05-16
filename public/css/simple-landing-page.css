@@ -99,10 +99,10 @@ html, body, #pmt-store-landing-page-container {
 /* --- Address & Map Layout --- */
 #pmt-store-landing-page-container .pmt-address-map-container {
     display: flex;
+    flex-direction: row;
     align-items: flex-start;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-left: 18px;
+    gap: 40px;
+    margin-left: 0;
     margin-top: 10px;
 }
 #pmt-store-landing-page-container #pmt-store-address-container {
@@ -136,19 +136,20 @@ html, body, #pmt-store-landing-page-container {
     background: linear-gradient(90deg, #1d4ed8 60%, #2563eb 100%);
 }
 #pmt-store-landing-page-container #pmt-store-map-wrapper {
-    flex-basis: 250px;
+    flex-basis: 420px;
     flex-shrink: 0;
-    width: 250px;
-    height: 250px;
-    border-radius: 12px;
+    width: 420px;
+    height: 420px;
+    border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 2px 12px rgba(60,64,67,0.10);
     border: 1px solid #e5e7eb;
+    margin-left: 0;
 }
 #pmt-store-landing-page-container #pmt-store-map {
     width: 100%;
     height: 100%;
-    border-radius: 12px;
+    border-radius: 16px;
     background: #eee;
 }
   
@@ -239,21 +240,20 @@ html, body, #pmt-store-landing-page-container {
     color: #1e40af;
 }
 
-@media (max-width: 700px) {
-    #pmt-store-landing-page-container .pmt-container {
-        padding: 18px 4vw 18px 4vw;
-        margin: 16px auto;
-    }
+@media (max-width: 900px) {
     #pmt-store-landing-page-container .pmt-address-map-container {
         flex-direction: column;
-        gap: 10px;
-        margin-left: 0;
+        gap: 18px;
     }
-    #pmt-store-landing-page-container #pmt-store-map-wrapper {
+    #pmt-store-map-wrapper {
         width: 100%;
         min-width: 180px;
-        height: 200px;
+        height: 220px;
         margin: 0 auto;
+        border-radius: 12px;
+    }
+    #pmt-store-map {
+        border-radius: 12px;
     }
 }
 
@@ -332,4 +332,40 @@ html, body, #pmt-store-landing-page-container {
         border: 1px solid #60a5fa;
         color: #2563eb;
     }
+}
+
+/* --- Store Info Card (inspired by store locator) --- */
+.pmt-info-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(60,64,67,0.10);
+    padding: 28px 28px 18px 28px;
+    max-width: 420px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    flex-shrink: 0;
+}
+#pmt-store-details {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+#pmt-store-details section {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0 0 18px 0;
+}
+#pmt-store-details section:last-child {
+    margin-bottom: 0;
+}
+#pmt-store-landing-page-container h2 {
+    margin: 18px 0 10px 0;
+    font-size: 1.08em;
 }

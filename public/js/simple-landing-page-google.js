@@ -137,21 +137,15 @@
         addressMapSection.setAttribute('aria-label', t('addressAndLocation'));
         elements.storeDetailsEl.appendChild(addressMapSection);
 
-        const addressMapH2 = document.createElement('h2');
-        addressMapH2.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true"></i> Address & Location';
-        addressMapH2.setAttribute('role', 'heading');
-        addressMapH2.setAttribute('aria-level', '2');
-        addressMapSection.appendChild(addressMapH2);
-
         const addressMapContainer = document.createElement('div');
         addressMapContainer.className = 'pmt-address-map-container';
         addressMapSection.appendChild(addressMapContainer);
 
+        // --- Create all info elements first ---
         elements.storeAddressContainerEl = document.createElement('div');
         elements.storeAddressContainerEl.id = 'pmt-store-address-container';
         elements.storeAddressContainerEl.setAttribute('role', 'region');
         elements.storeAddressContainerEl.setAttribute('aria-label', t('addressAndLocation'));
-        addressMapContainer.appendChild(elements.storeAddressContainerEl);
 
         elements.storeAddressEl = document.createElement('p');
         elements.storeAddressEl.id = 'pmt-store-address';
@@ -172,24 +166,11 @@
         elements.storeDirectionsLinkEl.innerHTML = '<i class="fa-solid fa-location-arrow" aria-hidden="true"></i> Get Directions';
         elements.directionsParagraphEl.appendChild(elements.storeDirectionsLinkEl);
 
-        elements.storeMapWrapperEl = document.createElement('div');
-        elements.storeMapWrapperEl.id = 'pmt-store-map-wrapper';
-        elements.storeMapWrapperEl.className = 'pmt-hidden';
-        elements.storeMapWrapperEl.setAttribute('role', 'application');
-        elements.storeMapWrapperEl.setAttribute('aria-label', t('interactiveMap'));
-        addressMapContainer.appendChild(elements.storeMapWrapperEl);
-
-        elements.storeMapEl = document.createElement('div');
-        elements.storeMapEl.id = 'pmt-store-map';
-        elements.storeMapWrapperEl.appendChild(elements.storeMapEl);
-
-        // --- Phone Section (initially hidden) ---
         elements.phoneSectionEl = document.createElement('section');
         elements.phoneSectionEl.id = 'pmt-phone-section';
         elements.phoneSectionEl.className = 'pmt-hidden';
         elements.phoneSectionEl.setAttribute('role', 'region');
         elements.phoneSectionEl.setAttribute('aria-label', t('phone'));
-        elements.storeDetailsEl.appendChild(elements.phoneSectionEl);
 
         const phoneH2 = document.createElement('h2');
         phoneH2.innerHTML = '<i class="fa-solid fa-phone" aria-hidden="true"></i> Phone';
@@ -202,11 +183,9 @@
         elements.storePhoneEl.setAttribute('role', 'text');
         elements.phoneSectionEl.appendChild(elements.storePhoneEl);
 
-        // --- Opening Hours Section ---
         const openingHoursSection = document.createElement('section');
         openingHoursSection.setAttribute('role', 'region');
         openingHoursSection.setAttribute('aria-label', t('openingHours'));
-        elements.storeDetailsEl.appendChild(openingHoursSection);
 
         const openingHoursH2 = document.createElement('h2');
         openingHoursH2.innerHTML = '<i class="fa-regular fa-clock" aria-hidden="true"></i> Opening Hours';
@@ -219,12 +198,10 @@
         elements.storeOpeningHoursEl.setAttribute('role', 'list');
         openingHoursSection.appendChild(elements.storeOpeningHoursEl);
 
-        // --- Exceptions Section ---
         elements.exceptionsSectionEl = document.createElement('section');
         elements.exceptionsSectionEl.id = 'pmt-exceptions-section';
         elements.exceptionsSectionEl.setAttribute('role', 'region');
         elements.exceptionsSectionEl.setAttribute('aria-label', t('specialOpeningHours'));
-        elements.storeDetailsEl.appendChild(elements.exceptionsSectionEl);
 
         const exceptionsH2 = document.createElement('h2');
         exceptionsH2.innerHTML = '<i class="fa-regular fa-calendar-check" aria-hidden="true"></i> Special Opening Hours';
@@ -237,13 +214,11 @@
         elements.storeExceptionsEl.setAttribute('role', 'list');
         elements.exceptionsSectionEl.appendChild(elements.storeExceptionsEl);
 
-        // --- Concepts Section (initially hidden) ---
         elements.conceptsSectionEl = document.createElement('section');
         elements.conceptsSectionEl.id = 'pmt-concepts-section';
         elements.conceptsSectionEl.className = 'pmt-hidden';
         elements.conceptsSectionEl.setAttribute('role', 'region');
         elements.conceptsSectionEl.setAttribute('aria-label', t('concepts'));
-        elements.storeDetailsEl.appendChild(elements.conceptsSectionEl);
 
         const conceptsH2 = document.createElement('h2');
         conceptsH2.id = 'pmt-concepts-heading';
@@ -258,13 +233,11 @@
         elements.storeConceptsEl.setAttribute('role', 'list');
         elements.conceptsSectionEl.appendChild(elements.storeConceptsEl);
 
-        // --- Social Media Section ---
         elements.socialMediaSectionEl = document.createElement('section');
         elements.socialMediaSectionEl.id = 'pmt-social-media-section';
         elements.socialMediaSectionEl.className = 'pmt-hidden';
         elements.socialMediaSectionEl.setAttribute('role', 'region');
         elements.socialMediaSectionEl.setAttribute('aria-label', 'Social Media');
-        elements.storeDetailsEl.appendChild(elements.socialMediaSectionEl);
 
         const socialMediaH2 = document.createElement('h2');
         socialMediaH2.innerHTML = '<i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Social Media';
@@ -276,6 +249,38 @@
         elements.socialMediaLinksEl.id = 'pmt-social-media-links';
         elements.socialMediaLinksEl.className = 'pmt-social-links';
         elements.socialMediaSectionEl.appendChild(elements.socialMediaLinksEl);
+
+        // --- Now create the info card and append all info elements ---
+        const infoCard = document.createElement('div');
+        infoCard.className = 'pmt-info-card';
+        addressMapContainer.appendChild(infoCard);
+
+        // Add Address & Location header at the top of the card
+        const addressHeader = document.createElement('h2');
+        addressHeader.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true"></i> Address & Location';
+        addressHeader.setAttribute('role', 'heading');
+        addressHeader.setAttribute('aria-level', '2');
+        infoCard.appendChild(addressHeader);
+
+        // Append all info elements
+        infoCard.appendChild(elements.storeAddressContainerEl);
+        infoCard.appendChild(elements.phoneSectionEl);
+        infoCard.appendChild(openingHoursSection);
+        infoCard.appendChild(elements.exceptionsSectionEl);
+        infoCard.appendChild(elements.conceptsSectionEl);
+        infoCard.appendChild(elements.socialMediaSectionEl);
+
+        // Map stays outside the card
+        elements.storeMapWrapperEl = document.createElement('div');
+        elements.storeMapWrapperEl.id = 'pmt-store-map-wrapper';
+        elements.storeMapWrapperEl.className = 'pmt-hidden';
+        elements.storeMapWrapperEl.setAttribute('role', 'application');
+        elements.storeMapWrapperEl.setAttribute('aria-label', t('interactiveMap'));
+        addressMapContainer.appendChild(elements.storeMapWrapperEl);
+
+        elements.storeMapEl = document.createElement('div');
+        elements.storeMapEl.id = 'pmt-store-map';
+        elements.storeMapWrapperEl.appendChild(elements.storeMapEl);
 
         // --- Loading State ---
         elements.loadingStateEl = document.createElement('div');
