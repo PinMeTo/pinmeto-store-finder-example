@@ -15,7 +15,8 @@ html, body, #pmt-store-landing-page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-top: 32px;
 }
 
 #pmt-store-landing-page-container .pmt-container {
