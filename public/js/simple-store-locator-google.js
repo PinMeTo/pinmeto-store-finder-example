@@ -49,6 +49,9 @@
     let currentUserLat = FALLBACK_USER_LAT; // ADDED: Initialize with fallback
     let currentUserLon = FALLBACK_USER_LON; // ADDED: Initialize with fallback
 
+    // Add at the top, after let error = null;
+    let geolocationAllowed = false;
+
     // --- DOM Element References ---
     let rootElement = null;
     let searchInputElement = null;
@@ -548,8 +551,9 @@
             if (store.zip) { addressCityString += (addressCityString ? `, ${store.zip}` : store.zip); }
             if (!addressCityString) { addressCityString = t('fallbackAddress');}
 
+            // In renderStoreList, only show distanceHtml if geolocationAllowed is true
             let distanceHtml = '';
-            if (store.distance != null) { 
+            if (geolocationAllowed && store.distance != null) { 
                 distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; 
             }
 
@@ -827,8 +831,9 @@
                     if (store.zip) { addressCityString += (addressCityString ? `, ${store.zip}` : store.zip); }
                     if (!addressCityString) { addressCityString = t('fallbackAddress');}
 
+                    // In handleMapSelection, only show distanceHtml if geolocationAllowed is true
                     let distanceHtml = '';
-                    if (store.distance != null) { 
+                    if (geolocationAllowed && store.distance != null) { 
                         distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; 
                     }
 
@@ -1041,8 +1046,12 @@
                 const storeIdentifier = s.storeId || `pmt-gen-${i}`; 
 
                 let distanceKm = null;
-                if (latitude != null && longitude != null && currentLat != null && currentLon != null) {
-                    distanceKm = calculateDistance(currentLat, currentLon, latitude, longitude);
+                if (geolocationAllowed) {
+                    if (latitude != null && longitude != null && currentLat != null && currentLon != null) {
+                        distanceKm = calculateDistance(currentLat, currentLon, latitude, longitude);
+                    }
+                } else {
+                    distanceKm = null; // Explicitly ensure no distance is set if geolocation is not allowed
                 }
                 return {
                     id: storeIdentifier,
@@ -1098,9 +1107,11 @@
                 currentUserLon = coords.longitude; // MODIFIED: Assign to IIFE-scoped variable
                 locationStatusMessageKey = 'distanceFromUser';
                 console.log(`PMT Store Locator: ${t(locationStatusMessageKey)}`);
+                geolocationAllowed = true;
             } catch (geoError) {
                 console.warn(`PMT Store Locator: Geolocation failed - ${geoError.message}. Using fallback: ${t(locationStatusMessageKey)}`);
                 // currentUserLat and currentUserLon retain their fallback values
+                geolocationAllowed = false;
             }
 
             const urlParams = new URLSearchParams(window.location.search);
