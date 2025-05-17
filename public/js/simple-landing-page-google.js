@@ -1107,16 +1107,27 @@
             .pmt-review-network { margin-left: 0.5em; display: flex; align-items: center; }
             .pmt-review-rating { margin: 0.2em 0 0.2em 0; min-height: 1.6em; display: flex; align-items: center; }
             .pmt-verified-badge { color: #3399FF; margin-left: 0.5em; font-size: 1.1em; vertical-align: middle; }
-            .pmt-review-text { font-size: 1.08em; margin-bottom: 0.5em; flex: 1 1 auto; overflow: auto; }
-            .pmt-review-response { background: #f0f7ff; border-left: 3px solid #3399FF; padding: 0.5em 1em; border-radius: 5px; font-size: 0.98em; color: #225; }
+            .pmt-review-text { font-size: 1.08em; margin-bottom: 0.5em; flex: 1 1 auto; overflow: auto; min-height: 0; }
+            .pmt-review-response { background: #f0f7ff; border-left: 3px solid #3399FF; padding: 0.5em 1em; border-radius: 12px; font-size: 0.98em; color: #225; margin-top: 0.7em; box-shadow: none; position: static; z-index: auto; flex: 0 0 auto; }
             @media (max-width: 1020px) {
               #pmt-review-widget { width: 100vw; max-width: 100vw; height: 260px; }
               .pmt-review-content { width: 100vw; max-width: 100vw; height: 100%; }
             }
             @media (max-width: 899px) {
-              #pmt-review-widget { width: 100vw; max-width: 100vw; height: 220px; }
-              .pmt-review-content { flex-direction: column; gap: 0.7em; min-height: 0; max-height: 100%; width: 100vw; max-width: 100vw; height: 100%; }
-              .pmt-review-card { max-width: 100%; min-width: 0; width: 100%; height: 100%; }
+              #pmt-review-widget, .pmt-review-content, .pmt-review-card {
+                display: block !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                height: auto !important;
+                min-height: unset !important;
+                max-height: unset !important;
+              }
+              .pmt-review-top, .pmt-review-text, .pmt-review-response {
+                display: block !important;
+                width: 100% !important;
+                flex: none !important;
+                overflow: visible !important;
+              }
             }
           `;
           widget.appendChild(style);
