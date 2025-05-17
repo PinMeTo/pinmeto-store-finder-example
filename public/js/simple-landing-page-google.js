@@ -1014,6 +1014,77 @@
             "date": "2025-01-05",
             "isVerified": false,
             "response": null
+          },
+          {
+            "reviewId": "review_004",
+            "reviewer": {
+              "name": "Sarah Johnson",
+              "profileUrl": "https://maps.google.com/maps/contrib/223344556677889900112/reviews"
+            },
+            "network": "google",
+            "rating": 4,
+            "reviewText": "Great service and friendly staff. The location is convenient and the facilities are clean. Would definitely visit again!",
+            "date": "2024-11-28",
+            "isVerified": true,
+            "response": {
+              "responseText": "Thank you for your feedback, Sarah! We're happy to hear you enjoyed your visit.",
+              "responseDate": "2024-11-29"
+            }
+          },
+          {
+            "reviewId": "review_005",
+            "reviewer": {
+              "name": "Michael Chen",
+              "profileUrl": "https://maps.google.com/maps/contrib/334455667788990011223/reviews"
+            },
+            "network": "google",
+            "rating": 5,
+            "reviewText": "Outstanding experience! The team went above and beyond to help me. Very professional and knowledgeable staff.",
+            "date": "2024-10-15",
+            "isVerified": true,
+            "response": null
+          },
+          {
+            "reviewId": "review_006",
+            "reviewer": {
+              "name": "Emma Wilson",
+              "profileUrl": "https://maps.google.com/maps/contrib/445566778899001122334/reviews"
+            },
+            "network": "trustpilote",
+            "rating": 2,
+            "reviewText": "Disappointed with the service. Had to wait longer than expected and the staff seemed disorganized.",
+            "date": "2024-09-03",
+            "isVerified": true,
+            "response": {
+              "responseText": "We apologize for your experience, Emma. We're working on improving our service efficiency.",
+              "responseDate": "2024-09-04"
+            }
+          },
+          {
+            "reviewId": "review_007",
+            "reviewer": {
+              "name": "David Brown",
+              "profileUrl": "https://maps.google.com/maps/contrib/556677889900112233445/reviews"
+            },
+            "network": "google",
+            "rating": 5,
+            "reviewText": "Excellent service! The staff was very attentive and professional. The facilities are modern and well-maintained.",
+            "date": "2024-08-20",
+            "isVerified": true,
+            "response": null
+          },
+          {
+            "reviewId": "review_008",
+            "reviewer": {
+              "name": "Lisa Martinez",
+              "profileUrl": "https://maps.google.com/maps/contrib/667788990011223344556/reviews"
+            },
+            "network": "trustpilote",
+            "rating": 4,
+            "reviewText": "Very good experience overall. The staff was friendly and helpful. Would recommend to others.",
+            "date": "2024-07-25",
+            "isVerified": false,
+            "response": null
           }
         ];
 
