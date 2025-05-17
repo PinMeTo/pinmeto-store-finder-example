@@ -990,6 +990,184 @@
             </a>
         `;
         container.appendChild(poweredByFooter);
+
+        // --- Review Widget Spinner ---
+        // Add this after the initializeApp function, before the closing IIFE
+        const REVIEWS_DATA = [
+          {
+            "reviewId": "review_001",
+            "reviewer": {
+              "name": "Anna Olszewska",
+              "profileUrl": "https://maps.google.com/maps/contrib/123456789012345678901/reviews"
+            },
+            "network":"google",
+            "rating": 5,
+            "reviewText": "I recommend",
+            "date": "2024-12-17",
+            "isVerified": true,
+            "response": null
+          },
+          {
+            "reviewId": "review_002",
+            "reviewer": {
+              "name": "Olivia Mrocyka",
+              "profileUrl": "https://maps.google.com/maps/contrib/098765432109876543210/reviews"
+            },
+            "network":"google",
+            "rating": 5,
+            "reviewText": "I highly recommend this place. Full professionalism, commitment and approach to the patient 10/10. I...",
+            "date": "2024-07-12",
+            "isVerified": true,
+            "response": {
+              "responseText": "Thank you for your kind words, Olivia! We're glad you had a great experience.",
+              "responseDate": "2024-07-13"
+            }
+          },
+          {
+            "reviewId": "review_003",
+            "reviewer": {
+              "name": "John Doe",
+              "profileUrl": "https://maps.google.com/maps/contrib/112233445566778899001/reviews"
+            },
+            "network":"trustpilote",
+            "rating": 3,
+            "reviewText": "It was an okay experience. The service was a bit slow.",
+            "date": "2025-01-05",
+            "isVerified": false,
+            "response": null
+          }
+        ];
+
+        function getNetworkIcon(network) {
+          if (network === 'google') {
+            return `<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34A21.991 21.991 0 0 0 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path><path fill="none" d="M2 2h44v44H2z"></path></svg>`;
+          } else if (network === 'trustpilote') {
+            return `<svg width="20" height="20" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#00b67a"/><polygon points="16,6 19.09,13.26 27,14.27 21,19.14 22.18,27.02 16,23.77 9.82,27.02 11,19.14 5,14.27 12.91,13.26" fill="#fff"/></svg>`;
+          }
+          return '';
+        }
+
+        function renderStars(rating) {
+          let stars = '';
+          for (let i = 1; i <= 5; i++) {
+            stars += `<span style="color:${i <= rating ? '#FFC107' : '#E0E0E0'};font-size:1.2em;">&#9733;</span>`;
+          }
+          return stars;
+        }
+
+        function renderReview(review) {
+          return `
+            <div class="pmt-review-card">
+              <div class="pmt-review-header">
+                <a href="${review.reviewer.profileUrl}" target="_blank" rel="noopener" class="pmt-reviewer-name">${review.reviewer.name}</a>
+                <span class="pmt-review-date">${formatDate(review.date)}</span>
+                <span class="pmt-review-network">${getNetworkIcon(review.network)}</span>
+              </div>
+              <div class="pmt-review-rating">
+                ${renderStars(review.rating)}
+                ${review.isVerified ? '<span class="pmt-verified-badge" title="Verified">&#10004;</span>' : ''}
+              </div>
+              <div class="pmt-review-text">${review.reviewText}</div>
+              ${review.response ? `<div class="pmt-review-response"><strong>Response:</strong> ${review.response.responseText}</div>` : ''}
+            </div>
+          `;
+        }
+
+        function createReviewWidget() {
+          const widget = document.createElement('div');
+          widget.id = 'pmt-review-widget';
+          widget.innerHTML = `
+            <div class="pmt-review-spinner">
+              <button class="pmt-review-arrow pmt-review-arrow-left" aria-label="Previous review">&#8592;</button>
+              <div class="pmt-review-content"></div>
+              <button class="pmt-review-arrow pmt-review-arrow-right" aria-label="Next review">&#8594;</button>
+            </div>
+          `;
+          // Inline minimal CSS for now
+          const style = document.createElement('style');
+          style.textContent = `
+            #pmt-review-widget { max-width: 880px; width: 100%; margin: 2em auto 1em auto; padding: 1em; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); box-sizing: border-box; }
+            .pmt-review-spinner { display: flex; align-items: center; justify-content: center; gap: 1em; }
+            .pmt-review-arrow { background: #f3f3f3; border: none; border-radius: 50%; width: 2.5em; height: 2.5em; font-size: 1.5em; cursor: pointer; transition: background 0.2s; }
+            .pmt-review-arrow:hover { background: #e0e0e0; }
+            .pmt-review-content { flex: 1; min-width: 0; display: flex; gap: 1.5em; justify-content: center; align-items: stretch; min-height: 220px; max-height: 340px; width: 100%; max-width: 800px; box-sizing: border-box; }
+            .pmt-review-card { flex: 1 1 0; min-width: 0; width: 260px; max-width: 260px; padding: 1em; border-radius: 8px; background: #fafbfc; box-shadow: 0 1px 4px rgba(0,0,0,0.04); margin: 0; display: flex; flex-direction: column; min-height: 220px; max-height: 340px; overflow: hidden; box-sizing: border-box; }
+            .pmt-review-header { display: flex; align-items: center; gap: 0.7em; margin-bottom: 0.5em; }
+            .pmt-reviewer-name { font-weight: bold; color: #222; text-decoration: none; }
+            .pmt-review-date { color: #888; font-size: 0.95em; }
+            .pmt-review-network { margin-left: auto; }
+            .pmt-review-rating { margin-bottom: 0.5em; }
+            .pmt-verified-badge { color: #3399FF; margin-left: 0.5em; font-size: 1.1em; vertical-align: middle; }
+            .pmt-review-text { font-size: 1.08em; margin-bottom: 0.5em; flex: 1 1 auto; }
+            .pmt-review-response { background: #f0f7ff; border-left: 3px solid #3399FF; padding: 0.5em 1em; border-radius: 5px; font-size: 0.98em; color: #225; }
+            @media (max-width: 1020px) {
+              #pmt-review-widget { width: 100vw; max-width: 100vw; }
+              .pmt-review-content { width: 100vw; max-width: 100vw; }
+            }
+            @media (max-width: 899px) {
+              .pmt-review-content { flex-direction: column; gap: 0.7em; min-height: 180px; max-height: 340px; width: 100vw; max-width: 100vw; }
+              .pmt-review-card { max-width: 100%; min-width: 0; width: 100%; min-height: 180px; max-height: 340px; }
+              #pmt-review-widget { width: 100vw; max-width: 100vw; }
+            }
+          `;
+          widget.appendChild(style);
+          return widget;
+        }
+
+        function mountReviewWidget() {
+          if (!domElements || !domElements.storeDetailsEl) return;
+          const widget = createReviewWidget();
+          domElements.storeDetailsEl.appendChild(widget);
+          const content = widget.querySelector('.pmt-review-content');
+          const leftBtn = widget.querySelector('.pmt-review-arrow-left');
+          const rightBtn = widget.querySelector('.pmt-review-arrow-right');
+          let idx = 0;
+
+          function getReviewsPerPage() {
+            if (window.innerWidth >= 1200) return 3;
+            if (window.innerWidth >= 900) return 2;
+            return 1;
+          }
+
+          function show(idxToShow) {
+            const perPage = getReviewsPerPage();
+            idx = (idxToShow + REVIEWS_DATA.length) % REVIEWS_DATA.length;
+            let html = '';
+            for (let i = 0; i < perPage; i++) {
+              const reviewIdx = (idx + i) % REVIEWS_DATA.length;
+              html += renderReview(REVIEWS_DATA[reviewIdx]);
+            }
+            content.innerHTML = html;
+          }
+
+          leftBtn.addEventListener('click', () => {
+            const perPage = getReviewsPerPage();
+            show(idx - perPage);
+          });
+          rightBtn.addEventListener('click', () => {
+            const perPage = getReviewsPerPage();
+            show(idx + perPage);
+          });
+          show(0);
+          // Optional: auto-advance every 8s
+          let autoAdvance = setInterval(() => {
+            const perPage = getReviewsPerPage();
+            show(idx + perPage);
+          }, 8000);
+          widget.addEventListener('mouseenter', () => clearInterval(autoAdvance));
+          widget.addEventListener('mouseleave', () => {
+            autoAdvance = setInterval(() => {
+              const perPage = getReviewsPerPage();
+              show(idx + perPage);
+            }, 8000);
+          });
+          // Responsive: update on resize
+          window.addEventListener('resize', () => show(idx));
+        }
+
+        // At the end of initializeApp, after adding the footer:
+        // ... existing code ...
+        mountReviewWidget();
     }
 
     const link = document.createElement('link');
