@@ -49,6 +49,10 @@
     "mapDisplayError": "Kunde inte visa kartan.",
     "displayingInfo": "Visar information för {storeName}",
     "loadingMap": "Laddar...",
+    "errorLoadingGoogleMaps": "Fel vid laddning av Google Maps.",
+    "mapView": "Kartvy",
+    "interactiveMap": "Interaktiv karta",
+    "notSpecified": "Ej angivet",
     "viewFullHours": "Visa hela veckans öppettider",
     "weekdays": {
         "sunday": "Söndag",

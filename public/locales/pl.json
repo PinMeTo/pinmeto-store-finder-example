@@ -49,6 +49,10 @@
     "mapDisplayError": "Nie można wyświetlić mapy.",
     "displayingInfo": "Wyświetlanie informacji o {storeName}",
     "loadingMap": "Ładowanie...",
+    "errorLoadingGoogleMaps": "Błąd podczas ładowania Google Maps.",
+    "mapView": "Widok mapy",
+    "interactiveMap": "Mapa interaktywna",
+    "notSpecified": "Nie określono",
     "viewFullHours": "Zobacz godziny otwarcia na cały tydzień",
     "weekdays": {
         "sunday": "Niedziela",

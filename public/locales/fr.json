@@ -58,5 +58,9 @@
         "thursday": "Jeudi",
         "friday": "Vendredi",
         "saturday": "Samedi"
-    }
+    },
+    "errorLoadingGoogleMaps": "Erreur lors du chargement de Google Maps.",
+    "mapView": "Vue carte",
+    "interactiveMap": "Carte interactive",
+    "notSpecified": "Non spécifié"
 }
