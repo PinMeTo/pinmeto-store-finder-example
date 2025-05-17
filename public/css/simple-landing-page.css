@@ -73,7 +73,8 @@ html, body, #pmt-store-landing-page-container {
 }
 #pmt-store-landing-page-container section > p,
 #pmt-store-landing-page-container section > ul,
-#pmt-store-landing-page-container section > div:not(.pmt-address-map-container):not(.pmt-concepts-container) {
+#pmt-store-landing-page-container section > address,
+#pmt-store-landing-page-container section > div:not(.pmt-store-map, .pmt-address-map-container) {
     margin-left: 18px;
     color: #4b5563;
 }
@@ -175,6 +176,7 @@ html, body, #pmt-store-landing-page-container {
     height: 100%;
     border-radius: 16px;
     background: #eee;
+    margin: 0;
 }
   
 /* --- Concepts Layout --- */

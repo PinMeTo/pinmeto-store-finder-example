@@ -278,10 +278,6 @@
         elements.photoAlbumSectionEl.className = 'pmt-photo-album-section';
         elements.photoAlbumSectionEl.setAttribute('aria-label', 'Photo Album');
 
-        const photoAlbumHeading = document.createElement('h2');
-        photoAlbumHeading.textContent = 'Photo Album';
-        elements.photoAlbumSectionEl.appendChild(photoAlbumHeading);
-
         const photoAlbumGallery = document.createElement('figure');
         photoAlbumGallery.className = 'pmt-photo-album-gallery';
         // Add 4 dummy images from Unsplash
