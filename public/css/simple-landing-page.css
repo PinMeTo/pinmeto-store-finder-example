@@ -489,13 +489,13 @@ html, body, #pmt-store-landing-page-container {
     border: none;
     box-shadow: none;
     padding: 0;
-    margin: 0 0 18px 0;
+    margin: 0 0 0 0;
 }
 #pmt-store-details section:last-child {
     margin-bottom: 0;
 }
 #pmt-store-landing-page-container h2 {
-    margin: 18px 0 10px 0;
+    margin: 0px 0 10px 0;
     font-size: 1.08em;
 }
 
