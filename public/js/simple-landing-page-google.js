@@ -1147,7 +1147,7 @@
             .pmt-review-arrow { background: #f3f3f3; border: none; border-radius: 50%; width: 2.5em; height: 2.5em; font-size: 1.5em; cursor: pointer; transition: background 0.2s; }
             .pmt-review-arrow:hover { background: #e0e0e0; }
             .pmt-review-content { flex: 1; min-width: 0; display: flex; gap: 1.5em; justify-content: center; align-items: stretch; height: 100%; width: 100%; max-width: 800px; box-sizing: border-box; }
-            .pmt-review-card { flex: 1 1 0; min-width: 0; width: 260px; max-width: 260px; padding: 1em; border-radius: 8px; background: #fafbfc; box-shadow: 0 1px 4px rgba(0,0,0,0.04); margin: 0; display: flex; flex-direction: column; height: 100%; overflow: hidden; box-sizing: border-box; }
+            .pmt-review-card { flex: 1 1 0; min-width: 0; width: 260px; padding: 1em; border-radius: 8px; background: #fafbfc; box-shadow: 0 1px 4px rgba(0,0,0,0.04); margin: 0; display: flex; flex-direction: column; height: 100%; overflow: hidden; box-sizing: border-box; }
             .pmt-review-top { display: flex; flex-direction: column; gap: 0.2em; margin-bottom: 0.7em; }
             .pmt-review-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.7em; margin-bottom: 0; }
             .pmt-review-header-left { display: flex; flex-direction: column; align-items: flex-start; }
