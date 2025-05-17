@@ -1222,6 +1222,9 @@
           const leftBtn = widget.querySelector('.pmt-review-arrow-left');
           const rightBtn = widget.querySelector('.pmt-review-arrow-right');
           let idx = 0;
+          let touchStartX = 0;
+          let touchEndX = 0;
+          const SWIPE_THRESHOLD = 50; // Minimum distance for a swipe
 
           function getReviewsPerPage() {
             if (window.innerWidth >= 1200) return 3;
@@ -1239,6 +1242,35 @@
             }
             content.innerHTML = html;
           }
+
+          // Touch event handlers
+          function handleTouchStart(e) {
+            touchStartX = e.touches[0].clientX;
+          }
+
+          function handleTouchMove(e) {
+            touchEndX = e.touches[0].clientX;
+          }
+
+          function handleTouchEnd() {
+            const swipeDistance = touchEndX - touchStartX;
+            const perPage = getReviewsPerPage();
+
+            if (Math.abs(swipeDistance) > SWIPE_THRESHOLD) {
+              if (swipeDistance > 0) {
+                // Swipe right - show previous
+                show(idx - perPage);
+              } else {
+                // Swipe left - show next
+                show(idx + perPage);
+              }
+            }
+          }
+
+          // Add touch event listeners
+          content.addEventListener('touchstart', handleTouchStart, { passive: true });
+          content.addEventListener('touchmove', handleTouchMove, { passive: true });
+          content.addEventListener('touchend', handleTouchEnd);
 
           leftBtn.addEventListener('click', () => {
             const perPage = getReviewsPerPage();
