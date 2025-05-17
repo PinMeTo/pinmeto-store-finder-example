@@ -149,7 +149,7 @@
         elements.storeAddressContainerEl.setAttribute('aria-label', t('addressAndLocation'));
 
         const addressH2 = document.createElement('h2');
-        addressH2.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true"></i> Address';
+        addressH2.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true"></i> ' + t('addressAndLocation');
         elements.storeAddressContainerEl.appendChild(addressH2);
 
         elements.storeAddressEl = document.createElement('address');
@@ -177,7 +177,7 @@
         elements.phoneSectionEl.setAttribute('aria-label', t('phone'));
 
         const phoneH2 = document.createElement('h2');
-        phoneH2.innerHTML = '<i class="fa-solid fa-phone" aria-hidden="true"></i> Phone';
+        phoneH2.innerHTML = '<i class="fa-solid fa-phone" aria-hidden="true"></i> ' + t('phone');
         elements.phoneSectionEl.appendChild(phoneH2);
 
         elements.storePhoneEl = document.createElement('p');
@@ -188,7 +188,7 @@
         openingHoursSection.setAttribute('aria-label', t('openingHours'));
 
         const openingHoursH2 = document.createElement('h2');
-        openingHoursH2.innerHTML = '<i class="fa-regular fa-clock" aria-hidden="true"></i> Opening Hours';
+        openingHoursH2.innerHTML = '<i class="fa-regular fa-clock" aria-hidden="true"></i> ' + t('openingHours');
         openingHoursSection.appendChild(openingHoursH2);
 
         elements.storeOpeningHoursEl = document.createElement('ul');
@@ -200,7 +200,7 @@
         elements.exceptionsSectionEl.setAttribute('aria-label', t('specialOpeningHours'));
 
         const exceptionsH2 = document.createElement('h2');
-        exceptionsH2.innerHTML = '<i class="fa-regular fa-calendar-check" aria-hidden="true"></i> Special Opening Hours';
+        exceptionsH2.innerHTML = '<i class="fa-regular fa-calendar-check" aria-hidden="true"></i> ' + t('specialOpeningHours');
         elements.exceptionsSectionEl.appendChild(exceptionsH2);
 
         elements.storeExceptionsEl = document.createElement('ul');
@@ -214,7 +214,7 @@
 
         const conceptsH2 = document.createElement('h2');
         conceptsH2.id = 'pmt-concepts-heading';
-        conceptsH2.textContent = 'Concepts';
+        conceptsH2.textContent = t('concepts');
         elements.conceptsSectionEl.appendChild(conceptsH2);
 
         elements.storeConceptsEl = document.createElement('ul');
@@ -228,7 +228,7 @@
         elements.socialMediaSectionEl.setAttribute('aria-label', 'Social Media');
 
         const socialMediaH2 = document.createElement('h2');
-        socialMediaH2.innerHTML = '<i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Social Media';
+        socialMediaH2.innerHTML = '<i class="fa-solid fa-share-nodes" aria-hidden="true"></i> ' + t('socialMedia');
         elements.socialMediaSectionEl.appendChild(socialMediaH2);
 
         elements.socialMediaLinksEl = document.createElement('nav');
