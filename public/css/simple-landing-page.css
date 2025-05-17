@@ -536,6 +536,8 @@ html, body, #pmt-store-landing-page-container {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     width: 100%;
+    margin: 1em 0 0 0;
+    padding: 0;
 }
 .pmt-photo-album-img {
     width: 100%;
@@ -543,6 +545,8 @@ html, body, #pmt-store-landing-page-container {
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 1px 4px rgba(60,64,67,0.10);
+    margin: 0;
+    padding: 0;
 }
 
 .pmt-powered-by {
