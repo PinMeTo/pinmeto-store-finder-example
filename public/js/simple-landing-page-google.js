@@ -142,17 +142,24 @@
         addressMapSection.appendChild(addressMapContainer);
 
         // --- Create all info elements first ---
-        elements.storeAddressContainerEl = document.createElement('div');
+        elements.storeAddressContainerEl = document.createElement('section');
         elements.storeAddressContainerEl.id = 'pmt-store-address-container';
         elements.storeAddressContainerEl.setAttribute('role', 'region');
         elements.storeAddressContainerEl.setAttribute('aria-label', t('addressAndLocation'));
 
-        elements.storeAddressEl = document.createElement('p');
+        const addressH2 = document.createElement('h2');
+        addressH2.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true"></i> Address';
+        addressH2.setAttribute('role', 'heading');
+        addressH2.setAttribute('aria-level', '2');
+        elements.storeAddressContainerEl.appendChild(addressH2);
+
+        elements.storeAddressEl = document.createElement('div');
         elements.storeAddressEl.id = 'pmt-store-address';
+        elements.storeAddressEl.className = 'pmt-address-lines';
         elements.storeAddressEl.setAttribute('role', 'text');
         elements.storeAddressContainerEl.appendChild(elements.storeAddressEl);
 
-        elements.directionsParagraphEl = document.createElement('p');
+        elements.directionsParagraphEl = document.createElement('div');
         elements.directionsParagraphEl.id = 'pmt-directions-paragraph';
         elements.directionsParagraphEl.className = 'pmt-hidden';
         elements.storeAddressContainerEl.appendChild(elements.directionsParagraphEl);
@@ -254,13 +261,6 @@
         const infoCard = document.createElement('div');
         infoCard.className = 'pmt-info-card';
         addressMapContainer.appendChild(infoCard);
-
-        // Add Address & Location header at the top of the card
-        const addressHeader = document.createElement('h2');
-        addressHeader.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true"></i> Address & Location';
-        addressHeader.setAttribute('role', 'heading');
-        addressHeader.setAttribute('aria-level', '2');
-        infoCard.appendChild(addressHeader);
 
         // Append all info elements
         infoCard.appendChild(elements.storeAddressContainerEl);
@@ -699,10 +699,18 @@
         if (storeAddressEl) {
             let addressParts = [];
             if (store.address?.street) addressParts.push(store.address.street);
-            if (store.address?.city) addressParts.push(store.address.city);
-            if (store.address?.postalCode) addressParts.push(store.address.postalCode);
+            if (store.address?.city) {
+                let cityLine = store.address.city;
+                if (store.address?.zip) {
+                    cityLine += `, ${store.address.zip}`;
+                }
+                addressParts.push(cityLine);
+            } else if (store.address?.zip) {
+                addressParts.push(store.address.zip);
+            }
             if (store.address?.country) addressParts.push(store.address.country);
-            storeAddressEl.textContent = addressParts.length > 0 ? addressParts.join(', ') : t('fallbackAddress');
+            storeAddressEl.innerHTML = addressParts.length > 0 ? addressParts.join('<br>') : t('fallbackAddress');
+            console.log('Address parts:', addressParts);
         }
 
         const lat = parseFloat(store.location?.lat);
