@@ -1084,9 +1084,9 @@
           widget.id = 'pmt-review-widget';
           widget.innerHTML = `
             <div class="pmt-review-spinner">
-              <button class="pmt-review-arrow pmt-review-arrow-left" aria-label="Previous review">&#8592;</button>
+              <button class="pmt-review-arrow pmt-review-arrow-left" aria-label="Previous review">&lt;</button>
               <div class="pmt-review-content"></div>
-              <button class="pmt-review-arrow pmt-review-arrow-right" aria-label="Next review">&#8594;</button>
+              <button class="pmt-review-arrow pmt-review-arrow-right" aria-label="Next review">&gt;</button>
             </div>
           `;
           // Inline minimal CSS for now
@@ -1114,19 +1114,99 @@
               .pmt-review-content { width: 100vw; max-width: 100vw; height: 100%; }
             }
             @media (max-width: 899px) {
-              #pmt-review-widget, .pmt-review-content, .pmt-review-card {
-                display: block !important;
-                width: 100% !important;
-                box-sizing: border-box !important;
-                height: auto !important;
-                min-height: unset !important;
-                max-height: unset !important;
+              #pmt-review-widget { 
+                width: 100vw; 
+                max-width: 100vw; 
+                height: auto; 
+                min-height: 280px;
+                padding: 0.4em;
+                margin: 1em auto;
+                border-radius: 8px;
+                position: relative;
               }
-              .pmt-review-top, .pmt-review-text, .pmt-review-response {
-                display: block !important;
-                width: 100% !important;
-                flex: none !important;
-                overflow: visible !important;
+              .pmt-review-spinner {
+                gap: 0.2em;
+                padding: 0 0.3em;
+                position: relative;
+                min-height: 280px;
+                display: flex;
+                align-items: center;
+              }
+              .pmt-review-arrow {
+                width: 1.8em;
+                height: 1.8em;
+                font-size: 1.1em;
+                border-radius: 3px;
+                background: #f0f0f0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                min-width: 1.8em;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 2;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                margin: 0;
+              }
+              .pmt-review-arrow-left {
+                left: 0.3em;
+              }
+              .pmt-review-arrow-right {
+                right: 0.3em;
+              }
+              .pmt-review-content { 
+                width: 100%; 
+                max-width: 100%; 
+                height: auto;
+                gap: 0;
+                padding: 0 2.2em;
+                position: relative;
+                z-index: 1;
+              }
+              .pmt-review-card {
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                min-height: unset;
+                padding: 0.7em;
+                margin: 0;
+                border-radius: 6px;
+                background: #fafbfc;
+                position: relative;
+              }
+              .pmt-review-top { 
+                margin-bottom: 0.5em;
+                gap: 0.1em;
+              }
+              .pmt-review-header {
+                gap: 0.4em;
+              }
+              .pmt-reviewer-name {
+                font-size: 0.95em;
+              }
+              .pmt-review-date {
+                font-size: 0.85em;
+              }
+              .pmt-review-rating {
+                margin: 0.1em 0;
+                min-height: 1.4em;
+              }
+              .pmt-review-text {
+                font-size: 0.95em;
+                margin-bottom: 0.3em;
+                line-height: 1.4;
+              }
+              .pmt-review-response {
+                font-size: 0.9em;
+                margin-top: 0.4em;
+                padding: 0.3em 0.7em;
+                border-radius: 6px;
+              }
+              .pmt-verified-badge {
+                font-size: 1em;
+                margin-left: 0.3em;
               }
             }
           `;
