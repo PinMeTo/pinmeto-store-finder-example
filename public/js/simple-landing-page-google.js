@@ -1277,9 +1277,7 @@
           const SWIPE_THRESHOLD = 50; // Minimum distance for a swipe
 
           function getReviewsPerPage() {
-            if (window.innerWidth >= 1200) return 3;
-            if (window.innerWidth >= 900) return 2;
-            return 1;
+            return 2;
           }
 
           function show(idxToShow) {
