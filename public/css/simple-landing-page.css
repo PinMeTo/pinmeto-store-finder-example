@@ -6,27 +6,28 @@ html, body, #pmt-store-landing-page-container {
     padding: 0;
     box-sizing: border-box;
     background: #f4f6fa;
+    overflow-x: hidden;
 }
 
 #pmt-store-landing-page-container {
     min-height: 100vh;
-    width: 100vw;
+    width: 100%;
     background: #f4f6fa;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 32px;
+    padding-top: 16px;
 }
 
 #pmt-store-landing-page-container .pmt-container {
     max-width: 600px;
     width: 100%;
-    margin: 48px auto;
+    margin: 24px auto;
     background: #fff;
-    padding: 40px 32px 32px 32px;
-    border-radius: 18px;
-    box-shadow: 0 8px 32px 0 rgba(60,64,67,0.12), 0 1.5px 4px 0 rgba(60,64,67,0.08);
+    padding: 24px 16px 16px 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px 0 rgba(60,64,67,0.08), 0 1px 2px 0 rgba(60,64,67,0.04);
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -34,9 +35,9 @@ html, body, #pmt-store-landing-page-container {
 }
 
 #pmt-store-landing-page-container h1 {
-    font-size: 2.3em;
+    font-size: 1.8em;
     font-weight: 800;
-    margin: 0 0 36px 0;
+    margin: 0 0 24px 0;
     color: #22223b;
     text-align: center;
     letter-spacing: 0.01em;
@@ -105,6 +106,8 @@ html, body, #pmt-store-landing-page-container {
     gap: 40px;
     margin-left: 0;
     margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 #pmt-store-landing-page-container #pmt-store-address-container {
     flex: 1;
@@ -241,20 +244,144 @@ html, body, #pmt-store-landing-page-container {
     color: #1e40af;
 }
 
+/* Mobile Layout */
 @media (max-width: 900px) {
+    #pmt-store-landing-page-container .pmt-container {
+        margin: 16px auto;
+        padding: 20px 12px 12px 12px;
+        border-radius: 10px;
+    }
+
+    #pmt-store-landing-page-container h1 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    #pmt-store-landing-page-container h2 {
+        font-size: 1em;
+        margin: 24px 0 12px 0;
+    }
+
+    #pmt-store-landing-page-container section {
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+    }
+
+    #pmt-store-landing-page-container section > p,
+    #pmt-store-landing-page-container section > ul,
+    #pmt-store-landing-page-container section > div:not(.pmt-address-map-container):not(.pmt-concepts-container) {
+        margin-left: 12px;
+    }
+
+    #pmt-store-landing-page-container li {
+        margin-bottom: 4px;
+        font-size: 0.95em;
+    }
+
     #pmt-store-landing-page-container .pmt-address-map-container {
         flex-direction: column;
-        gap: 18px;
+        gap: 16px;
+        width: 100%;
     }
+
     #pmt-store-map-wrapper {
         width: 100%;
-        min-width: 180px;
-        height: 220px;
+        height: 200px;
         margin: 0 auto;
-        border-radius: 12px;
+        border-radius: 8px;
     }
+
     #pmt-store-map {
-        border-radius: 12px;
+        border-radius: 8px;
+    }
+
+    .pmt-info-card,
+    .pmt-map-album-column {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+    .pmt-info-card {
+        padding: 16px 8px 10px 8px;
+        border-radius: 10px;
+    }
+
+    .pmt-social-links {
+        gap: 0.4rem;
+        margin-left: 12px;
+    }
+
+    .pmt-social-link {
+        width: 1.8rem;
+        height: 1.8rem;
+    }
+
+    .pmt-social-link i {
+        font-size: 1rem;
+    }
+}
+
+/* Small Mobile Layout (iPhone SE and similar) */
+@media (max-width: 375px) {
+    #pmt-store-landing-page-container .pmt-container {
+        margin: 12px auto;
+        padding: 16px 10px 10px 10px;
+        border-radius: 8px;
+    }
+
+    #pmt-store-landing-page-container h1 {
+        font-size: 1.3em;
+        margin-bottom: 16px;
+    }
+
+    #pmt-store-landing-page-container h2 {
+        font-size: 0.95em;
+        margin: 20px 0 10px 0;
+    }
+
+    #pmt-store-landing-page-container section {
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+    }
+
+    #pmt-store-landing-page-container section > p,
+    #pmt-store-landing-page-container section > ul,
+    #pmt-store-landing-page-container section > div:not(.pmt-address-map-container):not(.pmt-concepts-container) {
+        margin-left: 10px;
+    }
+
+    #pmt-store-landing-page-container li {
+        margin-bottom: 3px;
+        font-size: 0.9em;
+    }
+
+    #pmt-store-map-wrapper {
+        height: 180px;
+    }
+
+    .pmt-info-card,
+    .pmt-map-album-column {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+    .pmt-info-card {
+        padding: 10px 2px 6px 2px;
+        border-radius: 8px;
+    }
+
+    .pmt-social-links {
+        gap: 0.3rem;
+        margin-left: 10px;
+    }
+
+    .pmt-social-link {
+        width: 1.6rem;
+        height: 1.6rem;
+    }
+
+    .pmt-social-link i {
+        font-size: 0.9rem;
     }
 }
 
@@ -349,6 +476,7 @@ html, body, #pmt-store-landing-page-container {
     flex-direction: column;
     gap: 18px;
     flex-shrink: 0;
+    box-sizing: border-box;
 }
 #pmt-store-details {
     background: none;
@@ -377,6 +505,7 @@ html, body, #pmt-store-landing-page-container {
     flex-direction: column;
     align-items: flex-start;
     width: 420px;
+    max-width: 100%;
 }
 .pmt-photo-album-section {
     width: 100%;

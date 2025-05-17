@@ -957,7 +957,6 @@
             document.body.prepend(errorDiv);
             return;
         }
-        container.classList.add('pmt-container');
         domElements = createInitialDOMStructure(container);
 
         try {
