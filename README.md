@@ -29,9 +29,10 @@ A lightweight, easy-to-integrate solution for adding store locator and landing p
 
 ## Requirements
 
-- **Font Awesome:** Required for icons
 - **Google Maps:** Requires a valid API key
 - **PinMeTo Account:** For store data access
+
+> Note: All icons are included as inline SVGs - no external icon libraries required.
 
 ## Quick Start
 

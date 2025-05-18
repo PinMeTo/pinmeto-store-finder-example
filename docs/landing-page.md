@@ -26,7 +26,6 @@
 
 <!-- Required Scripts -->
 <script src="/js/simple-landing-page-google.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 ```
 
 **Minimal Working Example:**
@@ -34,8 +33,9 @@
 <!-- Just the container and required scripts -->
 <div id="pmt-store-landing-page-container"></div>
 <script src="/js/simple-landing-page-google.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 ```
+
+> Note: All icons are included as inline SVGs - no external icon libraries required.
 
 **Example with Path Parameter Configuration:**
 ```html
