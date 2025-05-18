@@ -21,11 +21,11 @@
     const DEFAULT_STORE_CODE = '1337';
 
     // Default image URL
-    const PMT_LANDING_PAGE_DEFAULT_IMAGE_URL = getConfigFromDataAttr(rootEl, 'data-default-image-url', 'https://yourdomain.com/images/store-default.jpg');
+    const PMT_LANDING_PAGE_DEFAULT_IMAGE_URL = getConfigFromDataAttr(rootEl, 'data-default-image-url', window.location.origin +'/images/store-default.jpg');
     // Store locator URL
-    const PMT_STORE_LOCATOR_URL = getConfigFromDataAttr(rootEl, 'data-store-locator-url', 'https://yourdomain.com/store-locator');
+    const PMT_STORE_LOCATOR_URL = getConfigFromDataAttr(rootEl, 'data-store-locator-url', window.location.origin +'/store-locator');
     // Home URL
-    const PMT_HOME_URL = getConfigFromDataAttr(rootEl, 'data-home-url', 'https://yourdomain.com/');
+    const PMT_HOME_URL = getConfigFromDataAttr(rootEl, 'data-home-url', window.location.origin + '/');
 
     // Add to config section:
     const LOCALES_PATH = getConfigFromDataAttr(rootEl, 'data-locales-path', 'locales/');
