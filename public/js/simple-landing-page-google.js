@@ -171,7 +171,7 @@
         elements.storeDirectionsLinkEl.href = '#';
         elements.storeDirectionsLinkEl.target = '_blank';
         elements.storeDirectionsLinkEl.rel = 'noopener noreferrer';
-        elements.storeDirectionsLinkEl.innerHTML = '<i class="fa-solid fa-location-arrow" aria-hidden="true"></i> Get Directions';
+        elements.storeDirectionsLinkEl.innerHTML = '<i class="fa-solid fa-location-arrow" aria-hidden="true"></i> ' + t('getDirections');
         elements.directionsParagraphEl.appendChild(elements.storeDirectionsLinkEl);
 
         elements.phoneSectionEl = document.createElement('section');
