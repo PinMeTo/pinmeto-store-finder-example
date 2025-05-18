@@ -1123,14 +1123,13 @@
             try {
                 console.log('PMT Store Locator: Requesting user location...');
                 const coords = await getUserLocation();
-                currentUserLat = coords.latitude; // MODIFIED: Assign to IIFE-scoped variable
-                currentUserLon = coords.longitude; // MODIFIED: Assign to IIFE-scoped variable
+                currentUserLat = coords.latitude;
+                currentUserLon = coords.longitude;
                 locationStatusMessageKey = 'distanceFromUser';
                 console.log(`PMT Store Locator: ${t(locationStatusMessageKey)}`);
                 geolocationAllowed = true;
             } catch (geoError) {
                 console.warn(`PMT Store Locator: Geolocation failed - ${geoError.message}. Using fallback: ${t(locationStatusMessageKey)}`);
-                // currentUserLat and currentUserLon retain their fallback values
                 geolocationAllowed = false;
             }
 
@@ -1144,39 +1143,49 @@
             loadCSS(CSS_PATH);
             await loadGoogleMapsSDK(); 
             
-            initializeMap(); // initializeMap will now use the IIFE-scoped currentUserLat/Lon
+            // Initialize map first
+            initializeMap();
 
-            // Pass the determined (or fallback) user location to fetchAndProcessStores
+            // Then fetch and process stores
             await fetchAndProcessStores(currentUserLat, currentUserLon); 
 
-            let applyInitialSelection = false;
+            // After stores are loaded, check if we need to apply initial selection
             if (selectedStoreId) { 
                 const storeExists = allStores.some(store => store.id === selectedStoreId);
                 if (storeExists) {
                     console.log(`PMT Store Locator: Initial store code ${selectedStoreId} is valid.`);
-                    applyInitialSelection = true;
                     if (!searchTerm && !filteredStores.some(s => s.id === selectedStoreId)) {
                          filterStores(); 
                     }
+                    // Wait for map to be ready before applying selection
+                    const checkMapReady = setInterval(() => {
+                        if (mapInstance && Object.keys(mapMarkers).length > 0) {
+                            clearInterval(checkMapReady);
+                            console.log(`PMT Store Locator: Applying initial map selection for ${selectedStoreId}`);
+                            handleSelection(selectedStoreId);
+                        }
+                    }, 100);
+                    // Set a timeout to prevent infinite checking
+                    setTimeout(() => clearInterval(checkMapReady), 5000);
                 } else {
                     console.warn(`PMT Store Locator: Initial store code ${selectedStoreId} not found in fetched data.`);
-                    selectedStoreId = null; initialStoreIdFromUrl = null; updateUrlWithSelection(); 
+                    selectedStoreId = null; 
+                    initialStoreIdFromUrl = null; 
+                    updateUrlWithSelection(); 
                 }
             }
             
             renderStoreList(); 
             updateMapMarkers(); 
             
-            if (applyInitialSelection) {
-                console.log(`PMT Store Locator: Applying initial map selection for ${selectedStoreId}`);
-                handleSelection(selectedStoreId); 
-            } else if (filteredStores.length > 0 && mapInstance && Object.keys(mapMarkers).length > 0) {
-                 const bounds = new google.maps.LatLngBounds();
-                 filteredStores.forEach(store => {
+            // If no initial selection, fit bounds to show all markers
+            if (!selectedStoreId && filteredStores.length > 0 && mapInstance && Object.keys(mapMarkers).length > 0) {
+                const bounds = new google.maps.LatLngBounds();
+                filteredStores.forEach(store => {
                     const marker = mapMarkers[store.id];
                     if(marker && marker.position) bounds.extend(marker.position); 
-                 });
-                 if(!bounds.isEmpty()) mapInstance.fitBounds(bounds, 50); 
+                });
+                if(!bounds.isEmpty()) mapInstance.fitBounds(bounds, 50); 
             } else if (mapInstance) { 
                 mapInstance.setCenter({ lat: currentUserLat, lng: currentUserLon });
                 mapInstance.setZoom(5);
