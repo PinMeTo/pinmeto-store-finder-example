@@ -152,7 +152,7 @@
         elements.storeAddressContainerEl.setAttribute('aria-label', t('addressAndLocation'));
 
         const addressH2 = document.createElement('h2');
-        addressH2.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true"></i> ' + t('addressAndLocation');
+        addressH2.innerHTML = ICONS.location + ' ' + t('addressAndLocation');
         elements.storeAddressContainerEl.appendChild(addressH2);
 
         elements.storeAddressEl = document.createElement('address');
@@ -171,7 +171,7 @@
         elements.storeDirectionsLinkEl.href = '#';
         elements.storeDirectionsLinkEl.target = '_blank';
         elements.storeDirectionsLinkEl.rel = 'noopener noreferrer';
-        elements.storeDirectionsLinkEl.innerHTML = '<i class="fa-solid fa-location-arrow" aria-hidden="true"></i> ' + t('getDirections');
+        elements.storeDirectionsLinkEl.innerHTML = ICONS.locationArrow + ' ' + t('getDirections');
         elements.directionsParagraphEl.appendChild(elements.storeDirectionsLinkEl);
 
         elements.phoneSectionEl = document.createElement('section');
@@ -180,7 +180,7 @@
         elements.phoneSectionEl.setAttribute('aria-label', t('phone'));
 
         const phoneH2 = document.createElement('h2');
-        phoneH2.innerHTML = '<i class="fa-solid fa-phone" aria-hidden="true"></i> ' + t('phone');
+        phoneH2.innerHTML = ICONS.phone + ' ' + t('phone');
         elements.phoneSectionEl.appendChild(phoneH2);
 
         elements.storePhoneEl = document.createElement('p');
@@ -191,7 +191,7 @@
         openingHoursSection.setAttribute('aria-label', t('openingHours'));
 
         const openingHoursH2 = document.createElement('h2');
-        openingHoursH2.innerHTML = '<i class="fa-regular fa-clock" aria-hidden="true"></i> ' + t('openingHours');
+        openingHoursH2.innerHTML = ICONS.clock + ' ' + t('openingHours');
         openingHoursSection.appendChild(openingHoursH2);
 
         elements.storeOpeningHoursEl = document.createElement('ul');
@@ -203,7 +203,7 @@
         elements.exceptionsSectionEl.setAttribute('aria-label', t('specialOpeningHours'));
 
         const exceptionsH2 = document.createElement('h2');
-        exceptionsH2.innerHTML = '<i class="fa-regular fa-calendar-check" aria-hidden="true"></i> ' + t('specialOpeningHours');
+        exceptionsH2.innerHTML = ICONS.calendar + ' ' + t('specialOpeningHours');
         elements.exceptionsSectionEl.appendChild(exceptionsH2);
 
         elements.storeExceptionsEl = document.createElement('ul');
@@ -231,7 +231,7 @@
         elements.socialMediaSectionEl.setAttribute('aria-label', 'Social Media');
 
         const socialMediaH2 = document.createElement('h2');
-        socialMediaH2.innerHTML = '<i class="fa-solid fa-share-nodes" aria-hidden="true"></i> ' + t('socialMedia');
+        socialMediaH2.innerHTML = ICONS.share + ' ' + t('socialMedia');
         elements.socialMediaSectionEl.appendChild(socialMediaH2);
 
         elements.socialMediaLinksEl = document.createElement('nav');
@@ -641,7 +641,7 @@
 
         for (const [platform, data] of Object.entries(network)) {
             if (data && data.link) {
-                const icon = icons[platform]?.svg || '<i class="fas fa-link"></i>';
+                const icon = icons[platform]?.svg || ICONS.link;
                 links.push(`<a href="${data.link}" target="_blank" rel="noopener noreferrer" class="pmt-social-link" aria-label="${platform}">${icon}</a>`);
             }
         }
@@ -1413,5 +1413,16 @@
             return urlParams.get('storeId');
         }
     }
+
+    // Add this near the top of the file, after the configuration section
+    const ICONS = {
+        location: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`,
+        locationArrow: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>`,
+        phone: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>`,
+        clock: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`,
+        calendar: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`,
+        share: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>`,
+        link: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`
+    };
 
 })();
