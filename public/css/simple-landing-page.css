@@ -1,5 +1,11 @@
-/* --- Basic Styling --- */
-/* Core layout and container styles for the entire page */
+/* ==========================================================================
+   PinMeTo Store Landing Page Styles
+   ========================================================================== */
+
+/* ==========================================================================
+   1. Base Layout & Container Styles
+   ========================================================================== */
+/* Core layout styles for the entire page */
 html, body, #pmt-store-landing-page-container {
     height: 100%;
     width: 100%;
@@ -22,7 +28,10 @@ html, body, #pmt-store-landing-page-container {
     padding-top: 16px;
 }
 
-/* Content container with card-like appearance */
+/* ==========================================================================
+   2. Content Container & Typography
+   ========================================================================== */
+/* Card-like container for main content */
 #pmt-store-landing-page-container .pmt-container {
     max-width: 600px;
     width: 100%;
@@ -37,6 +46,7 @@ html, body, #pmt-store-landing-page-container {
     border: 1px solid #e5e7eb;
 }
 
+/* Main heading styles */
 #pmt-store-landing-page-container h1 {
     font-size: 1.8em;
     font-weight: 800;
@@ -46,6 +56,7 @@ html, body, #pmt-store-landing-page-container {
     letter-spacing: 0.01em;
 }
 
+/* Section heading styles with decorative bar */
 #pmt-store-landing-page-container h2 {
     font-size: 1.1em;
     font-weight: 700;
@@ -56,6 +67,8 @@ html, body, #pmt-store-landing-page-container {
     gap: 0.5em;
     position: relative;
 }
+
+/* Decorative bar before section headings */
 #pmt-store-landing-page-container h2::before {
     content: '';
     display: inline-block;
@@ -66,14 +79,22 @@ html, body, #pmt-store-landing-page-container {
     margin-right: 12px;
 }
 
+/* ==========================================================================
+   3. Section Layout & Content
+   ========================================================================== */
+/* Section container styles */
 #pmt-store-landing-page-container section {
     margin-bottom: 24px;
     padding-bottom: 12px;
     border-bottom: 1px solid #ececec;
 }
+
+/* Remove border from last section */
 #pmt-store-landing-page-container section:last-child {
     border-bottom: none;
 }
+
+/* Section content spacing and colors */
 #pmt-store-landing-page-container section > p,
 #pmt-store-landing-page-container section > ul,
 #pmt-store-landing-page-container section > address,
@@ -81,29 +102,39 @@ html, body, #pmt-store-landing-page-container {
     margin-left: 18px;
     color: #4b5563;
 }
+
+/* List styles */
 #pmt-store-landing-page-container ul {
     list-style: none;
     padding-left: 0;
     margin-top: 5px;
 }
+
 #pmt-store-landing-page-container li {
     margin-bottom: 6px;
     font-size: 1em;
 }
+
+/* Special list item styles */
 #pmt-store-landing-page-container li.pmt-no-exceptions-message {
     font-style: italic;
     color: #6b7280;
 }
+
+/* Label styles for list items */
 #pmt-store-landing-page-container li span.pmt-label {
     font-weight: 500;
     display: inline-block;
 }
+
 #pmt-store-landing-page-container li span.pmt-day-name-label {
     width: 90px;
 }
-  
-/* --- Address & Map Layout --- */
-/* Container for address and map side by side layout */
+
+/* ==========================================================================
+   4. Address & Map Layout
+   ========================================================================== */
+/* Container for address and map side-by-side layout */
 #pmt-store-landing-page-container .pmt-address-map-container {
     display: flex;
     flex-direction: row;
@@ -115,7 +146,7 @@ html, body, #pmt-store-landing-page-container {
     box-sizing: border-box;
 }
 
-/* Address section styling */
+/* Address section container */
 #pmt-store-landing-page-container #pmt-store-address-container {
     flex: 1;
     min-width: 200px;
@@ -125,31 +156,39 @@ html, body, #pmt-store-landing-page-container {
     box-shadow: none;
     padding: 0;
 }
+
+/* Address heading styles */
 #pmt-store-landing-page-container #pmt-store-address-container h2 {
     margin: 0 0 10px 0;
     font-size: 1.08em;
 }
+
+/* Address text styles */
 #pmt-store-landing-page-container #pmt-store-address {
     color: #4b5563;
     margin-bottom: 10px;
     font-size: 1.05em;
 }
 
-/* Address lines styling */
+/* Address line formatting */
 .pmt-address-lines {
     line-height: 1.4;
     font-size: 0.95em;
     color: #444;
     margin: 0 0;
 }
+
 .pmt-address-lines br {
     margin: 0.2em 0;
 }
 
+/* Directions link styles */
 #pmt-store-landing-page-container #pmt-directions-paragraph {
     margin-top: 10px;
     font-size: 1em;
 }
+
+/* Directions button styles */
 #pmt-store-landing-page-container #pmt-directions-paragraph a {
     color: #fff;
     background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
@@ -163,9 +202,13 @@ html, body, #pmt-store-landing-page-container {
     box-shadow: 0 2px 8px rgba(60,64,67,0.08);
     transition: background 0.18s;
 }
+
+/* Directions button hover state */
 #pmt-store-landing-page-container #pmt-directions-paragraph a:hover {
     background: linear-gradient(90deg, #1d4ed8 60%, #2563eb 100%);
 }
+
+/* Map container styles */
 #pmt-store-landing-page-container #pmt-store-map-wrapper {
     flex-basis: 420px;
     flex-shrink: 0;
@@ -177,6 +220,8 @@ html, body, #pmt-store-landing-page-container {
     border: 1px solid #e5e7eb;
     margin-left: 0;
 }
+
+/* Map element styles */
 #pmt-store-landing-page-container #pmt-store-map {
     width: 100%;
     height: 100%;
@@ -184,14 +229,19 @@ html, body, #pmt-store-landing-page-container {
     background: #eee;
     margin: 0;
 }
-  
-/* --- Concepts Layout --- */
+
+/* ==========================================================================
+   5. Concepts & Tags
+   ========================================================================== */
+/* Concepts container layout */
 #pmt-store-landing-page-container .pmt-concepts-container {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-left: 18px;
 }
+
+/* Concept badge styles */
 #pmt-store-landing-page-container .pmt-concept-badge {
     display: inline-block;
     background-color: #e0f2fe;
@@ -201,8 +251,11 @@ html, body, #pmt-store-landing-page-container {
     padding: 4px 12px;
     border-radius: 12px;
 }
-  
-/* --- Phone Link Styling --- */
+
+/* ==========================================================================
+   6. Phone & Contact
+   ========================================================================== */
+/* Phone link styles */
 #pmt-store-landing-page-container #pmt-store-phone a {
     color: #2563eb;
     text-decoration: none;
@@ -210,23 +263,34 @@ html, body, #pmt-store-landing-page-container {
     font-weight: 500;
     font-size: 1.05em;
 }
+
+/* Phone link hover state */
 #pmt-store-landing-page-container #pmt-store-phone a:hover,
 #pmt-store-landing-page-container #pmt-store-phone a:focus {
     text-decoration: underline;
 }
-  
+
+/* ==========================================================================
+   7. Utility Classes & States
+   ========================================================================== */
+/* Hide elements */
 #pmt-store-landing-page-container .pmt-hidden {
     display: none;
 }
+
+/* Loading state styles */
 #pmt-store-landing-page-container #pmt-loading-state,
 #pmt-store-landing-page-container #pmt-error-state {
     text-align: center;
     padding: 40px 0;
 }
+
 #pmt-store-landing-page-container #pmt-loading-state p {
     margin-left: 0;
     color: #6b7280;
 }
+
+/* Error state styles */
 #pmt-store-landing-page-container #pmt-error-state {
     background-color: #fef2f2;
     border: 1px solid #fecaca;
@@ -234,19 +298,24 @@ html, body, #pmt-store-landing-page-container {
     padding: 20px;
     margin-top: 20px;
 }
+
 #pmt-store-landing-page-container #pmt-error-message {
     color: #b91c1c;
     font-weight: 500;
     margin-left: 0;
 }
+
 #pmt-store-landing-page-container #pmt-error-state p:last-child {
     color: #dc2626;
     font-size: 0.9em;
     margin-top: 8px;
     margin-left: 0;
 }
-  
-/* --- Message Box Styling --- */
+
+/* ==========================================================================
+   8. Message Box
+   ========================================================================== */
+/* Message box container */
 #pmt-store-landing-page-container #pmt-message-box {
     display: none;
     position: fixed;
@@ -259,28 +328,35 @@ html, body, #pmt-store-landing-page-container {
     z-index: 1000;
     font-family: 'Inter', sans-serif;
 }
+
+/* Message box variants */
 #pmt-store-landing-page-container #pmt-message-box.pmt-success {
     background-color: #d1fae5;
     color: #065f46;
 }
+
 #pmt-store-landing-page-container #pmt-message-box.pmt-error {
     background-color: #fee2e2;
     color: #991b1b;
 }
+
 #pmt-store-landing-page-container #pmt-message-box.pmt-info {
     background-color: #dbeafe;
     color: #1e40af;
 }
 
-/* Mobile Layout */
-/* Styles for tablets and smaller devices (max-width: 900px) */
+/* ==========================================================================
+   9. Responsive Layout - Tablets & Smaller Devices
+   ========================================================================== */
 @media (max-width: 900px) {
+    /* Container adjustments */
     #pmt-store-landing-page-container .pmt-container {
         margin: 16px auto;
         padding: 20px 12px 12px 12px;
         border-radius: 10px;
     }
 
+    /* Typography adjustments */
     #pmt-store-landing-page-container h1 {
         font-size: 1.5em;
         margin-bottom: 20px;
@@ -291,28 +367,33 @@ html, body, #pmt-store-landing-page-container {
         margin: 24px 0 12px 0;
     }
 
+    /* Section spacing adjustments */
     #pmt-store-landing-page-container section {
         margin-bottom: 20px;
         padding-bottom: 10px;
     }
 
+    /* Content spacing adjustments */
     #pmt-store-landing-page-container section > p,
     #pmt-store-landing-page-container section > ul,
     #pmt-store-landing-page-container section > div:not(.pmt-address-map-container):not(.pmt-concepts-container) {
         margin-left: 12px;
     }
 
+    /* List item adjustments */
     #pmt-store-landing-page-container li {
         margin-bottom: 4px;
         font-size: 0.95em;
     }
 
+    /* Address and map layout adjustments */
     #pmt-store-landing-page-container .pmt-address-map-container {
         flex-direction: column;
         gap: 16px;
         width: 100%;
     }
 
+    /* Map size adjustments */
     #pmt-store-map-wrapper {
         width: 100%;
         height: 200px;
@@ -324,17 +405,20 @@ html, body, #pmt-store-landing-page-container {
         border-radius: 8px;
     }
 
+    /* Card layout adjustments */
     .pmt-info-card,
     .pmt-map-album-column {
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box;
     }
+
     .pmt-info-card {
         padding: 16px 8px 10px 8px;
         border-radius: 10px;
     }
 
+    /* Social links adjustments */
     .pmt-social-links {
         gap: 0.4rem;
         margin-left: 12px;
@@ -350,15 +434,18 @@ html, body, #pmt-store-landing-page-container {
     }
 }
 
-/* Small Mobile Layout (iPhone SE and similar) */
-/* Styles for small mobile devices like iPhone SE (max-width: 375px) */
+/* ==========================================================================
+   10. Responsive Layout - Small Mobile Devices
+   ========================================================================== */
 @media (max-width: 375px) {
+    /* Container adjustments */
     #pmt-store-landing-page-container .pmt-container {
         margin: 12px auto;
         padding: 16px 10px 10px 10px;
         border-radius: 8px;
     }
 
+    /* Typography adjustments */
     #pmt-store-landing-page-container h1 {
         font-size: 1.3em;
         margin-bottom: 16px;
@@ -369,37 +456,44 @@ html, body, #pmt-store-landing-page-container {
         margin: 20px 0 10px 0;
     }
 
+    /* Section spacing adjustments */
     #pmt-store-landing-page-container section {
         margin-bottom: 16px;
         padding-bottom: 8px;
     }
 
+    /* Content spacing adjustments */
     #pmt-store-landing-page-container section > p,
     #pmt-store-landing-page-container section > ul,
     #pmt-store-landing-page-container section > div:not(.pmt-address-map-container):not(.pmt-concepts-container) {
         margin-left: 10px;
     }
 
+    /* List item adjustments */
     #pmt-store-landing-page-container li {
         margin-bottom: 3px;
         font-size: 0.9em;
     }
 
+    /* Map size adjustments */
     #pmt-store-map-wrapper {
         height: 180px;
     }
 
+    /* Card layout adjustments */
     .pmt-info-card,
     .pmt-map-album-column {
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box;
     }
+
     .pmt-info-card {
         padding: 10px 2px 6px 2px;
         border-radius: 8px;
     }
 
+    /* Social links adjustments */
     .pmt-social-links {
         gap: 0.3rem;
         margin-left: 10px;
@@ -415,8 +509,10 @@ html, body, #pmt-store-landing-page-container {
     }
 }
 
-/* Social Media Section - Improved */
-/* Styling for social media links and icons */
+/* ==========================================================================
+   11. Social Media Section
+   ========================================================================== */
+/* Social media section container */
 #pmt-social-media-section {
     margin-top: 1.5rem;
     padding: 0 0 1.5rem 0;
@@ -425,9 +521,13 @@ html, body, #pmt-store-landing-page-container {
     box-shadow: none;
     border-bottom: 1px solid #ececec;
 }
+
+/* Remove border from last section */
 #pmt-social-media-section:last-child {
     border-bottom: none;
 }
+
+/* Social media heading styles */
 #pmt-social-media-section h2 {
     margin-bottom: 0.5rem;
     color: #22223b;
@@ -439,11 +539,15 @@ html, body, #pmt-store-landing-page-container {
     background: none;
     padding: 0;
 }
+
+/* Social media icon styles */
 #pmt-social-media-section h2 .fa-share-nodes {
     font-size: 1em;
     color: #2563eb;
     margin-right: 0.4em;
 }
+
+/* Social links container */
 .pmt-social-links {
     display: flex;
     gap: 0.5rem;
@@ -451,6 +555,8 @@ html, body, #pmt-store-landing-page-container {
     margin-left: 18px;
     margin-top: 0.2rem;
 }
+
+/* Individual social link styles */
 .pmt-social-link {
     display: inline-flex;
     align-items: center;
@@ -465,6 +571,8 @@ html, body, #pmt-store-landing-page-container {
     transition: background 0.18s, border 0.18s, color 0.18s, transform 0.18s;
     box-shadow: none;
 }
+
+/* Social link hover state */
 .pmt-social-link:hover,
 .pmt-social-link:focus {
     background: #e0e7ef;
@@ -472,19 +580,25 @@ html, body, #pmt-store-landing-page-container {
     color: #174ea6;
     transform: scale(1.08);
 }
+
+/* Social link icon size */
 .pmt-social-link i {
     font-size: 1.1rem;
 }
+
+/* Dark mode styles for social media section */
 @media (prefers-color-scheme: dark) {
     #pmt-social-media-section {
         background: none;
         border-bottom: 1px solid #374151;
     }
+
     .pmt-social-link {
         background: #23293a;
         border: 1px solid #374151;
         color: #60a5fa;
     }
+
     .pmt-social-link:hover,
     .pmt-social-link:focus {
         background: #1e293b;
@@ -493,8 +607,10 @@ html, body, #pmt-store-landing-page-container {
     }
 }
 
-/* --- Store Info Card --- */
-/* Card component for displaying store information */
+/* ==========================================================================
+   12. Store Info Card
+   ========================================================================== */
+/* Store info card container */
 .pmt-info-card {
     background: #fff;
     border: 1px solid #e5e7eb;
@@ -510,12 +626,16 @@ html, body, #pmt-store-landing-page-container {
     flex-shrink: 0;
     box-sizing: border-box;
 }
+
+/* Store details section */
 #pmt-store-details {
     background: none;
     border: none;
     box-shadow: none;
     padding: 0;
 }
+
+/* Store details subsections */
 #pmt-store-details section {
     background: none;
     border: none;
@@ -523,16 +643,22 @@ html, body, #pmt-store-landing-page-container {
     padding: 0;
     margin: 0 0 0 0;
 }
+
+/* Remove margin from last section */
 #pmt-store-details section:last-child {
     margin-bottom: 0;
 }
+
+/* Store details heading */
 #pmt-store-landing-page-container h2 {
     margin: 0px 0 10px 0;
     font-size: 1.08em;
 }
 
-/* --- Photo Album Layout --- */
-/* Grid layout for store photos */
+/* ==========================================================================
+   13. Photo Album Layout
+   ========================================================================== */
+/* Photo album column container */
 .pmt-map-album-column {
     display: flex;
     flex-direction: column;
@@ -540,10 +666,14 @@ html, body, #pmt-store-landing-page-container {
     width: 420px;
     max-width: 100%;
 }
+
+/* Photo album section */
 .pmt-photo-album-section {
     width: 100%;
     margin-top: 18px;
 }
+
+/* Photo gallery grid */
 .pmt-photo-album-gallery {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -552,6 +682,8 @@ html, body, #pmt-store-landing-page-container {
     margin: 1em 0 0 0;
     padding: 0;
 }
+
+/* Individual photo styles */
 .pmt-photo-album-img {
     width: 100%;
     height: auto;
@@ -562,8 +694,10 @@ html, body, #pmt-store-landing-page-container {
     padding: 0;
 }
 
-/* --- Powered By Section --- */
-/* Footer section with PinMeTo branding */
+/* ==========================================================================
+   14. Powered By Section
+   ========================================================================== */
+/* Powered by container */
 .pmt-powered-by {
     display: flex;
     align-items: center;
@@ -573,11 +707,15 @@ html, body, #pmt-store-landing-page-container {
     padding: 0;
     gap: 0.4em;
 }
+
+/* Powered by text */
 .pmt-powered-by-text {
     font-size: 0.95em;
     color: #888;
     margin-right: 0.3em;
 }
+
+/* Powered by link */
 .pmt-powered-by-link {
     display: flex;
     align-items: center;
@@ -585,11 +723,15 @@ html, body, #pmt-store-landing-page-container {
     text-decoration: none;
     font-size: 1em;
 }
+
+/* Powered by logo */
 .pmt-powered-by-link svg {
     width: 18px;
     height: 30px;
     vertical-align: middle;
 }
+
+/* Powered by brand text */
 .pmt-powered-by-brand {
     font-weight: 600;
     color: #3399FF;
