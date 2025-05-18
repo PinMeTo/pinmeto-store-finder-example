@@ -126,7 +126,7 @@ You can set all major configuration options for the landing page via data attrib
 ```html
 <div
   id="pmt-store-landing-page-container"
-  data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json"
+  data-api-url="path to your public PinMeTo api endpoint"
   data-default-image-url="https://yourdomain.com/images/store-default.jpg"
   data-store-locator-url="https://yourdomain.com/store-locator"
   data-home-url="https://yourdomain.com/"

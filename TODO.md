@@ -57,6 +57,7 @@
   - [ ] Optimize for touch devices
   - [ ] Improve mobile layout
   - [ ] Add mobile-specific features
+- [ ] Remove the need of Font Awesome
 
 ## Future Considerations
 - [ ] Analytics
@@ -66,4 +67,3 @@
   - [x] Add support for multiple languages
   - [ ] Implement RTL support
   - [ ] Add locale-specific formatting
-  - [ ] Support multiple time zones 
