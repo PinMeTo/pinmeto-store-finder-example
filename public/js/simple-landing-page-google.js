@@ -86,7 +86,10 @@
                 mapLoadError: "Could not load map SDK.",
                 mapDisplayError: "Could not display map.",
                 displayingInfo: "Displaying information for {storeName}",
-                loadingMap: "Loading..."
+                loadingMap: "Loading...",
+                storeNotFound: "Store not found",
+                goToStoreLocator: "Go to Store Locator",
+                storeNotFoundMessage: "The store you're looking for could not be found. Would you like to browse all our stores?"
             };
         }
     }
@@ -903,7 +906,7 @@
                 // if we don't have follow-up actions dependent on its completion within this function.
                 displayStoreDetails(selectedStore, currentDomElements);
             } else {
-                const errorMsg = `Store with ID "${storeIdFromConfig}" not found.`;
+                const errorMsg = t('storeNotFound');
                 throw new Error(errorMsg);
             }
 
@@ -913,7 +916,20 @@
             if (loadingStateEl) loadingStateEl.classList.add('pmt-hidden');
             if (errorStateEl) {
                 errorStateEl.classList.remove('pmt-hidden');
-                if (errorMessageEl) errorMessageEl.textContent = error.message || t('errorFetching');
+                if (errorMessageEl) {
+                    errorMessageEl.innerHTML = `${t('storeNotFoundMessage')}<br><br>
+                        <a href="${PMT_STORE_LOCATOR_URL}" class="pmt-store-locator-link" style="
+                            display: inline-block;
+                            padding: 10px 20px;
+                            background-color: #3399FF;
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 6px;
+                            margin-top: 10px;
+                            font-weight: 500;
+                            transition: background-color 0.2s;
+                        ">${t('goToStoreLocator')}</a>`;
+                }
                 const errorDetailEl = errorStateEl.querySelector('p:last-child');
                 if (errorDetailEl) {
                     errorDetailEl.textContent = t('checkStoreCode');

@@ -63,5 +63,8 @@
     "errorLoadingGoogleMaps": "Erreur lors du chargement de Google Maps.",
     "mapView": "Vue carte",
     "interactiveMap": "Carte interactive",
-    "notSpecified": "Non spécifié"
+    "notSpecified": "Non spécifié",
+    "storeNotFound": "Magasin non trouvé",
+    "goToStoreLocator": "Aller au localisateur de magasins",
+    "storeNotFoundMessage": "Le magasin que vous recherchez n'a pas pu être trouvé. Souhaitez-vous parcourir tous nos magasins ?"
 }

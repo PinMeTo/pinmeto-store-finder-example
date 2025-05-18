@@ -12,7 +12,7 @@
     "errorHTTP": "Fel: Kunde inte nå butiksdatakällan (HTTP {status}).",
     "errorGenericFetch": "Fel vid hämtning av butiksdata.",
     "errorInitialization": "Fel: Butikssökaren kunde inte laddas. {message}",
-    "getDirections": "Hämta vägbeskrivning",
+    "getDirections": "Vägbeskrivning",
     "storeDetails": "Butiksdetaljer",
     "phoneLabel": "Telefon:",
     "hoursLabel": "Dagens öppettider:",
@@ -63,5 +63,8 @@
         "thursday": "Torsdag",
         "friday": "Fredag",
         "saturday": "Lördag"
-    }
+    },
+    "storeNotFound": "Butiken hittades inte",
+    "goToStoreLocator": "Gå till butikssökaren",
+    "storeNotFoundMessage": "Butiken du söker kunde inte hittas. Vill du bläddra bland alla våra butiker?"
 }

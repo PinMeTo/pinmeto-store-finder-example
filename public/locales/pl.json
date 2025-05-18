@@ -63,5 +63,8 @@
         "thursday": "Czwartek",
         "friday": "Piątek",
         "saturday": "Sobota"
-    }
+    },
+    "storeNotFound": "Nie znaleziono sklepu",
+    "goToStoreLocator": "Przejdź do wyszukiwarki sklepów",
+    "storeNotFoundMessage": "Nie znaleziono sklepu, którego szukasz. Czy chcesz przeglądać wszystkie nasze sklepy?"
 } 
