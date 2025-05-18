@@ -819,91 +819,98 @@
         const store = filteredStores.find(s => s.id === selectedStoreId);
         if (!store) return;
 
+        // Helper function for instant map movement
+        function moveMap(map, marker, isMobile = false) {
+            if (!map || !marker) return;
+
+            try {
+                // Close any open info windows
+                infoWindow.close();
+
+                // Move map instantly to target position and zoom level
+                map.panTo(marker.position);
+                map.setZoom(14);
+
+                // Show info window immediately
+                const addressParts = [];
+                const streetAddress = store.address;
+                if (streetAddress && streetAddress !== t('fallbackAddress') && streetAddress !== t('fallbackAddressMissing')) { 
+                    addressParts.push(streetAddress); 
+                }
+                if (store.city) { addressParts.push(store.city); }
+                let addressCityString = addressParts.join(', ');
+                if (store.zip) { addressCityString += (addressCityString ? `, ${store.zip}` : store.zip); }
+                if (!addressCityString) { addressCityString = t('fallbackAddress');}
+
+                let distanceHtml = '';
+                if (geolocationAllowed && store.distance != null) { 
+                    distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; 
+                }
+
+                let phoneHtml;
+                const rawPhone = store.phone;
+                if (rawPhone && rawPhone !== t('fallbackPhone')) {
+                    const cleanedPhone = cleanPhoneNumber(rawPhone);
+                    phoneHtml = `<a href="tel:${cleanedPhone}" class="pmt-sl-phone-link pmt-no-select" aria-label="${t('phoneLabel')} ${rawPhone}">${rawPhone}</a>`;
+                } else {
+                    phoneHtml = t('fallbackPhone');
+                }
+
+                const weekHours = formatFullWeekHours(store.openHours, store.specialOpenHours);
+                const weekHoursHtml = weekHours.map(({ day, hours, isSpecial }) => 
+                    `<li class="${isSpecial ? 'pmt-special-hours' : ''}"><span class="pmt-day-name">${day}:</span> ${hours}</li>`
+                ).join('');
+
+                const hoursHtml = store.hours && store.hours !== t('fallbackHours') 
+                    ? `<p><span>${t('hoursLabel')}</span> ${store.hours}</p>
+                       <div class="pmt-week-hours">
+                           <ul class="pmt-week-hours-list">
+                               ${weekHoursHtml}
+                           </ul>
+                       </div>`
+                    : `<p><span>${t('hoursLabel')}</span> ${store.hours || t('fallbackHours')}</p>`;
+
+                let socialLinksHtml = renderSocialLinks(store.network);
+
+                const content = `
+                    <div class="pmt-map-info-window">
+                        <div class="pmt-store-list-item-header">
+                            <h3>${store.name || t('fallbackStoreName')}</h3>
+                        </div>
+                        <div class="pmt-store-list-item-content">
+                            <p>${addressCityString}</p>
+                            ${distanceHtml}
+                            <p><span>${t('phoneLabel')}</span> ${phoneHtml}</p>
+                            ${hoursHtml}
+                            ${socialLinksHtml}
+                        </div>
+                    </div>
+                `;
+                
+                infoWindow.setHeaderDisabled(true);
+                infoWindow.setContent(content);
+                infoWindow.open({ anchor: marker, map: map });
+
+                // Clean up selection
+                const infoWindowEl = document.querySelector('.pmt-map-info-window');
+                if (infoWindowEl) {
+                    const phoneLink = infoWindowEl.querySelector('a.pmt-sl-phone-link');
+                    if (phoneLink) phoneLink.blur();
+                }
+                if (window.getSelection) {
+                    const sel = window.getSelection();
+                    if (sel && sel.removeAllRanges) sel.removeAllRanges();
+                }
+            } catch (e) {
+                console.error("PMT SL: Map Movement Error", e);
+            }
+        }
+
         // Handle desktop map
         if (mapInstance) {
             const marker = mapMarkers[selectedStoreId];
             if (marker) {
-                try {
-                    mapInstance.panTo(marker.position); 
-                    mapInstance.setZoom(14);
-                    infoWindow.close(); 
-                    
-                    const addressParts = [];
-                    const streetAddress = store.address;
-                    if (streetAddress && streetAddress !== t('fallbackAddress') && streetAddress !== t('fallbackAddressMissing')) { 
-                        addressParts.push(streetAddress); 
-                    }
-                    if (store.city) { addressParts.push(store.city); }
-                    let addressCityString = addressParts.join(', ');
-                    if (store.zip) { addressCityString += (addressCityString ? `, ${store.zip}` : store.zip); }
-                    if (!addressCityString) { addressCityString = t('fallbackAddress');}
-
-                    // In handleMapSelection, only show distanceHtml if geolocationAllowed is true
-                    let distanceHtml = '';
-                    if (geolocationAllowed && store.distance != null) { 
-                        distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; 
-                    }
-
-                    let phoneHtml;
-                    const rawPhone = store.phone;
-                    if (rawPhone && rawPhone !== t('fallbackPhone')) {
-                        const cleanedPhone = cleanPhoneNumber(rawPhone);
-                        phoneHtml = `<a href="tel:${cleanedPhone}" class="pmt-sl-phone-link pmt-no-select" aria-label="${t('phoneLabel')} ${rawPhone}">${rawPhone}</a>`;
-                    } else {
-                        phoneHtml = t('fallbackPhone');
-                    }
-
-                    // Create week hours list
-                    const weekHours = formatFullWeekHours(store.openHours, store.specialOpenHours);
-                    const weekHoursHtml = weekHours.map(({ day, hours, isSpecial }) => 
-                        `<li class="${isSpecial ? 'pmt-special-hours' : ''}"><span class="pmt-day-name">${day}:</span> ${hours}</li>`
-                    ).join('');
-
-                    const hoursHtml = store.hours && store.hours !== t('fallbackHours') 
-                        ? `<p><span>${t('hoursLabel')}</span> ${store.hours}</p>
-                           <div class="pmt-week-hours">
-                               <ul class="pmt-week-hours-list">
-                                   ${weekHoursHtml}
-                               </ul>
-                           </div>`
-                        : `<p><span>${t('hoursLabel')}</span> ${store.hours || t('fallbackHours')}</p>`;
-
-                    // Helper to render social links
-                    let socialLinksHtml = renderSocialLinks(store.network);
-
-                    const content = `
-                        <div class="pmt-map-info-window">
-                            <div class="pmt-store-list-item-header">
-                                <h3>${store.name || t('fallbackStoreName')}</h3>
-                            </div>
-                            <div class="pmt-store-list-item-content">
-                                <p>${addressCityString}</p>
-                                ${distanceHtml}
-                                <p><span>${t('phoneLabel')}</span> ${phoneHtml}</p>
-                                ${hoursHtml}
-                                ${socialLinksHtml}
-                            </div>
-                        </div>
-                    `;
-                    infoWindow.setHeaderDisabled(true);
-                    infoWindow.setContent(content);
-                    infoWindow.open({ anchor: marker, map: mapInstance });
-
-                    // After infoWindow.open({ anchor: marker, map: mapInstance }); in handleMapSelection, add:
-                    setTimeout(() => {
-                        const infoWindowEl = document.querySelector('.pmt-map-info-window');
-                        if (infoWindowEl) {
-                            const phoneLink = infoWindowEl.querySelector('a.pmt-sl-phone-link');
-                            if (phoneLink) phoneLink.blur();
-                        }
-                        if (window.getSelection) {
-                            const sel = window.getSelection();
-                            if (sel && sel.removeAllRanges) sel.removeAllRanges();
-                        }
-                    }, 100);
-                } catch (e) {
-                    console.error("PMT SL: Google Map PanTo/Zoom Err", e);
-                }
+                moveMap(mapInstance, marker);
             }
         }
 
@@ -911,20 +918,7 @@
         if (window.pmtMobileMapInstance) {
             const mobileMarker = mapMarkers[selectedStoreId];
             if (mobileMarker) {
-                try {
-                    window.pmtMobileMapInstance.panTo(mobileMarker.position);
-                    window.pmtMobileMapInstance.setZoom(14);
-                    infoWindow.close();
-
-                    // Reuse the same content for mobile map
-                    const content = infoWindow.getContent();
-                    if (content) {
-                        infoWindow.setContent(content);
-                        infoWindow.open({ anchor: mobileMarker, map: window.pmtMobileMapInstance });
-                    }
-                } catch (e) {
-                    console.error("PMT SL: Mobile Google Map PanTo/Zoom Err", e);
-                }
+                moveMap(window.pmtMobileMapInstance, mobileMarker, true);
             }
         }
     }
