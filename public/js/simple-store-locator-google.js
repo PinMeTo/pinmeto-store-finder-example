@@ -507,6 +507,13 @@
 
         const listFragment = document.createDocumentFragment();
         filteredStores.forEach(store => {
+            // Generate and inject structured data for each store
+            const schemaData = generateStructuredData(store);
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.text = JSON.stringify(schemaData);
+            document.head.appendChild(script);
+
             const isSelected = store.id === selectedStoreId;
             const itemDiv = document.createElement('div');
             itemDiv.id = `pmt-store-item-${store.id}`;
@@ -1225,6 +1232,82 @@
         }
         if (!links.length) return '';
         return `<div class="pmt-sl-social-links">${links.join('')}</div>`;
+    }
+
+    // Add Schema.org structured data generation
+    function generateStructuredData(store) {
+        const schemaData = {
+            "@context": "https://schema.org",
+            "@type": "Store",
+            "name": store.name || t('fallbackStoreName'),
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": store.address || t('fallbackAddress'),
+                "addressLocality": store.city || "",
+                "postalCode": store.zip || ""
+            }
+        };
+
+        // Add coordinates if available
+        if (store.lat != null && store.lng != null) {
+            schemaData.geo = {
+                "@type": "GeoCoordinates",
+                "latitude": store.lat,
+                "longitude": store.lng
+            };
+        }
+
+        // Add phone if available
+        if (store.phone && store.phone !== t('fallbackPhone')) {
+            schemaData.telephone = store.phone;
+        }
+
+        // Add opening hours if available
+        if (store.openHours) {
+            const openingHoursSpecification = [];
+            const dayMap = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+            dayMap.forEach((day, index) => {
+                const dayInfo = store.openHours[day];
+                if (dayInfo && dayInfo.state === 'Open' && dayInfo.span && dayInfo.span.length > 0) {
+                    dayInfo.span.forEach(span => {
+                        if (span.open && span.close) {
+                            const formatTime = (timeStr) => {
+                                const hours = timeStr.slice(0, 2);
+                                const minutes = timeStr.slice(2);
+                                return `${hours}:${minutes}`;
+                            };
+                            openingHoursSpecification.push({
+                                "@type": "OpeningHoursSpecification",
+                                "dayOfWeek": dayNames[index],
+                                "opens": formatTime(span.open),
+                                "closes": formatTime(span.close)
+                            });
+                        }
+                    });
+                }
+            });
+
+            if (openingHoursSpecification.length > 0) {
+                schemaData.openingHoursSpecification = openingHoursSpecification;
+            }
+        }
+
+        // Add social media links if available
+        if (store.network) {
+            const sameAs = [];
+            for (const key of Object.keys(store.network)) {
+                if (store.network[key] && store.network[key].link) {
+                    sameAs.push(store.network[key].link);
+                }
+            }
+            if (sameAs.length > 0) {
+                schemaData.sameAs = sameAs;
+            }
+        }
+
+        return schemaData;
     }
 
     if (document.readyState === 'loading') {
