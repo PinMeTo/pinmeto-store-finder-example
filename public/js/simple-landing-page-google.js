@@ -616,6 +616,17 @@
         });
     }
 
+    // Add sanitization function near the top with other helper functions
+    function sanitizeHTML(str) {
+        if (str == null) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
     // Add social media link formatting function
     function formatSocialMediaLinks(network) {
         if (!network) return '';
@@ -642,7 +653,7 @@
         for (const [platform, data] of Object.entries(network)) {
             if (data && data.link) {
                 const icon = icons[platform]?.svg || ICONS.link;
-                links.push(`<a href="${data.link}" target="_blank" rel="noopener noreferrer" class="pmt-social-link" aria-label="${platform}">${icon}</a>`);
+                links.push(`<a href="${sanitizeHTML(data.link)}" target="_blank" rel="noopener noreferrer" class="pmt-social-link" aria-label="${sanitizeHTML(platform)}">${icon}</a>`);
             }
         }
 
@@ -673,17 +684,17 @@
 
         if (storeAddressEl) {
             let addressParts = [];
-            if (store.address?.street) addressParts.push(store.address.street);
+            if (store.address?.street) addressParts.push(sanitizeHTML(store.address.street));
             if (store.address?.city) {
-                let cityLine = store.address.city;
+                let cityLine = sanitizeHTML(store.address.city);
                 if (store.address?.zip) {
-                    cityLine += `, ${store.address.zip}`;
+                    cityLine += `, ${sanitizeHTML(store.address.zip)}`;
                 }
                 addressParts.push(cityLine);
             } else if (store.address?.zip) {
-                addressParts.push(store.address.zip);
+                addressParts.push(sanitizeHTML(store.address.zip));
             }
-            if (store.address?.country) addressParts.push(store.address.country);
+            if (store.address?.country) addressParts.push(sanitizeHTML(store.address.country));
             storeAddressEl.innerHTML = addressParts.length > 0 ? addressParts.join('<br>') : t('fallbackAddress');
             console.log('Address parts:', addressParts);
         }
@@ -1124,23 +1135,23 @@
         function renderReview(review) {
           return `
             <div class="pmt-review-card">
-              <div class="pmt-review-top">
-                <div class="pmt-review-header">
-                  <div class="pmt-review-header-left">
-                    <a href="${review.reviewer.profileUrl}" target="_blank" rel="noopener" class="pmt-reviewer-name">${review.reviewer.name}</a>
-                    <div class="pmt-review-date-row">
-                      <span class="pmt-review-date">${formatDate(review.date)}</span>
+                <div class="pmt-review-top">
+                    <div class="pmt-review-header">
+                        <div class="pmt-review-header-left">
+                            <a href="${sanitizeHTML(review.reviewer.profileUrl)}" target="_blank" rel="noopener" class="pmt-reviewer-name">${sanitizeHTML(review.reviewer.name)}</a>
+                            <div class="pmt-review-date-row">
+                                <span class="pmt-review-date">${sanitizeHTML(formatDate(review.date))}</span>
+                            </div>
+                        </div>
+                        <span class="pmt-review-network">${getNetworkIcon(review.network)}</span>
                     </div>
-                  </div>
-                  <span class="pmt-review-network">${getNetworkIcon(review.network)}</span>
+                    <div class="pmt-review-rating">
+                        ${renderStars(review.rating)}
+                        ${review.isVerified ? '<span class="pmt-verified-badge" title="Verified">&#10004;</span>' : ''}
+                    </div>
                 </div>
-                <div class="pmt-review-rating">
-                  ${renderStars(review.rating)}
-                  ${review.isVerified ? '<span class="pmt-verified-badge" title="Verified">&#10004;</span>' : ''}
-                </div>
-              </div>
-              <div class="pmt-review-text">${review.reviewText}</div>
-              ${review.response ? `<div class="pmt-review-response"><strong>Response:</strong> ${review.response.responseText}</div>` : ''}
+                <div class="pmt-review-text">${sanitizeHTML(review.reviewText)}</div>
+                ${review.response ? `<div class="pmt-review-response"><strong>Response:</strong> ${sanitizeHTML(review.response.responseText)}</div>` : ''}
             </div>
           `;
         }
