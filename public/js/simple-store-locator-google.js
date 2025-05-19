@@ -249,10 +249,21 @@
     }
     
     // --- Helper Functions ---
+    // Add HTML sanitization function
+    function sanitizeHTML(str) {
+        if (str == null) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
     // MODIFIED formatAddress for PinMeTo structure
     function formatAddress(addr) {
         if (!addr || !addr.street) return t('fallbackAddress');
-        return addr.street.trim() || t('fallbackAddressMissing');
+        return sanitizeHTML(addr.street.trim()) || t('fallbackAddressMissing');
     }
 
     // MODIFIED formatOpeningHours for PinMeTo structure 
@@ -516,11 +527,11 @@
 
             const isSelected = store.id === selectedStoreId;
             const itemDiv = document.createElement('div');
-            itemDiv.id = `pmt-store-item-${store.id}`;
+            itemDiv.id = `pmt-store-item-${sanitizeHTML(store.id)}`;
             itemDiv.className = `pmt-store-list-item ${isSelected ? 'selected' : ''}`;
             itemDiv.setAttribute('role', 'listitem');
             itemDiv.setAttribute('aria-selected', isSelected);
-            itemDiv.setAttribute('aria-label', `${store.name || t('fallbackStoreName')} - ${store.address || t('fallbackAddress')}`);
+            itemDiv.setAttribute('aria-label', `${sanitizeHTML(store.name || t('fallbackStoreName'))} - ${sanitizeHTML(store.address || t('fallbackAddress'))}`);
 
             const detailsLinkUrl = USE_PATH_PARAMETER
                 ? (() => {
@@ -536,14 +547,14 @@
             let directionsLinkHtml = '';
             if (store.lat != null && store.lng != null) {
                 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
-                directionsLinkHtml = `<a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" class="pmt-sl-directions-link" aria-label="${t('getDirections')} - ${store.name || t('fallbackStoreName')}">${t('getDirections')}</a>`;
+                directionsLinkHtml = `<a href="${sanitizeHTML(directionsUrl)}" target="_blank" rel="noopener noreferrer" class="pmt-sl-directions-link" aria-label="${t('getDirections')} - ${sanitizeHTML(store.name || t('fallbackStoreName'))}">${t('getDirections')}</a>`;
             }
 
             let phoneHtml;
             const rawPhone = store.phone;
             if (rawPhone && rawPhone !== t('fallbackPhone')) {
                 const cleanedPhone = cleanPhoneNumber(rawPhone);
-                phoneHtml = `<a href="tel:${cleanedPhone}" class="pmt-sl-phone-link" aria-label="${t('phoneLabel')} ${rawPhone}">${rawPhone}</a>`;
+                phoneHtml = `<a href="tel:${sanitizeHTML(cleanedPhone)}" class="pmt-sl-phone-link" aria-label="${t('phoneLabel')} ${sanitizeHTML(rawPhone)}">${sanitizeHTML(rawPhone)}</a>`;
             } else {
                 phoneHtml = t('fallbackPhone');
             }
@@ -551,40 +562,40 @@
             const addressParts = [];
             const streetAddress = store.address;
             if (streetAddress && streetAddress !== t('fallbackAddress') && streetAddress !== t('fallbackAddressMissing')) { 
-                addressParts.push(streetAddress); 
+                addressParts.push(sanitizeHTML(streetAddress)); 
             }
-            if (store.city) { addressParts.push(store.city); }
+            if (store.city) { addressParts.push(sanitizeHTML(store.city)); }
             let addressCityString = addressParts.join(', ');
-            if (store.zip) { addressCityString += (addressCityString ? `, ${store.zip}` : store.zip); }
+            if (store.zip) { addressCityString += (addressCityString ? `, ${sanitizeHTML(store.zip)}` : sanitizeHTML(store.zip)); }
             if (!addressCityString) { addressCityString = t('fallbackAddress');}
 
             // In renderStoreList, only show distanceHtml if geolocationAllowed is true
             let distanceHtml = '';
             if (geolocationAllowed && store.distance != null) { 
-                distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; 
+                distanceHtml = `<p><span>${t('distanceLabel')}</span> ${sanitizeHTML(store.distance.toFixed(1))} km</p>`; 
             }
 
             // Create week hours list
             const weekHours = formatFullWeekHours(store.openHours, store.specialOpenHours);
             const weekHoursHtml = weekHours.map(({ day, hours, isSpecial }) => 
-                `<li class="${isSpecial ? 'pmt-special-hours' : ''}"><span class="pmt-day-name">${day}:</span> ${hours}</li>`
+                `<li class="${isSpecial ? 'pmt-special-hours' : ''}"><span class="pmt-day-name">${sanitizeHTML(day)}:</span> ${sanitizeHTML(hours)}</li>`
             ).join('');
 
             const hoursHtml = store.hours && store.hours !== t('fallbackHours') 
-                ? `<p><span>${t('hoursLabel')}</span> <button class="pmt-hours-button" aria-label="${t('viewFullHours')}">${store.hours}</button></p>
+                ? `<p><span>${t('hoursLabel')}</span> <button class="pmt-hours-button" aria-label="${t('viewFullHours')}">${sanitizeHTML(store.hours)}</button></p>
                    <div class="pmt-week-hours">
                        <ul class="pmt-week-hours-list">
                            ${weekHoursHtml}
                        </ul>
                    </div>`
-                : `<p><span>${t('hoursLabel')}</span> ${store.hours || t('fallbackHours')}</p>`;
+                : `<p><span>${t('hoursLabel')}</span> ${sanitizeHTML(store.hours || t('fallbackHours'))}</p>`;
 
             // Helper to render social links
             let socialLinksHtml = renderSocialLinks(store.network);
 
             itemDiv.innerHTML = `
                 <div class="pmt-store-list-item-header" role="heading" aria-level="3">
-                    <h3>${store.name || t('fallbackStoreName')}</h3>
+                    <h3>${sanitizeHTML(store.name || t('fallbackStoreName'))}</h3>
                 </div>
                 <div class="pmt-store-list-item-content">
                    <p>${addressCityString}</p>
@@ -593,7 +604,7 @@
                    ${hoursHtml}
                    ${socialLinksHtml}
                    <div class="pmt-sl-item-links">
-                       <a href="${detailsLinkUrl}" rel="noopener noreferrer" class="pmt-sl-details-link" aria-label="${t('storeDetails')} - ${store.name || t('fallbackStoreName')}">${t('storeDetails')}</a>
+                       <a href="${sanitizeHTML(detailsLinkUrl)}" rel="noopener noreferrer" class="pmt-sl-details-link" aria-label="${t('storeDetails')} - ${sanitizeHTML(store.name || t('fallbackStoreName'))}">${t('storeDetails')}</a>
                        ${directionsLinkHtml}
                    </div>
                 </div>`;
@@ -835,47 +846,47 @@
                 const addressParts = [];
                 const streetAddress = store.address;
                 if (streetAddress && streetAddress !== t('fallbackAddress') && streetAddress !== t('fallbackAddressMissing')) { 
-                    addressParts.push(streetAddress); 
+                    addressParts.push(sanitizeHTML(streetAddress)); 
                 }
-                if (store.city) { addressParts.push(store.city); }
+                if (store.city) { addressParts.push(sanitizeHTML(store.city)); }
                 let addressCityString = addressParts.join(', ');
-                if (store.zip) { addressCityString += (addressCityString ? `, ${store.zip}` : store.zip); }
+                if (store.zip) { addressCityString += (addressCityString ? `, ${sanitizeHTML(store.zip)}` : sanitizeHTML(store.zip)); }
                 if (!addressCityString) { addressCityString = t('fallbackAddress');}
 
                 let distanceHtml = '';
                 if (geolocationAllowed && store.distance != null) { 
-                    distanceHtml = `<p><span>${t('distanceLabel')}</span> ${store.distance.toFixed(1)} km</p>`; 
+                    distanceHtml = `<p><span>${t('distanceLabel')}</span> ${sanitizeHTML(store.distance.toFixed(1))} km</p>`; 
                 }
 
                 let phoneHtml;
                 const rawPhone = store.phone;
                 if (rawPhone && rawPhone !== t('fallbackPhone')) {
                     const cleanedPhone = cleanPhoneNumber(rawPhone);
-                    phoneHtml = `<a href="tel:${cleanedPhone}" class="pmt-sl-phone-link pmt-no-select" aria-label="${t('phoneLabel')} ${rawPhone}">${rawPhone}</a>`;
+                    phoneHtml = `<a href="tel:${sanitizeHTML(cleanedPhone)}" class="pmt-sl-phone-link pmt-no-select" aria-label="${t('phoneLabel')} ${sanitizeHTML(rawPhone)}">${sanitizeHTML(rawPhone)}</a>`;
                 } else {
                     phoneHtml = t('fallbackPhone');
                 }
 
                 const weekHours = formatFullWeekHours(store.openHours, store.specialOpenHours);
                 const weekHoursHtml = weekHours.map(({ day, hours, isSpecial }) => 
-                    `<li class="${isSpecial ? 'pmt-special-hours' : ''}"><span class="pmt-day-name">${day}:</span> ${hours}</li>`
+                    `<li class="${isSpecial ? 'pmt-special-hours' : ''}"><span class="pmt-day-name">${sanitizeHTML(day)}:</span> ${sanitizeHTML(hours)}</li>`
                 ).join('');
 
                 const hoursHtml = store.hours && store.hours !== t('fallbackHours') 
-                    ? `<p><span>${t('hoursLabel')}</span> ${store.hours}</p>
+                    ? `<p><span>${t('hoursLabel')}</span> ${sanitizeHTML(store.hours)}</p>
                        <div class="pmt-week-hours">
                            <ul class="pmt-week-hours-list">
                                ${weekHoursHtml}
                            </ul>
                        </div>`
-                    : `<p><span>${t('hoursLabel')}</span> ${store.hours || t('fallbackHours')}</p>`;
+                    : `<p><span>${t('hoursLabel')}</span> ${sanitizeHTML(store.hours || t('fallbackHours'))}</p>`;
 
                 let socialLinksHtml = renderSocialLinks(store.network);
 
                 const content = `
                     <div class="pmt-map-info-window">
                         <div class="pmt-store-list-item-header">
-                            <h3>${store.name || t('fallbackStoreName')}</h3>
+                            <h3>${sanitizeHTML(store.name || t('fallbackStoreName'))}</h3>
                         </div>
                         <div class="pmt-store-list-item-content">
                             <p>${addressCityString}</p>
