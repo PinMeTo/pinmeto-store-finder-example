@@ -1,0 +1,9 @@
+---
+description: when doing git commit
+globs: 
+alwaysApply: false
+---
+# Git Commit Rules
+
+When creating git commit messages:
+- Always include all changes made from the last commit in the session
