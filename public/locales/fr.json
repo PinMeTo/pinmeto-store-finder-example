@@ -66,5 +66,6 @@
     "notSpecified": "Non spécifié",
     "storeNotFound": "Magasin non trouvé",
     "goToStoreLocator": "Aller au localisateur de magasins",
-    "storeNotFoundMessage": "Le magasin que vous recherchez n'a pas pu être trouvé. Souhaitez-vous parcourir tous nos magasins ?"
+    "storeNotFoundMessage": "Le magasin que vous recherchez n'a pas pu être trouvé. Souhaitez-vous parcourir tous nos magasins ?",
+    "backToStoreLocator": "Retour au localisateur de magasins"
 }

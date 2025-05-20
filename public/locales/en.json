@@ -66,5 +66,6 @@
     },
     "storeNotFound": "Store not found",
     "goToStoreLocator": "Go to Store Locator",
-    "storeNotFoundMessage": "The store you're looking for could not be found. Would you like to browse all our stores?"
+    "storeNotFoundMessage": "The store you're looking for could not be found. Would you like to browse all our stores?",
+    "backToStoreLocator": "Back to Store Locator"
 }

@@ -89,7 +89,8 @@
                 loadingMap: "Loading...",
                 storeNotFound: "Store not found",
                 goToStoreLocator: "Go to Store Locator",
-                storeNotFoundMessage: "The store you're looking for could not be found. Would you like to browse all our stores?"
+                storeNotFoundMessage: "The store you're looking for could not be found. Would you like to browse all our stores?",
+                backToStoreLocator: "Back to Store Locator"
             };
         }
     }
@@ -135,6 +136,18 @@
         elements.storeDetailsEl.id = 'pmt-store-details';
         elements.storeDetailsEl.className = 'pmt-hidden';
         mainArticle.appendChild(elements.storeDetailsEl);
+
+        // Add back to store locator link
+        elements.backToStoreLocatorEl = document.createElement('nav');
+        elements.backToStoreLocatorEl.className = 'pmt-back-to-store-locator';
+        elements.backToStoreLocatorEl.setAttribute('aria-label', t('backToStoreLocator'));
+        
+        const backLink = document.createElement('a');
+        backLink.href = PMT_STORE_LOCATOR_URL;
+        backLink.className = 'pmt-back-link';
+        backLink.innerHTML = ICONS.arrowLeft + ' ' + t('backToStoreLocator');
+        elements.backToStoreLocatorEl.appendChild(backLink);
+        elements.storeDetailsEl.appendChild(elements.backToStoreLocatorEl);
 
         // --- Address & Map Section ---
         const addressMapSection = document.createElement('section');
@@ -955,6 +968,7 @@
     async function initializeApp() { // Changed to async
         currentLanguage = detectLanguage();
         await fetchTranslations(`${LOCALES_PATH}${currentLanguage}.json`);
+        console.log('Loaded translations:', translations);
         const container = document.getElementById(rootElementId);
         if (!container) {
             console.error(`Main container '#${rootElementId}' not found!`);
@@ -965,6 +979,8 @@
             return;
         }
         domElements = createInitialDOMStructure(container);
+        // Debug log for translation value
+        console.log("t('backToStoreLocator'):", t('backToStoreLocator'));
 
         try {
             await loadGoogleMapsSDK(); // Wait for SDK to load
@@ -1433,7 +1449,8 @@
         clock: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`,
         calendar: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`,
         share: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>`,
-        link: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`
+        link: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`,
+        arrowLeft: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg>`
     };
 
 })();

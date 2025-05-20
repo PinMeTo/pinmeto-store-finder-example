@@ -66,5 +66,6 @@
     },
     "storeNotFound": "Butiken hittades inte",
     "goToStoreLocator": "Gå till butikssökaren",
-    "storeNotFoundMessage": "Butiken du söker kunde inte hittas. Vill du bläddra bland alla våra butiker?"
+    "storeNotFoundMessage": "Butiken du söker kunde inte hittas. Vill du bläddra bland alla våra butiker?",
+    "backToStoreLocator": "Tillbaka till butikssökaren"
 }
