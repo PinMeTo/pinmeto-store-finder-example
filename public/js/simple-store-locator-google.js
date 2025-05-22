@@ -1123,20 +1123,52 @@
 
             renderLayout(); 
 
-            // currentUserLat and currentUserLon are already initialized with fallbacks
-            locationStatusMessageKey = 'distanceFromFallback'; 
-            try {
-                console.log('PMT Store Locator: Requesting user location...');
-                const coords = await getUserLocation();
+            // Initialize with fallback location first
+            currentUserLat = FALLBACK_USER_LAT;
+            currentUserLon = FALLBACK_USER_LON;
+            locationStatusMessageKey = 'distanceFromFallback';
+
+            // Start loading stores with fallback location
+            await fetchAndProcessStores(currentUserLat, currentUserLon);
+
+            // Load CSS and Google Maps SDK
+            loadCSS(CSS_PATH);
+            await loadGoogleMapsSDK(); 
+            
+            // Initialize map
+            initializeMap();
+
+            // Now request user location asynchronously
+            getUserLocation().then(coords => {
                 currentUserLat = coords.latitude;
                 currentUserLon = coords.longitude;
                 locationStatusMessageKey = 'distanceFromUser';
                 console.log(`PMT Store Locator: ${t(locationStatusMessageKey)}`);
                 geolocationAllowed = true;
-            } catch (geoError) {
+                
+                // Recalculate distances and update UI
+                allStores.forEach(store => {
+                    if (store.lat != null && store.lng != null) {
+                        store.distance = calculateDistance(currentUserLat, currentUserLon, store.lat, store.lng);
+                    }
+                });
+                
+                // Sort stores by new distances
+                allStores.sort((a, b) => {
+                    if (a.distance === null && b.distance === null) return 0;
+                    if (a.distance === null) return 1;
+                    if (b.distance === null) return -1;
+                    return a.distance - b.distance;
+                });
+                
+                filterStores();
+                renderStoreList();
+                updateMapMarkers();
+                updateFooter();
+            }).catch(geoError => {
                 console.warn(`PMT Store Locator: Geolocation failed - ${geoError.message}. Using fallback: ${t(locationStatusMessageKey)}`);
                 geolocationAllowed = false;
-            }
+            });
 
             const urlParams = new URLSearchParams(window.location.search);
             initialStoreIdFromUrl = urlParams.get(URL_PARAM_NAME);
@@ -1144,15 +1176,6 @@
                 console.log(`PMT Store Locator: Found initial store code from URL: ${initialStoreIdFromUrl}`);
                 selectedStoreId = initialStoreIdFromUrl; 
             }
-
-            loadCSS(CSS_PATH);
-            await loadGoogleMapsSDK(); 
-            
-            // Initialize map first
-            initializeMap();
-
-            // Then fetch and process stores
-            await fetchAndProcessStores(currentUserLat, currentUserLon); 
 
             // After stores are loaded, check if we need to apply initial selection
             if (selectedStoreId) { 
