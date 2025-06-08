@@ -90,7 +90,9 @@
                 storeNotFound: "Store not found",
                 goToStoreLocator: "Go to Store Locator",
                 storeNotFoundMessage: "The store you're looking for could not be found. Would you like to browse all our stores?",
-                backToStoreLocator: "Back to Store Locator"
+                backToStoreLocator: "Back to Store Locator",
+                services: "Services",
+                fuelPrices: "Fuel Prices"
             };
         }
     }
@@ -253,6 +255,36 @@
         elements.socialMediaLinksEl.setAttribute('aria-label', 'Social Media Links');
         elements.socialMediaSectionEl.appendChild(elements.socialMediaLinksEl);
 
+        // Add Services Section
+        elements.servicesSectionEl = document.createElement('section');
+        elements.servicesSectionEl.id = 'pmt-services-section';
+        elements.servicesSectionEl.className = 'pmt-hidden';
+        elements.servicesSectionEl.setAttribute('aria-label', t('services'));
+
+        const servicesH2 = document.createElement('h2');
+        servicesH2.innerHTML = ICONS.services + ' ' + t('services');
+        elements.servicesSectionEl.appendChild(servicesH2);
+
+        elements.storeServicesEl = document.createElement('ul');
+        elements.storeServicesEl.id = 'pmt-store-services';
+        elements.storeServicesEl.className = 'pmt-services-container';
+        elements.servicesSectionEl.appendChild(elements.storeServicesEl);
+
+        // Add Fuel Prices Section
+        elements.fuelPricesSectionEl = document.createElement('section');
+        elements.fuelPricesSectionEl.id = 'pmt-fuel-prices-section';
+        elements.fuelPricesSectionEl.className = 'pmt-hidden';
+        elements.fuelPricesSectionEl.setAttribute('aria-label', t('fuelPrices'));
+
+        const fuelPricesH2 = document.createElement('h2');
+        fuelPricesH2.innerHTML = ICONS.fuel + ' ' + t('fuelPrices');
+        elements.fuelPricesSectionEl.appendChild(fuelPricesH2);
+
+        elements.storeFuelPricesEl = document.createElement('div');
+        elements.storeFuelPricesEl.id = 'pmt-store-fuel-prices';
+        elements.storeFuelPricesEl.className = 'pmt-fuel-prices-container';
+        elements.fuelPricesSectionEl.appendChild(elements.storeFuelPricesEl);
+
         // --- Now create the info card and append all info elements ---
         const infoCard = document.createElement('div');
         infoCard.className = 'pmt-info-card';
@@ -263,6 +295,8 @@
         infoCard.appendChild(elements.phoneSectionEl);
         infoCard.appendChild(openingHoursSection);
         infoCard.appendChild(elements.exceptionsSectionEl);
+        infoCard.appendChild(elements.servicesSectionEl);
+        infoCard.appendChild(elements.fuelPricesSectionEl);
         infoCard.appendChild(elements.conceptsSectionEl);
         infoCard.appendChild(elements.socialMediaSectionEl);
 
@@ -681,7 +715,8 @@
             directionsParagraphEl, storeDirectionsLinkEl, phoneSectionEl, storePhoneEl,
             storeOpeningHoursEl, exceptionsSectionEl, storeExceptionsEl, conceptsSectionEl,
             storeConceptsEl, loadingStateEl, errorStateEl, storeMapWrapperEl, storeMapEl,
-            socialMediaSectionEl, socialMediaLinksEl
+            socialMediaSectionEl, socialMediaLinksEl, servicesSectionEl, storeServicesEl,
+            fuelPricesSectionEl, storeFuelPricesEl
         } = currentDomElements;
 
         console.log("Store data received:", store);
@@ -872,6 +907,46 @@
                     badge.textContent = conceptName;
                     storeConceptsEl.appendChild(badge);
                 });
+            }
+        }
+
+        // In the displayStoreDetails function, add this after the concepts section:
+        if (servicesSectionEl && storeServicesEl) {
+            storeServicesEl.innerHTML = '';
+            servicesSectionEl.classList.add('pmt-hidden');
+            
+            if (store.customData?.services && Array.isArray(store.customData.services) && store.customData.services.length > 0) {
+                servicesSectionEl.classList.remove('pmt-hidden');
+                store.customData.services.forEach(service => {
+                    const li = document.createElement('li');
+                    li.className = 'pmt-service-item';
+                    li.textContent = service;
+                    storeServicesEl.appendChild(li);
+                });
+            }
+        }
+
+        // In the displayStoreDetails function, add this after the services section:
+        if (fuelPricesSectionEl && storeFuelPricesEl) {
+            storeFuelPricesEl.innerHTML = '';
+            fuelPricesSectionEl.classList.add('pmt-hidden');
+            
+            if (store.customData?.fuel_prices && typeof store.customData.fuel_prices === 'object') {
+                fuelPricesSectionEl.classList.remove('pmt-hidden');
+                const priceDiv = document.createElement('div');
+                priceDiv.className = 'pmt-fuel-price-item';
+                
+                const typeSpan = document.createElement('span');
+                typeSpan.className = 'pmt-fuel-type';
+                typeSpan.textContent = store.customData.fuel_prices.type || 'Fuel';
+                
+                const priceSpan = document.createElement('span');
+                priceSpan.className = 'pmt-fuel-price';
+                priceSpan.textContent = store.customData.fuel_prices.price || 'N/A';
+                
+                priceDiv.appendChild(typeSpan);
+                priceDiv.appendChild(priceSpan);
+                storeFuelPricesEl.appendChild(priceDiv);
             }
         }
 
@@ -1450,7 +1525,9 @@
         calendar: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`,
         share: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>`,
         link: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`,
-        arrowLeft: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg>`
+        arrowLeft: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg>`,
+        services: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H16V4z"></path><rect x="8" y="4" width="8" height="16" rx="2" ry="2"></rect></svg>`,
+        fuel: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"></path><path d="M4 9h16"></path><path d="M4 9v13"></path><path d="M20 9v13"></path><path d="M8 9V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"></path><path d="M12 13v4"></path><path d="M10 13h4"></path></svg>`
     };
 
 })();
