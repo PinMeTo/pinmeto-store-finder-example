@@ -116,6 +116,8 @@ You can set all major configuration options for the landing page via data attrib
 | `data-google-maps-api-key`    | Google Maps API key                     | `null` | `YOUR_API_KEY` |
 | `data-css-path`               | Path to the CSS file                    | `/css/simple-landing-page.css` | `/custom/path/to/your.css` |
 | `data-language`               | Default language for the page           | `en` | `sv` |
+| `data-show-images`            | Show/hide the photo album section       | `true` | `false` |
+| `data-show-reviews`           | Show/hide the reviews widget            | `true` | `false` |
 
 **Notes:**
 - `{origin}` refers to `window.location.origin`
@@ -135,6 +137,8 @@ You can set all major configuration options for the landing page via data attrib
   data-css-path="/custom/path/to/your.css"
   data-google-maps-api-key="YOUR_API_KEY"
   data-language="sv"
+  data-show-images="true"
+  data-show-reviews="true"
 ></div>
 ```
 
@@ -161,5 +165,56 @@ The Google Maps API key can be provided in three ways (in order of priority):
 3. Backend endpoint `/api/google-maps-key`
 
 The map will be disabled if no API key is available.
+
+### Feature Toggles
+
+You can disable specific features of the landing page to improve performance or customize the user experience:
+
+#### Disable Images
+```html
+<div
+  id="pmt-store-landing-page-container"
+  data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json"
+  data-show-images="false"
+></div>
+```
+
+#### Disable Reviews
+```html
+<div
+  id="pmt-store-landing-page-container"
+  data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json"
+  data-show-reviews="false"
+></div>
+```
+
+#### Disable Both Images and Reviews
+```html
+<div
+  id="pmt-store-landing-page-container"
+  data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json"
+  data-show-images="false"
+  data-show-reviews="false"
+></div>
+```
+
+#### Alternative: JavaScript Configuration
+You can also configure these options via JavaScript variables (set before the script loads):
+```html
+<script>
+// Disable images and reviews
+window.SHOW_IMAGES = false;
+window.SHOW_REVIEWS = false;
+</script>
+<div id="pmt-store-landing-page-container" 
+     data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json">
+</div>
+```
+
+**Benefits of disabling features:**
+- **Performance**: Reduces DOM size and improves loading times
+- **Customization**: Choose which features to include based on your needs
+- **Bandwidth**: Saves bandwidth by not loading unnecessary content
+- **Simplicity**: Cleaner interface for specific use cases
 
 --- 

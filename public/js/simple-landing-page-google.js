@@ -31,6 +31,12 @@
     const LOCALES_PATH = getConfigFromDataAttr(rootEl, 'data-locales-path', 'locales/');
     const GOOGLE_MAPS_API_KEY_FROM_DATA = getConfigFromDataAttr(rootEl, 'data-google-maps-api-key', null);
     const CSS_PATH = getConfigFromDataAttr(rootEl, 'data-css-path', '/css/simple-landing-page.css');
+    
+    // Feature toggles
+    const SHOW_IMAGES = getConfigFromDataAttr(rootEl, 'data-show-images', 'true') !== 'false' && 
+                       (typeof window.SHOW_IMAGES === 'undefined' || window.SHOW_IMAGES);
+    const SHOW_REVIEWS = getConfigFromDataAttr(rootEl, 'data-show-reviews', 'true') !== 'false' && 
+                        (typeof window.SHOW_REVIEWS === 'undefined' || window.SHOW_REVIEWS);
 
     // --- DOM Elements Reference ---
 
@@ -323,29 +329,31 @@
         elements.mapAndAlbumColumnEl.appendChild(elements.storeMapWrapperEl);
 
         // --- Photo Album Placeholder ---
-        elements.photoAlbumSectionEl = document.createElement('section');
-        elements.photoAlbumSectionEl.id = 'pmt-photo-album-section';
-        elements.photoAlbumSectionEl.className = 'pmt-photo-album-section';
-        elements.photoAlbumSectionEl.setAttribute('aria-label', 'Photo Album');
+        if (SHOW_IMAGES) {
+            elements.photoAlbumSectionEl = document.createElement('section');
+            elements.photoAlbumSectionEl.id = 'pmt-photo-album-section';
+            elements.photoAlbumSectionEl.className = 'pmt-photo-album-section';
+            elements.photoAlbumSectionEl.setAttribute('aria-label', 'Photo Album');
 
-        const photoAlbumGallery = document.createElement('figure');
-        photoAlbumGallery.className = 'pmt-photo-album-gallery';
-        // Add 4 dummy images from Unsplash
-        const unsplashImages = [
-            'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-            'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
-            'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
-            'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80'
-        ];
-        for (let i = 0; i < unsplashImages.length; i++) {
-            const img = document.createElement('img');
-            img.src = unsplashImages[i];
-            img.alt = `Store Photo ${i + 1}`;
-            img.className = 'pmt-photo-album-img';
-            photoAlbumGallery.appendChild(img);
+            const photoAlbumGallery = document.createElement('figure');
+            photoAlbumGallery.className = 'pmt-photo-album-gallery';
+            // Add 4 dummy images from Unsplash
+            const unsplashImages = [
+                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+                'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80'
+            ];
+            for (let i = 0; i < unsplashImages.length; i++) {
+                const img = document.createElement('img');
+                img.src = unsplashImages[i];
+                img.alt = `Store Photo ${i + 1}`;
+                img.className = 'pmt-photo-album-img';
+                photoAlbumGallery.appendChild(img);
+            }
+            elements.photoAlbumSectionEl.appendChild(photoAlbumGallery);
+            elements.mapAndAlbumColumnEl.appendChild(elements.photoAlbumSectionEl);
         }
-        elements.photoAlbumSectionEl.appendChild(photoAlbumGallery);
-        elements.mapAndAlbumColumnEl.appendChild(elements.photoAlbumSectionEl);
 
         // --- Loading State ---
         elements.loadingStateEl = document.createElement('aside');
@@ -1473,7 +1481,9 @@
 
         // At the end of initializeApp, after adding the footer:
         // ... existing code ...
-        mountReviewWidget();
+        if (SHOW_REVIEWS) {
+            mountReviewWidget();
+        }
     }
 
     const link = document.createElement('link');
