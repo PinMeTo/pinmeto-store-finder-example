@@ -1053,7 +1053,7 @@
         updateUrlWithSelection();
     }
     
-    // MODIFIED fetchAndProcessStores for PinMeTo structure
+    // MODIFIED fetchAndProcessStores for PinMeTo structure with locations property
     async function fetchAndProcessStores(currentLat, currentLon) {
         isLoading = true; error = null;
         if (searchInputElement) searchInputElement.disabled = true;
@@ -1063,9 +1063,20 @@
             const response = await fetch(API_URL);
             if (!response.ok) throw new Error(t('errorHTTP', { status: response.status }));
             const data = await response.json(); 
-            if (!data || !Array.isArray(data)) throw new Error(t('errorAPIFormat'));
+            
+            // Handle new API format where data is under 'locations' property
+            let storesArray;
+            if (data && data.locations && Array.isArray(data.locations)) {
+                storesArray = data.locations;
+                console.log("PMT SL: Found locations array in API response");
+            } else if (data && Array.isArray(data)) {
+                storesArray = data;
+                console.log("PMT SL: Using direct array from API response");
+            } else {
+                throw new Error(t('errorAPIFormat'));
+            }
 
-            allStores = data.filter(s => s.permanentlyClosed !== true).map((s, i) => {
+            allStores = storesArray.filter(s => s.permanentlyClosed !== true).map((s, i) => {
                 const latitude = s.location?.lat;
                 const longitude = s.location?.lon;
                 const storeIdentifier = s.storeId || `pmt-gen-${i}`; 

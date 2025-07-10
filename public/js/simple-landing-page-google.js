@@ -991,10 +991,18 @@
                 try { const errorData = await response.json(); errorText = errorData.message || errorText; } catch(e) {}
                 throw new Error(`API call failed: ${response.status} ${errorText}`);
             }
-            const stores = await response.json(); // The root of the response IS the array of stores
+            const data = await response.json();
 
-            if (!stores || !Array.isArray(stores)) { // Adjusted check
-                console.error("API response structure error - expected an array of stores:", stores);
+            // Handle new API format where data is under 'locations' property
+            let stores;
+            if (data && data.locations && Array.isArray(data.locations)) {
+                stores = data.locations;
+                console.log("PMT Landing Page: Found locations array in API response");
+            } else if (data && Array.isArray(data)) {
+                stores = data;
+                console.log("PMT Landing Page: Using direct array from API response");
+            } else {
+                console.error("API response structure error - expected an array of stores:", data);
                 throw new Error("API response has unexpected format (expected an array of stores).");
             }
 
