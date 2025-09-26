@@ -471,57 +471,36 @@
         }
     }
 
-    function loadGoogleMapsSDK() {
+    function generateStaticMapUrl(lat, lon, storeName, width = 400, height = 254) {
+        if (!GOOGLE_MAPS_API_KEY) {
+            console.warn('PMT Landing Page: No Google Maps API key available for static map');
+            return null;
+        }
+        
+        const baseUrl = 'https://maps.googleapis.com/maps/api/staticmap';
+        const params = new URLSearchParams({
+            center: `${lat},${lon}`,
+            zoom: '16',
+            size: `${width}x${height}`,
+            maptype: 'roadmap',
+            markers: `color:0x3399FF|label:S|${lat},${lon}`,
+            style: 'feature:poi|visibility:off',
+            key: GOOGLE_MAPS_API_KEY
+        });
+        
+        return `${baseUrl}?${params.toString()}`;
+    }
+
+    async function loadGoogleMapsApiKey() {
         return new Promise(async (resolve, reject) => {
-            if (!GOOGLE_MAPS_API_KEY) {
-                try {
-                    await fetchGoogleMapsApiKey();
-                } catch (error) {
-                    console.error('PMT Landing Page Error: Failed to fetch Google Maps API key', error);
-                    reject(new Error('Failed to load Google Maps'));
-                    return;
-                }
-            }
-
-            if (window.google && window.google.maps) {
-                console.log('PMT Landing Page: Google Maps SDK already loaded.');
+            try {
+                await fetchGoogleMapsApiKey();
+                console.log('PMT Landing Page: Google Maps API key ready for static maps.');
                 resolve();
-                return;
+            } catch (error) {
+                console.error('PMT Landing Page Error: Failed to fetch Google Maps API key', error);
+                reject(new Error('Failed to load Google Maps API key'));
             }
-
-            if (document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]')) {
-                const interval = setInterval(() => {
-                    if (window.google && window.google.maps && window.google.maps.marker) {
-                        clearInterval(interval);
-                        console.log('PMT Landing Page: Google Maps SDK loaded (existing script).');
-                        resolve();
-                    }
-                }, 100);
-                setTimeout(() => {
-                    if (!(window.google && window.google.maps && window.google.maps.marker)) {
-                        clearInterval(interval);
-                        console.error('PMT Landing Page Error: Timeout waiting for existing Google Maps SDK to load.');
-                        reject(new Error('Failed to load Google Maps'));
-                    }
-                }, 15000);
-                return;
-            }
-
-            console.log('PMT Landing Page: Loading Google Maps SDK...');
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=marker&loading=async&callback=pmtLandingPageGoogleMapsLoaded`;
-            script.async = true;
-            window.pmtLandingPageGoogleMapsLoaded = () => {
-                console.log('PMT Landing Page: Google Maps SDK loaded.');
-                delete window.pmtLandingPageGoogleMapsLoaded;
-                resolve();
-            };
-            script.onerror = () => {
-                console.error('PMT Landing Page Error: Failed to load Google Maps SDK.');
-                delete window.pmtLandingPageGoogleMapsLoaded;
-                reject(new Error('Failed to load Google Maps'));
-            };
-            document.head.appendChild(script);
         });
     }
 
@@ -769,47 +748,79 @@
         const lon = parseFloat(store.location?.lon);
         console.log("Store coordinates:", { lat, lon });
 
-        // --- Google Map & Directions ---
-        if (mapInstance) { // Clear previous map instance if any (though unlikely for landing page)
-             // For Google Maps, if re-rendering, ensure the map div is empty or handle updates appropriately.
-             // Here, we assume it's a fresh load, so emptying is fine.
-            if(storeMapEl) storeMapEl.innerHTML = ''; 
-            mapInstance = null;
-        }
-        
+        // --- Google Static Map & Directions ---
         if (directionsParagraphEl) directionsParagraphEl.classList.add('pmt-hidden');
 
         if (!isNaN(lat) && !isNaN(lon) && storeMapWrapperEl && storeMapEl && directionsParagraphEl && storeDirectionsLinkEl) {
-            if (typeof google === 'undefined' || !google.maps || !google.maps.Map || !google.maps.marker) {
-                console.error("Google Maps SDK not available. Map cannot be displayed.");
-                showMessage(t('mapLoadError'), 'error');
-                if (storeMapWrapperEl) storeMapWrapperEl.classList.add('pmt-hidden');
-            } else {
-                storeMapWrapperEl.classList.remove('pmt-hidden');
-                try {
-                    console.log("PMT Landing Page: Initializing Google Map.");
-                    mapInstance = new google.maps.Map(storeMapEl, {
-                        center: { lat: lat, lng: lon },
-                        zoom: 15,
-                        mapId: "PMT_LANDING_PAGE_MAP_ID" // Optional: for cloud-based map styling
-                    });
-
-                    new google.maps.marker.AdvancedMarkerElement({
-                        map: mapInstance,
-                        position: { lat: lat, lng: lon },
-                        title: store.name || 'Store Location'
-                    });
-                    console.log("PMT Landing Page: Google Map initialized with marker.");
+            storeMapWrapperEl.classList.remove('pmt-hidden');
+            try {
+                console.log("PMT Landing Page: Creating static map.");
+                
+                // Clear any existing content
+                storeMapEl.innerHTML = '';
+                
+                // Create static map image
+                const staticMapUrl = generateStaticMapUrl(lat, lon, store.name);
+                if (staticMapUrl) {
+                    const mapContainer = document.createElement('div');
+                    mapContainer.style.position = 'relative';
+                    mapContainer.style.width = '100%';
+                    mapContainer.style.height = '254px';
+                    mapContainer.style.borderRadius = '8px';
+                    mapContainer.style.overflow = 'hidden';
+                    mapContainer.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                    mapContainer.style.cursor = 'pointer';
+                    mapContainer.style.transition = 'transform 0.2s ease';
                     
-                    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
-                    storeDirectionsLinkEl.href = googleMapsUrl;
-                    directionsParagraphEl.classList.remove('pmt-hidden');
-
-                } catch (mapError) {
-                    console.error("!!! Error initializing Google Map:", mapError);
-                    if (storeMapWrapperEl) storeMapWrapperEl.classList.add('pmt-hidden');
-                    showMessage(t('mapDisplayError'), 'error');
+                    const mapImg = document.createElement('img');
+                    mapImg.src = staticMapUrl;
+                    mapImg.alt = `Map showing location of ${store.name || 'store'}`;
+                    mapImg.style.width = '100%';
+                    mapImg.style.height = '100%';
+                    mapImg.style.objectFit = 'cover';
+                    mapImg.style.display = 'block';
+                    
+                    // Add loading and error handling
+                    mapImg.addEventListener('load', () => {
+                        console.log('PMT Landing Page: Static map loaded successfully');
+                    });
+                    
+                    mapImg.addEventListener('error', () => {
+                        console.error('PMT Landing Page: Failed to load static map image');
+                        mapContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f5f5f5; color: #666; font-size: 14px;">Map unavailable</div>';
+                    });
+                    
+                    // Add hover effect
+                    mapContainer.addEventListener('mouseenter', () => {
+                        mapContainer.style.transform = 'scale(1.02)';
+                    });
+                    mapContainer.addEventListener('mouseleave', () => {
+                        mapContainer.style.transform = 'scale(1)';
+                    });
+                    
+                    // Make the container clickable to open Google Maps
+                    mapContainer.addEventListener('click', () => {
+                        const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+                        window.open(googleMapsUrl, '_blank', 'noopener,noreferrer');
+                    });
+                    
+                    mapContainer.appendChild(mapImg);
+                    storeMapEl.appendChild(mapContainer);
+                    console.log("PMT Landing Page: Static map created successfully.");
+                } else {
+                    console.warn("PMT Landing Page: Could not generate static map URL.");
+                    storeMapWrapperEl.classList.add('pmt-hidden');
                 }
+                
+                // Set up directions link
+                const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+                storeDirectionsLinkEl.href = googleMapsUrl;
+                directionsParagraphEl.classList.remove('pmt-hidden');
+
+            } catch (mapError) {
+                console.error("!!! Error creating static map:", mapError);
+                if (storeMapWrapperEl) storeMapWrapperEl.classList.add('pmt-hidden');
+                showMessage(t('mapDisplayError'), 'error');
             }
         } else {
             if (storeMapWrapperEl) storeMapWrapperEl.classList.add('pmt-hidden');
@@ -1147,10 +1158,10 @@
         console.log("t('backToStoreLocator'):", t('backToStoreLocator'));
 
         try {
-            await loadGoogleMapsSDK(); // Wait for SDK to load
-            console.log("PMT Landing Page: Google Maps SDK ready.");
-        } catch (sdkError) {
-            console.error("PMT Landing Page: Failed to initialize Google Maps SDK. Map functionality will be disabled.", sdkError);
+            await loadGoogleMapsApiKey(); // Wait for API key to load
+            console.log("PMT Landing Page: Google Maps API key ready for static maps.");
+        } catch (apiKeyError) {
+            console.error("PMT Landing Page: Failed to initialize Google Maps API key. Static map functionality will be disabled.", apiKeyError);
             showMessage(t('mapLoadError'), 'error', 5000);
             // Optionally, you could hide map-related elements here or set a flag
             if (domElements.storeMapWrapperEl) domElements.storeMapWrapperEl.style.display = 'none';
