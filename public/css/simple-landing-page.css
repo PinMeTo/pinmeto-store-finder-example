@@ -799,7 +799,7 @@ html, body, #pmt-store-landing-page-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 420px;
+    width: 100%;
     max-width: 100%;
 }
 

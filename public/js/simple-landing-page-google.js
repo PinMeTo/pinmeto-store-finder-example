@@ -1349,7 +1349,7 @@
           // Inline minimal CSS for now
           const style = document.createElement('style');
           style.textContent = `
-            #pmt-review-widget { max-width: 880px; width: 100%; margin: 2em auto 1em auto; padding: 1em; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); box-sizing: border-box; height: 340px; }
+            #pmt-review-widget { max-width: none; width: 100%; margin: 2em 0 1em 0; padding: 1em; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); box-sizing: border-box; height: 340px; }
             .pmt-review-spinner { display: flex; align-items: center; justify-content: center; gap: 1em; height: 100%; }
             .pmt-review-arrow { background: #f3f3f3; border: none; border-radius: 50%; width: 2.5em; height: 2.5em; font-size: 1.5em; cursor: pointer; transition: background 0.2s; }
             .pmt-review-arrow:hover { background: #e0e0e0; }
@@ -1367,17 +1367,17 @@
             .pmt-review-text { font-size: 1.08em; margin-bottom: 0.5em; flex: 1 1 auto; overflow: auto; min-height: 0; }
             .pmt-review-response { background: #f0f7ff; border-left: 3px solid #3399FF; padding: 0.5em 1em; border-radius: 12px; font-size: 0.98em; color: #225; margin-top: 0.7em; box-shadow: none; position: static; z-index: auto; flex: 0 0 auto; }
             @media (max-width: 1020px) {
-              #pmt-review-widget { width: 100vw; max-width: 100vw; height: 260px; }
-              .pmt-review-content { width: 100vw; max-width: 100vw; height: 100%; }
+              #pmt-review-widget { width: 100%; max-width: none; height: 260px; margin: 2em 0 1em 0; }
+              .pmt-review-content { width: 100%; max-width: none; height: 100%; }
             }
             @media (max-width: 899px) {
               #pmt-review-widget { 
-                width: 100vw; 
-                max-width: 100vw; 
+                width: 100%; 
+                max-width: none; 
                 height: auto; 
                 min-height: 280px;
                 padding: 0.4em;
-                margin: 1em auto;
+                margin: 1em 0;
                 border-radius: 8px;
                 position: relative;
               }
