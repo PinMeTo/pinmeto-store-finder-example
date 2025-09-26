@@ -786,7 +786,6 @@
                     mapImg.alt = `Map showing location of ${store.name || 'store'}`;
                     mapImg.style.width = '100%';
                     mapImg.style.height = '100%';
-                    mapImg.style.objectFit = 'cover';
                     mapImg.style.display = 'block';
                     
                     // Add loading and error handling

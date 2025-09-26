@@ -39,20 +39,21 @@
 ## Landing Page
 
 ### Store Information
-- [ ] Add social media integration
-  - [ ] Display social media links
-  - [ ] Add social media icons
-- [ ] Implement categories display
-  - [ ] Show store categories
-  - [ ] Add category descriptions
-- [ ] Show store Images
-- [ ] Show reviews
+- [x] Add social media integration
+  - [x] Display social media links
+  - [x] Add social media icons
+- [x] Implement categories display
+  - [x] Show store categories
+  - [x] Add category descriptions
+- [x] Show store Images
+- [x] Show reviews
+- [x] Add configuration options to disable images and reviews
 
 ### General Improvements
-- [ ] Content Enhancements
-  - [ ] Add store photos gallery
+- [x] Content Enhancements
+  - [x] Add store photos gallery
   - [ ] Add store events section
-  - [ ] Add store reviews section
+  - [x] Add store reviews section
 - [ ] Mobile Optimization
   - [ ] Optimize for touch devices
   - [ ] Improve mobile layout

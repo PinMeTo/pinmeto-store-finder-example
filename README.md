@@ -10,6 +10,7 @@ A lightweight, easy-to-integrate solution for adding store locator and landing p
 - **Accessible:** ARIA labels and roles ensure usability for all users, including those using assistive technologies.
 - **Internationalization:** Built-in translation support for multiple languages; easy to add more.
 - **Customizable:** Style and configure to match your brand and business needs.
+- **Feature Toggles:** Disable images, reviews, or other features to optimize performance.
 - **Reliable:** Uses your live PinMeTo data and Google Maps for accurate, up-to-date information.
 
 ## Components
@@ -25,6 +26,8 @@ A lightweight, easy-to-integrate solution for adding store locator and landing p
    - Interactive map
    - Opening hours
    - Directions
+   - Photo gallery (configurable)
+   - Customer reviews (configurable)
    - [Detailed implementation guide](docs/landing-page.md)
 
 ## Requirements
