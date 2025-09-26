@@ -349,10 +349,20 @@
                 img.src = unsplashImages[i];
                 img.alt = `Store Photo ${i + 1}`;
                 img.className = 'pmt-photo-album-img';
+                img.setAttribute('data-full-image', unsplashImages[i]);
                 photoAlbumGallery.appendChild(img);
             }
             elements.photoAlbumSectionEl.appendChild(photoAlbumGallery);
             elements.mapAndAlbumColumnEl.appendChild(elements.photoAlbumSectionEl);
+            
+            // Create image popup modal
+            createImagePopup();
+            
+            // Add click event listeners to all images
+            const images = photoAlbumGallery.querySelectorAll('.pmt-photo-album-img');
+            images.forEach(img => {
+                img.addEventListener('click', () => showImagePopup(img));
+            });
         }
 
         // --- Loading State ---
@@ -1051,6 +1061,69 @@
                 }
             }
             showMessage(t('errorFetching'), 'error');
+        }
+    }
+
+    // --- Image Popup Functions ---
+    
+    function createImagePopup() {
+        // Create popup modal if it doesn't exist
+        if (document.getElementById('pmt-image-popup')) return;
+        
+        const popup = document.createElement('div');
+        popup.id = 'pmt-image-popup';
+        popup.className = 'pmt-image-popup';
+        popup.innerHTML = `
+            <div class="pmt-image-popup-content">
+                <button class="pmt-image-popup-close" aria-label="Close image popup"></button>
+                <img class="pmt-image-popup-img" src="" alt="">
+            </div>
+        `;
+        
+        document.body.appendChild(popup);
+        
+        // Add event listeners
+        const closeBtn = popup.querySelector('.pmt-image-popup-close');
+        closeBtn.addEventListener('click', hideImagePopup);
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup) hideImagePopup();
+        });
+        
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && popup.classList.contains('show')) {
+                hideImagePopup();
+            }
+        });
+    }
+    
+    function showImagePopup(imgElement) {
+        const popup = document.getElementById('pmt-image-popup');
+        const popupImg = popup.querySelector('.pmt-image-popup-img');
+        const fullImageSrc = imgElement.getAttribute('data-full-image') || imgElement.src;
+        
+        popupImg.src = fullImageSrc;
+        popupImg.alt = imgElement.alt;
+        
+        popup.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        
+        // Focus management for accessibility
+        const closeBtn = popup.querySelector('.pmt-image-popup-close');
+        closeBtn.focus();
+    }
+    
+    function hideImagePopup() {
+        const popup = document.getElementById('pmt-image-popup');
+        if (popup) {
+            popup.classList.remove('show');
+            document.body.style.overflow = ''; // Restore scrolling
+            
+            // Return focus to the clicked image
+            const clickedImg = document.querySelector('.pmt-photo-album-img:focus');
+            if (clickedImg) {
+                clickedImg.focus();
+            }
         }
     }
 
