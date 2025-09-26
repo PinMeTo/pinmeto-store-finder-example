@@ -471,7 +471,7 @@
         }
     }
 
-    function generateStaticMapUrl(lat, lon, storeName, width = 400, height = 254) {
+    function generateStaticMapUrl(lat, lon, storeName, width = 456, height = 254) {
         if (!GOOGLE_MAPS_API_KEY) {
             console.warn('PMT Landing Page: No Google Maps API key available for static map');
             return null;
@@ -480,10 +480,10 @@
         const baseUrl = 'https://maps.googleapis.com/maps/api/staticmap';
         const params = new URLSearchParams({
             center: `${lat},${lon}`,
-            zoom: '16',
+            zoom: '14',
             size: `${width}x${height}`,
             maptype: 'roadmap',
-            markers: `color:0x3399FF|label:S|${lat},${lon}`,
+            markers: `color:red|${lat},${lon}`,
             style: 'feature:poi|visibility:off',
             key: GOOGLE_MAPS_API_KEY
         });
