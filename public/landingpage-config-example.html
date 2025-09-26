@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Landing Page - Configuration Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .config-example {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .config-example h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .config-example code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .example-section {
+            margin: 30px 0;
+            padding: 20px;
+            border-left: 4px solid #3399FF;
+            background: #f8f9fa;
+        }
+        .example-section h2 {
+            margin-top: 0;
+            color: #3399FF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Store Landing Page Configuration Examples</h1>
+        
+        <p>This page demonstrates how to configure the store landing page to disable images and reviews using data attributes.</p>
+
+        <div class="example-section">
+            <h2>Example 1: Default Configuration (Images and Reviews Enabled)</h2>
+            <div class="config-example">
+                <h3>HTML Configuration:</h3>
+                <code>&lt;div id="pmt-store-landing-page-container" 
+    data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json"&gt;
+&lt;/div&gt;</code>
+                <p><strong>Result:</strong> Both images and reviews will be displayed.</p>
+            </div>
+        </div>
+
+        <div class="example-section">
+            <h2>Example 2: Disable Images Only</h2>
+            <div class="config-example">
+                <h3>HTML Configuration:</h3>
+                <code>&lt;div id="pmt-store-landing-page-container" 
+    data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json"
+    data-show-images="false"&gt;
+&lt;/div&gt;</code>
+                <p><strong>Result:</strong> Images will be hidden, reviews will still be displayed.</p>
+            </div>
+        </div>
+
+        <div class="example-section">
+            <h2>Example 3: Disable Reviews Only</h2>
+            <div class="config-example">
+                <h3>HTML Configuration:</h3>
+                <code>&lt;div id="pmt-store-landing-page-container" 
+    data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json"
+    data-show-reviews="false"&gt;
+&lt;/div&gt;</code>
+                <p><strong>Result:</strong> Reviews will be hidden, images will still be displayed.</p>
+            </div>
+        </div>
+
+        <div class="example-section">
+            <h2>Example 4: Disable Both Images and Reviews</h2>
+            <div class="config-example">
+                <h3>HTML Configuration:</h3>
+                <code>&lt;div id="pmt-store-landing-page-container" 
+    data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json"
+    data-show-images="false"
+    data-show-reviews="false"&gt;
+&lt;/div&gt;</code>
+                <p><strong>Result:</strong> Both images and reviews will be hidden.</p>
+            </div>
+        </div>
+
+        <div class="example-section">
+            <h2>Complete Example with All Configuration Options</h2>
+            <div class="config-example">
+                <h3>HTML Configuration:</h3>
+                <code>&lt;div id="pmt-store-landing-page-container" 
+    data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json"
+    data-google-maps-api-key="your-google-maps-api-key"
+    data-default-image-url="https://example.com/default-store-image.jpg"
+    data-store-locator-url="https://example.com/store-locator"
+    data-home-url="https://example.com"
+    data-locales-path="locales/"
+    data-css-path="/css/simple-landing-page.css"
+    data-show-images="false"
+    data-show-reviews="false"&gt;
+&lt;/div&gt;</code>
+                <p><strong>Result:</strong> A fully configured landing page with images and reviews disabled.</p>
+            </div>
+        </div>
+
+        <div class="example-section">
+            <h2>Configuration Options Reference</h2>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                <thead>
+                    <tr style="background: #e9ecef;">
+                        <th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;">Attribute</th>
+                        <th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;">Default</th>
+                        <th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #dee2e6;"><code>data-show-images</code></td>
+                        <td style="padding: 10px; border: 1px solid #dee2e6;">"true"</td>
+                        <td style="padding: 10px; border: 1px solid #dee2e6;">Set to "false" to hide the photo album section</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #dee2e6;"><code>data-show-reviews</code></td>
+                        <td style="padding: 10px; border: 1px solid #dee2e6;">"true"</td>
+                        <td style="padding: 10px; border: 1px solid #dee2e6;">Set to "false" to hide the reviews widget</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="example-section">
+            <h2>JavaScript Configuration (Alternative Method)</h2>
+            <div class="config-example">
+                <h3>You can also configure these options via JavaScript:</h3>
+                <code>// Set before the script loads
+window.SHOW_IMAGES = false;
+window.SHOW_REVIEWS = false;</code>
+                <p><strong>Note:</strong> This method requires setting the variables before the landing page script loads.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Landing Page - No Images & Reviews</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .info-box h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="info-box">
+            <h3>Configuration Demo</h3>
+            <p>This page demonstrates the store landing page with both images and reviews disabled using the <code>data-show-images="false"</code> and <code>data-show-reviews="false"</code> attributes.</p>
+        </div>
+
+        <!-- Store Landing Page Container with Images and Reviews Disabled -->
+        <div id="pmt-store-landing-page-container" 
+             data-api-url="https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json"
+             data-show-images="false"
+             data-show-reviews="false">
+        </div>
+    </div>
+
+    <!-- Load the store landing page script -->
+    <script src="js/simple-landing-page-google.js"></script>
+</body>
+</html> 

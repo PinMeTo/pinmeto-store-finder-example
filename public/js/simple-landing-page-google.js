@@ -854,7 +854,18 @@
             storeOpeningHoursEl.innerHTML = '';
             if (store.openHours && typeof store.openHours === 'object' && Object.keys(store.openHours).length > 0) {
                 DAY_KEYS_ORDER.forEach((dayKey, index) => {
-                    const dayData = store.openHours[dayKey];
+                    // Map translation keys to data structure keys
+                    const dataKeyMap = {
+                        'monday': 'mon',
+                        'tuesday': 'tue',
+                        'wednesday': 'wed',
+                        'thursday': 'thu',
+                        'friday': 'fri',
+                        'saturday': 'sat',
+                        'sunday': 'sun'
+                    };
+                    const dataKey = dataKeyMap[dayKey];
+                    const dayData = store.openHours[dataKey];
                     const dayName = t(`weekdays.${dayKey}`);
                     const li = document.createElement('li');
                     if (dayData) {
