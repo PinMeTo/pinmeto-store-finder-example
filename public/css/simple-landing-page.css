@@ -127,8 +127,20 @@ html, body, #pmt-store-landing-page-container {
     display: inline-block;
 }
 
+/* Dynamic spacing for longer weekday names in different languages */
+#pmt-store-landing-page-container li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px; /* Consistent spacing between day name and hours */
+}
+
 #pmt-store-landing-page-container li span.pmt-day-name-label {
-    width: 90px;
+    flex-shrink: 0; /* Prevent shrinking */
+    width: auto; /* Allow natural width */
+    min-width: 120px; /* Minimum width for consistency */
+    max-width: 200px; /* Maximum width to prevent excessive spacing */
+    display: inline-block;
+    text-align: left;
 }
 
 /* ==========================================================================
