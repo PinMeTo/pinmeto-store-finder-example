@@ -16,8 +16,7 @@
     const API_URL = getConfigFromDataAttr(rootEl, 'data-api-url', 'https://public-api.test.pinmeto.com/pinmeto/abc123/locations.json');
 
     let GOOGLE_MAPS_API_KEY = null; // Initialize as null
-    const WEEKDAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    const DAY_KEYS_ORDER = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+    const DAY_KEYS_ORDER = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
     const DEFAULT_STORE_CODE = '1337';
 
     // Default image URL
@@ -51,7 +50,8 @@
     let currentLanguage = 'en';
 
     function t(key, replacements = {}) {
-        let text = translations[key] || key;
+        // Support dot notation for nested keys
+        let text = key.split('.').reduce((o, i) => (o ? o[i] : undefined), translations) || key;
         for (const placeholder in replacements) {
             text = text.replace(`{${placeholder}}`, replacements[placeholder]);
         }
@@ -98,7 +98,16 @@
                 storeNotFoundMessage: "The store you're looking for could not be found. Would you like to browse all our stores?",
                 backToStoreLocator: "Back to Store Locator",
                 services: "Services",
-                fuelPrices: "Fuel Prices"
+                fuelPrices: "Fuel Prices",
+                weekdays: {
+                    "sunday": "Sunday",
+                    "monday": "Monday",
+                    "tuesday": "Tuesday",
+                    "wednesday": "Wednesday",
+                    "thursday": "Thursday",
+                    "friday": "Friday",
+                    "saturday": "Saturday"
+                }
             };
         }
     }
@@ -847,7 +856,7 @@
             if (store.openHours && typeof store.openHours === 'object' && Object.keys(store.openHours).length > 0) {
                 DAY_KEYS_ORDER.forEach((dayKey, index) => {
                     const dayData = store.openHours[dayKey];
-                    const dayName = WEEKDAYS_EN[index];
+                    const dayName = t(`weekdays.${dayKey}`);
                     const li = document.createElement('li');
                     if (dayData) {
                         let timeStr = 'Closed';
