@@ -41,6 +41,28 @@ html, body, #pmt-store-landing-page-container {
     --pmt-sl-input-bg: #ffffff;        /* Input background */
     --pmt-sl-map-bg: #e5e7eb;          /* Map background */
     --pmt-sl-link-color: #2563eb;      /* Link color (blue-600) */
+    --pmt-sl-primary: #2563eb;         /* Primary color for focus states */
+
+    /* Spacing Scale (8px base) */
+    --pmt-sl-space-0: 0;
+    --pmt-sl-space-1: 0.125rem;  /* 2px */
+    --pmt-sl-space-2: 0.25rem;   /* 4px */
+    --pmt-sl-space-3: 0.5rem;    /* 8px */
+    --pmt-sl-space-4: 0.75rem;   /* 12px */
+    --pmt-sl-space-5: 1rem;      /* 16px */
+    --pmt-sl-space-6: 1.5rem;    /* 24px */
+    --pmt-sl-space-7: 2rem;      /* 32px */
+    --pmt-sl-space-8: 3rem;      /* 48px */
+
+    /* Border Radius Scale */
+    --pmt-sl-radius-sm: 0.25rem;  /* 4px */
+    --pmt-sl-radius-md: 0.375rem; /* 6px */
+    --pmt-sl-radius-lg: 0.5rem;   /* 8px */
+    --pmt-sl-radius-full: 50%;
+
+    /* Social Icon Colors */
+    --pmt-sl-social-bg: #f5f5f5;
+    --pmt-sl-social-bg-hover: #e5e7eb;
 }
 
 /* Dark Mode Theme Variables */
@@ -65,6 +87,11 @@ html.dark {
     --pmt-sl-input-bg: #374151;
     --pmt-sl-map-bg: #374151;
     --pmt-sl-link-color: #60a5fa;      /* Link color (blue-400) */
+    --pmt-sl-primary: #60a5fa;         /* Primary color for focus states in dark mode */
+
+    /* Social Icon Colors */
+    --pmt-sl-social-bg: #374151;
+    --pmt-sl-social-bg-hover: #4b5563;
 }
 
 /* ==========================================================================
@@ -151,9 +178,11 @@ body {
 }
 
 .pmt-sl-header h1 {
-    font-size: 1.125rem;
-    font-weight: 600;
+    font-size: 1.5rem; /* Increased from 1.125rem for stronger hierarchy */
+    font-weight: 700; /* Increased from 600 for more prominence */
     color: var(--pmt-sl-text-primary);
+    margin: 0;
+    line-height: 1.3;
 }
 
 /* Footer Styles */
@@ -179,7 +208,7 @@ body {
     display: flex;
     height: 2.5rem;
     width: 100%;
-    border-radius: 0.375rem;
+    border-radius: var(--pmt-sl-radius-md);
     border: 1px solid var(--pmt-sl-input-border);
     background-color: var(--pmt-sl-input-bg);
     font-size: 0.875rem;
@@ -191,7 +220,8 @@ body {
 }
 
 .pmt-sl-search-input:focus {
-    outline: none;
+    outline: 2px solid var(--pmt-sl-primary);
+    outline-offset: 2px;
 }
 
 .pmt-sl-search-input:disabled {
@@ -212,7 +242,7 @@ body {
 /* Store List Item Styles */
 .pmt-store-list-item {
     margin-bottom: 0.125rem;
-    border-radius: 0.375rem;
+    border-radius: var(--pmt-sl-radius-md);
     border: 1px solid var(--pmt-sl-border-color);
     box-shadow: var(--pmt-sl-shadow);
     cursor: pointer;
@@ -222,6 +252,11 @@ body {
 
 .pmt-store-list-item:hover {
     background-color: var(--pmt-sl-bg-secondary);
+}
+
+.pmt-store-list-item:focus-within {
+    outline: 2px solid var(--pmt-sl-primary);
+    outline-offset: 2px;
 }
 
 /* Store List Item Header */
@@ -260,14 +295,14 @@ body {
     height: 100%;
     width: 100%;
     background-color: var(--pmt-sl-map-bg);
-    border-radius: 0.5rem;
+    border-radius: var(--pmt-sl-radius-lg);
     box-shadow: var(--pmt-sl-shadow);
 }
 
 .leaflet-container {
     height: 100%;
     width: 100%;
-    border-radius: 0.5rem;
+    border-radius: var(--pmt-sl-radius-lg);
 }
 
 /* ==========================================================================
@@ -284,7 +319,7 @@ body {
 .pmt-loader {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #3498db;
-    border-radius: 50%;
+    border-radius: var(--pmt-sl-radius-full);
     width: 30px;
     height: 30px;
     animation: pmt-spin 1s linear infinite;
@@ -299,22 +334,43 @@ body {
 /* ==========================================================================
    Utility Classes & Messages
    ========================================================================== */
+/* Error State */
 .pmt-sl-error-text {
     text-align: center;
     color: #dc2626;
-    margin-top: 1rem;
-    padding: 0 0.5rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: var(--pmt-sl-radius-md);
+    padding: var(--pmt-sl-space-5);
+    margin: var(--pmt-sl-space-5);
+    font-size: 0.875rem;
+    line-height: 1.5;
 }
 
 html.dark .pmt-sl-error-text {
-    color: #f87171;
+    color: #fca5a5;
+    background: #7f1d1d;
+    border-color: #991b1b;
 }
 
+/* Empty State */
 .pmt-sl-muted-text {
     text-align: center;
     color: var(--pmt-sl-text-muted);
-    margin-top: 1rem;
-    padding: 0 0.5rem;
+    background: var(--pmt-sl-bg-secondary);
+    border: 1px solid var(--pmt-sl-border-color);
+    border-radius: var(--pmt-sl-radius-md);
+    padding: var(--pmt-sl-space-6);
+    margin: var(--pmt-sl-space-5);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.pmt-sl-empty-icon {
+    font-size: 2.5rem;
+    color: var(--pmt-sl-text-muted);
+    margin-bottom: var(--pmt-sl-space-3);
+    opacity: 0.5;
 }
 
 /* ==========================================================================
@@ -340,6 +396,13 @@ html.dark .pmt-sl-error-text {
     text-decoration: underline;
 }
 
+.pmt-sl-details-link:focus,
+.pmt-sl-directions-link:focus {
+    outline: 2px solid var(--pmt-sl-primary);
+    outline-offset: 2px;
+    border-radius: var(--pmt-sl-radius-sm);
+}
+
 /* Phone Link Styles */
 .pmt-sl-phone-link {
     color: inherit;
@@ -348,6 +411,12 @@ html.dark .pmt-sl-error-text {
 
 .pmt-sl-phone-link:hover {
     text-decoration: underline;
+}
+
+.pmt-sl-phone-link:focus {
+    outline: 2px solid var(--pmt-sl-primary);
+    outline-offset: 2px;
+    border-radius: var(--pmt-sl-radius-sm);
 }
 
 /* ==========================================================================
@@ -372,7 +441,7 @@ html.dark .pmt-sl-error-text {
 #pmt-store-locator-root .pmt-map-info-window {
     background: var(--pmt-sl-bg-primary);
     box-shadow: var(--pmt-sl-shadow);
-    border-radius: 0.375rem;
+    border-radius: var(--pmt-sl-radius-md);
     border: 1px solid var(--pmt-sl-border-color);
     padding: 0.25rem 0.75rem;
     max-width: 280px;
@@ -396,13 +465,13 @@ html.dark .pmt-sl-error-text {
 /* Info Window Content */
 #pmt-store-locator-root .pmt-map-info-window .pmt-store-list-item-content {
     padding: 0.125rem 0 0.25rem 0;
-    font-size: 0.75rem;
+    font-size: 0.8125rem; /* Increased from 0.75rem for better readability */
 }
 
 #pmt-store-locator-root .pmt-map-info-window .pmt-store-list-item-content p {
     margin: 0;
-    color: var(--pmt-sl-text-secondary);
-    line-height: 1.3;
+    color: var(--pmt-sl-text-primary); /* Changed from text-secondary for better contrast */
+    line-height: 1.4; /* Increased for better readability */
 }
 
 #pmt-store-locator-root .pmt-map-info-window .pmt-store-list-item-content span {
@@ -468,17 +537,23 @@ html.dark .pmt-sl-error-text {
     justify-content: center;
     width: 1.8em;
     height: 1.8em;
-    border-radius: 50%;
-    background: #f5f5f5;
+    border-radius: var(--pmt-sl-radius-full);
+    background: var(--pmt-sl-social-bg);
     color: inherit;
     text-decoration: none;
     transition: background 0.2s, transform 0.2s;
 }
 
-.pmt-sl-social-link:hover,
-.pmt-sl-social-link:focus {
-    background: #e0e0e0;
+.pmt-sl-social-link:hover {
+    background: var(--pmt-sl-social-bg-hover);
     transform: scale(1.1);
+}
+
+.pmt-sl-social-link:focus {
+    background: var(--pmt-sl-social-bg-hover);
+    transform: scale(1.1);
+    outline: 2px solid var(--pmt-sl-primary);
+    outline-offset: 2px;
 }
 
 .pmt-sl-social-link svg {
@@ -556,23 +631,27 @@ html.dark .pmt-sl-error-text {
    Hours Button Styles
    ========================================================================== */
 .pmt-store-list-item .pmt-hours-button {
-    background: none;
-    border: none;
-    padding: 0;
-    color: inherit;
+    background: transparent;
+    border: 1px solid var(--pmt-sl-border-color);
+    padding: 0.25rem 0.5rem;
+    color: var(--pmt-sl-text-primary);
     cursor: pointer;
-    text-decoration: underline !important;
-    text-underline-offset: 2px;
-    text-decoration-thickness: 1px;
-    font-size: inherit;
+    text-decoration: none;
+    font-size: 0.75rem;
     font-family: inherit;
+    border-radius: var(--pmt-sl-radius-sm);
+    transition: all 0.15s ease-in-out;
 }
 
 .pmt-store-list-item .pmt-hours-button:hover {
-    color: var(--pmt-sl-link-color);
-    text-decoration: underline !important;
-    text-underline-offset: 2px;
-    text-decoration-thickness: 1px;
+    background: var(--pmt-sl-bg-secondary);
+    border-color: var(--pmt-sl-primary);
+    color: var(--pmt-sl-primary);
+}
+
+.pmt-store-list-item .pmt-hours-button:focus {
+    outline: 2px solid var(--pmt-sl-primary);
+    outline-offset: 2px;
 }
 
 /* ==========================================================================
@@ -625,7 +704,7 @@ html.dark .pmt-sl-error-text {
     .pmt-sl-map-container {
         height: 200px; /* Fixed height for mobile map */
         margin: 0.5rem;
-        border-radius: 0.375rem;
+        border-radius: var(--pmt-sl-radius-md);
     }
 
     .pmt-sl-list-container {
@@ -644,6 +723,27 @@ html.dark .pmt-sl-error-text {
     }
     #pmt-map-container {
         display: none !important;
+    }
+
+    /* Increase touch targets on mobile */
+    .pmt-sl-details-link,
+    .pmt-sl-directions-link {
+        padding: var(--pmt-sl-space-3) var(--pmt-sl-space-4);
+        font-size: 0.875rem;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .pmt-store-list-item .pmt-hours-button {
+        padding: var(--pmt-sl-space-3) var(--pmt-sl-space-4);
+        min-height: 44px;
+        font-size: 0.875rem;
+    }
+
+    .pmt-sl-social-link {
+        width: 44px;
+        height: 44px;
     }
 }
 
@@ -666,4 +766,17 @@ html.dark .pmt-sl-error-text {
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+}
+
+/* Screen reader only - visually hidden but accessible to assistive tech */
+.pmt-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }

@@ -491,13 +491,21 @@
         if (!listContainerElement) return;
         listContainerElement.innerHTML = '';
 
-        if (isLoading) { 
+        if (isLoading) {
             const loader = document.createElement('div');
             loader.className = "pmt-loader";
             loader.setAttribute('role', 'status');
+            loader.setAttribute('aria-live', 'polite');
             loader.setAttribute('aria-label', t('loading'));
+
+            // Add visually hidden text for screen readers
+            const srText = document.createElement('span');
+            srText.className = 'pmt-sr-only';
+            srText.textContent = t('loading');
+            loader.appendChild(srText);
+
             listContainerElement.appendChild(loader);
-            return; 
+            return;
         }
         if (error) { 
             const errorEl = document.createElement('p');
@@ -507,13 +515,27 @@
             listContainerElement.appendChild(errorEl);
             return; 
         }
-        if (!filteredStores || filteredStores.length === 0) { 
-            const noResults = document.createElement('p');
-            noResults.className = "pmt-sl-muted-text";
-            noResults.setAttribute('role', 'status');
-            noResults.textContent = t('noStoresFound');
-            listContainerElement.appendChild(noResults);
-            return; 
+        if (!filteredStores || filteredStores.length === 0) {
+            const emptyState = document.createElement('div');
+            emptyState.className = "pmt-sl-muted-text";
+            emptyState.setAttribute('role', 'status');
+
+            // Add icon (using inline SVG for consistency)
+            const icon = document.createElement('div');
+            icon.className = 'pmt-sl-empty-icon';
+            icon.innerHTML = `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>`;
+            emptyState.appendChild(icon);
+
+            const message = document.createElement('p');
+            message.textContent = t('noStoresFound');
+            message.style.margin = '0';
+            emptyState.appendChild(message);
+
+            listContainerElement.appendChild(emptyState);
+            return;
         }
 
         const listFragment = document.createDocumentFragment();
