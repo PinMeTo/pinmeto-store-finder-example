@@ -110,11 +110,11 @@
     --pmt-color-primary-light: #60a5fa;
     --pmt-color-primary-dark: #1e40af;
 
-    /* Colors - Text */
-    --pmt-color-text-primary: #374151;
-    --pmt-color-text-secondary: #4b5563;
-    --pmt-color-text-heading: #22223b;
-    --pmt-color-text-muted: #6b7280;
+    /* Colors - Text (WCAG AA compliant - 4.5:1 contrast ratio) */
+    --pmt-color-text-primary: #1f2937;
+    --pmt-color-text-secondary: #374151;
+    --pmt-color-text-heading: #111827;
+    --pmt-color-text-muted: #4b5563;
 
     /* Colors - Background */
     --pmt-color-bg-page: #f4f6fa;
@@ -140,6 +140,7 @@
     --pmt-radius-sm: 6px;
     --pmt-radius-md: 8px;
     --pmt-radius-lg: 12px;
+    --pmt-radius-xl: 16px;
     --pmt-radius-full: 50%;
 
     /* Typography */
@@ -151,6 +152,40 @@
     --pmt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
     --pmt-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
     --pmt-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    #pmt-store-landing-page-container {
+        /* Colors - Primary (lighter shade for better contrast) */
+        --pmt-color-primary: #60a5fa;
+        --pmt-color-primary-light: #93c5fd;
+        --pmt-color-primary-dark: #3b82f6;
+
+        /* Colors - Text (inverted for dark backgrounds) */
+        --pmt-color-text-primary: #e5e7eb;
+        --pmt-color-text-secondary: #d1d5db;
+        --pmt-color-text-heading: #f3f4f6;
+        --pmt-color-text-muted: #9ca3af;
+
+        /* Colors - Background (dark grays) */
+        --pmt-color-bg-page: #111827;
+        --pmt-color-bg-card: #1f2937;
+        --pmt-color-bg-secondary: #374151;
+
+        /* Colors - Borders (darker) */
+        --pmt-color-border: #374151;
+        --pmt-color-border-light: #4b5563;
+
+        /* Shadows (darker and more subtle) */
+        --pmt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+        --pmt-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+        --pmt-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+
+        /* Apply dark mode colors */
+        background: var(--pmt-color-bg-page);
+        color: var(--pmt-color-text-primary);
+    }
 }
 
 /* Universal focus styles for accessibility */
@@ -180,14 +215,14 @@
     max-width: 600px;
     width: 100%;
     margin: 24px auto;
-    background: #fff;
+    background: var(--pmt-color-bg-card);
     padding: 24px 16px 16px 16px;
     border-radius: 12px;
-    box-shadow: 0 4px 16px 0 rgba(60,64,67,0.08), 0 1px 2px 0 rgba(60,64,67,0.04);
+    box-shadow: var(--pmt-shadow-md);
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--pmt-color-border);
 }
 
 /* Main heading styles */
@@ -195,7 +230,7 @@
     font-size: 1.8em;
     font-weight: 800;
     margin: 0 0 24px 0;
-    color: #22223b;
+    color: var(--pmt-color-text-heading);
     text-align: center;
     letter-spacing: 0.01em;
 }
@@ -205,7 +240,7 @@
     font-size: 1.1em;
     font-weight: 700;
     margin: 36px 0 14px 0;
-    color: #22223b;
+    color: var(--pmt-color-text-heading);
     display: flex;
     align-items: center;
     gap: 0.5em;
@@ -230,7 +265,7 @@
 #pmt-store-landing-page-container section {
     margin-bottom: 24px;
     padding-bottom: 12px;
-    border-bottom: 1px solid #ececec;
+    border-bottom: 1px solid var(--pmt-color-border);
 }
 
 /* Remove border from last section */
@@ -244,7 +279,7 @@
 #pmt-store-landing-page-container section > address,
 #pmt-store-landing-page-container section > div:not(.pmt-store-map, .pmt-address-map-container) {
     margin-left: 18px;
-    color: #4b5563;
+    color: var(--pmt-color-text-secondary);
 }
 
 /* List styles */
@@ -262,7 +297,7 @@
 /* Special list item styles */
 #pmt-store-landing-page-container li.pmt-no-exceptions-message {
     font-style: italic;
-    color: #6b7280;
+    color: var(--pmt-color-text-muted);
 }
 
 /* Label styles for list items */
@@ -273,18 +308,16 @@
 
 /* Dynamic spacing for longer weekday names in different languages */
 #pmt-store-landing-page-container li {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
     align-items: flex-start;
     gap: 12px; /* Consistent spacing between day name and hours */
 }
 
 #pmt-store-landing-page-container li span.pmt-day-name-label {
-    flex-shrink: 0; /* Prevent shrinking */
-    width: auto; /* Allow natural width */
-    min-width: 120px; /* Minimum width for consistency */
-    max-width: 200px; /* Maximum width to prevent excessive spacing */
-    display: inline-block;
+    grid-column: 1;
     text-align: left;
+    white-space: nowrap; /* Prevent day names from wrapping */
 }
 
 /* ==========================================================================
@@ -321,7 +354,7 @@
 
 /* Address text styles */
 #pmt-store-landing-page-container #pmt-store-address {
-    color: #4b5563;
+    color: var(--pmt-color-text-secondary);
     margin-bottom: 10px;
     font-size: 1.05em;
 }
@@ -330,8 +363,9 @@
 .pmt-address-lines {
     line-height: 1.4;
     font-size: 0.95em;
-    color: #444;
+    color: var(--pmt-color-text-secondary);
     margin: 0 0;
+    font-style: normal; /* Use normal style for better readability of critical wayfinding information */
 }
 
 .pmt-address-lines br {
@@ -368,9 +402,9 @@
 #pmt-store-landing-page-container #pmt-store-map-wrapper {
     flex-shrink: 0;
     width: 100%;
-    border-radius: 16px;
+    border-radius: var(--pmt-radius-xl);
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(60,64,67,0.10), 0 0 0 1px rgba(0,0,0,0.05);
+    box-shadow: var(--pmt-shadow-md);
     margin-left: 0;
     margin-bottom: 0;
 }
@@ -396,7 +430,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5em;
-    color: #2563eb;
+    color: var(--pmt-color-primary);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.95em;
@@ -404,7 +438,7 @@
 }
 
 .pmt-back-link:hover {
-    color: #1d4ed8;
+    color: var(--pmt-color-primary-dark);
     text-decoration: underline;
 }
 
@@ -437,7 +471,7 @@
    ========================================================================== */
 /* Phone link styles */
 #pmt-store-landing-page-container #pmt-store-phone a {
-    color: #2563eb;
+    color: var(--pmt-color-primary);
     text-decoration: none;
     cursor: pointer;
     font-weight: 500;
@@ -467,7 +501,7 @@
 
 #pmt-store-landing-page-container #pmt-loading-state p {
     margin-left: 0;
-    color: #6b7280;
+    color: var(--pmt-color-text-muted);
 }
 
 /* Error state styles */
@@ -479,10 +513,23 @@
     margin-top: 20px;
 }
 
+@media (prefers-color-scheme: dark) {
+    #pmt-store-landing-page-container #pmt-error-state {
+        background-color: #7f1d1d;
+        border: 1px solid #991b1b;
+    }
+}
+
 #pmt-store-landing-page-container #pmt-error-message {
     color: #b91c1c;
     font-weight: 500;
     margin-left: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    #pmt-store-landing-page-container #pmt-error-message {
+        color: #fca5a5;
+    }
 }
 
 #pmt-store-landing-page-container #pmt-error-state p:last-child {
@@ -490,6 +537,12 @@
     font-size: 0.9em;
     margin-top: 8px;
     margin-left: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    #pmt-store-landing-page-container #pmt-error-state p:last-child {
+        color: #fca5a5;
+    }
 }
 
 /* ==========================================================================
@@ -804,10 +857,10 @@
    ========================================================================== */
 /* Store info card container */
 .pmt-info-card {
-    background: #fff;
-    border: 1px solid #e5e7eb;
+    background: var(--pmt-color-bg-card);
+    border: 1px solid var(--pmt-color-border);
     border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(60,64,67,0.10);
+    box-shadow: var(--pmt-shadow-md);
     padding: 28px 28px 18px 28px;
     max-width: 420px;
     width: 100%;
@@ -871,23 +924,14 @@
 }
 
 .pmt-service-item {
-    background: #f3f4f6;
-    border: 1px solid #e5e7eb;
+    background: var(--pmt-color-bg-secondary);
+    border: 1px solid var(--pmt-color-border);
     border-radius: 6px;
     padding: 6px 12px;
     font-size: 0.9em;
-    color: #374151;
+    color: var(--pmt-color-text-primary);
     display: inline-flex;
     align-items: center;
-}
-
-/* Dark mode styles for services section */
-@media (prefers-color-scheme: dark) {
-    .pmt-service-item {
-        background: #1f2937;
-        border-color: #374151;
-        color: #e5e7eb;
-    }
 }
 
 /* Fuel Prices section styles */
@@ -911,8 +955,8 @@
 }
 
 .pmt-fuel-price-item {
-    background: #f3f4f6;
-    border: 1px solid #e5e7eb;
+    background: var(--pmt-color-bg-secondary);
+    border: 1px solid var(--pmt-color-border);
     border-radius: 6px;
     padding: 12px;
     display: flex;
@@ -922,29 +966,13 @@
 
 .pmt-fuel-type {
     font-weight: 500;
-    color: #374151;
+    color: var(--pmt-color-text-primary);
 }
 
 .pmt-fuel-price {
     font-size: 1.1em;
     font-weight: 600;
-    color: #2563eb;
-}
-
-/* Dark mode styles for fuel prices section */
-@media (prefers-color-scheme: dark) {
-    .pmt-fuel-price-item {
-        background: #1f2937;
-        border-color: #374151;
-    }
-
-    .pmt-fuel-type {
-        color: #e5e7eb;
-    }
-
-    .pmt-fuel-price {
-        color: #60a5fa;
-    }
+    color: var(--pmt-color-primary);
 }
 
 /* ==========================================================================
@@ -957,7 +985,7 @@
     align-items: flex-start;
     width: 100%;
     max-width: 100%;
-    gap: 0; /* Remove gap between map and photos */
+    gap: 16px; /* Add spacing between map and photos */
 }
 
 /* Photo album section */
