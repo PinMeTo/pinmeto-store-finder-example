@@ -5,27 +5,171 @@
 /* ==========================================================================
    1. Base Layout & Container Styles
    ========================================================================== */
-/* Core layout styles for the entire page */
-html, body, #pmt-store-landing-page-container {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background: #f4f6fa; /* Light gray background for the page */
-    overflow-x: hidden;
-}
 
-/* Main container for the store landing page */
+/* Main container for the store landing page - ISOLATED from parent page */
 #pmt-store-landing-page-container {
-    min-height: 100vh;
-    width: 100%;
-    background: #f4f6fa;
+    /* Core layout */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 16px;
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 16px 0 0 0;
+    box-sizing: border-box;
+    background: #f4f6fa;
+    overflow-x: hidden;
+
+    /* Typography foundation - must be set explicitly to prevent parent inheritance */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #374151;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Reset potentially inherited properties */
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    text-decoration: none !important;
+    font-weight: normal !important;
+}
+
+/* Universal reset for all child elements */
+#pmt-store-landing-page-container *,
+#pmt-store-landing-page-container *::before,
+#pmt-store-landing-page-container *::after {
+    box-sizing: border-box !important;
+    font-family: inherit !important;
+    line-height: inherit !important;
+}
+
+/* Prevent parent typography styles from bleeding in */
+#pmt-store-landing-page-container * {
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    font-weight: inherit !important;
+}
+
+/* Reset margins and padding for common elements */
+#pmt-store-landing-page-container h1,
+#pmt-store-landing-page-container h2,
+#pmt-store-landing-page-container h3,
+#pmt-store-landing-page-container h4,
+#pmt-store-landing-page-container h5,
+#pmt-store-landing-page-container h6,
+#pmt-store-landing-page-container p,
+#pmt-store-landing-page-container ul,
+#pmt-store-landing-page-container ol,
+#pmt-store-landing-page-container li,
+#pmt-store-landing-page-container figure,
+#pmt-store-landing-page-container figcaption,
+#pmt-store-landing-page-container blockquote,
+#pmt-store-landing-page-container dl,
+#pmt-store-landing-page-container dd {
+    margin: 0;
+    padding: 0;
+}
+
+/* Reset list styles */
+#pmt-store-landing-page-container ul,
+#pmt-store-landing-page-container ol {
+    list-style: none;
+}
+
+/* Reset button styles */
+#pmt-store-landing-page-container button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+/* Reset link styles */
+#pmt-store-landing-page-container a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Reset image styles */
+#pmt-store-landing-page-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ==========================================================================
+   CSS Custom Properties (Design System Variables)
+   ========================================================================== */
+#pmt-store-landing-page-container {
+    /* Colors - Primary */
+    --pmt-color-primary: #2563eb;
+    --pmt-color-primary-light: #60a5fa;
+    --pmt-color-primary-dark: #1e40af;
+
+    /* Colors - Text */
+    --pmt-color-text-primary: #374151;
+    --pmt-color-text-secondary: #4b5563;
+    --pmt-color-text-heading: #22223b;
+    --pmt-color-text-muted: #6b7280;
+
+    /* Colors - Background */
+    --pmt-color-bg-page: #f4f6fa;
+    --pmt-color-bg-card: #ffffff;
+    --pmt-color-bg-secondary: #fafbfc;
+
+    /* Colors - Borders */
+    --pmt-color-border: #e5e7eb;
+    --pmt-color-border-light: #f3f4f6;
+
+    /* Spacing Scale (8px base) */
+    --pmt-space-1: 4px;
+    --pmt-space-2: 8px;
+    --pmt-space-3: 12px;
+    --pmt-space-4: 16px;
+    --pmt-space-5: 20px;
+    --pmt-space-6: 24px;
+    --pmt-space-8: 32px;
+    --pmt-space-10: 40px;
+    --pmt-space-12: 48px;
+
+    /* Border Radius */
+    --pmt-radius-sm: 6px;
+    --pmt-radius-md: 8px;
+    --pmt-radius-lg: 12px;
+    --pmt-radius-full: 50%;
+
+    /* Typography */
+    --pmt-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    --pmt-font-size-base: 16px;
+    --pmt-line-height-base: 1.5;
+
+    /* Shadows */
+    --pmt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --pmt-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --pmt-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Universal focus styles for accessibility */
+#pmt-store-landing-page-container a:focus,
+#pmt-store-landing-page-container button:focus {
+    outline: 3px solid var(--pmt-color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+#pmt-store-landing-page-container a:focus:not(:focus-visible),
+#pmt-store-landing-page-container button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+#pmt-store-landing-page-container a:focus-visible,
+#pmt-store-landing-page-container button:focus-visible {
+    outline: 3px solid var(--pmt-color-primary);
+    outline-offset: 2px;
 }
 
 /* ==========================================================================
@@ -222,22 +366,20 @@ html, body, #pmt-store-landing-page-container {
 
 /* Map container styles */
 #pmt-store-landing-page-container #pmt-store-map-wrapper {
-    flex-basis: 254px;
     flex-shrink: 0;
     width: 100%;
-    height: 254px;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(60,64,67,0.10);
-    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 12px rgba(60,64,67,0.10), 0 0 0 1px rgba(0,0,0,0.05);
     margin-left: 0;
+    margin-bottom: 0;
 }
 
 /* Map element styles */
 #pmt-store-landing-page-container #pmt-store-map {
     width: 100%;
     height: 100%;
-    border-radius: 16px;
+    border-radius: 0; /* Wrapper handles border-radius */
     background: #eee;
     margin: 0;
 }
@@ -588,11 +730,13 @@ html, body, #pmt-store-landing-page-container {
     padding: 0;
 }
 
-/* Social media icon styles */
-#pmt-social-media-section h2 .fa-share-nodes {
-    font-size: 1em;
+/* Social media icon styles - using inline SVG icons, not Font Awesome */
+#pmt-social-media-section h2 svg {
+    width: 1em;
+    height: 1em;
     color: #2563eb;
     margin-right: 0.4em;
+    vertical-align: middle;
 }
 
 /* Social links container */
@@ -813,35 +957,37 @@ html, body, #pmt-store-landing-page-container {
     align-items: flex-start;
     width: 100%;
     max-width: 100%;
+    gap: 0; /* Remove gap between map and photos */
 }
 
 /* Photo album section */
 .pmt-photo-album-section {
     width: 100%;
-    margin-top: 18px;
+    margin-top: 0;
 }
 
 /* Photo gallery grid */
-.pmt-photo-album-gallery {
+#pmt-store-landing-page-container .pmt-photo-album-gallery {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     width: 100%;
-    margin: 1em 0 0 0;
+    margin: 10px 0 0 0;
     padding: 0;
 }
 
 /* Individual photo styles */
-.pmt-photo-album-img {
-    width: 100%;
-    height: 200px; /* Fixed height for consistent aspect ratio */
-    object-fit: cover; /* Crop to fill the container while maintaining aspect ratio */
+#pmt-store-landing-page-container .pmt-photo-album-img {
+    width: 100% !important;
+    height: 200px !important; /* Fixed height for consistent aspect ratio */
+    object-fit: cover !important; /* Crop to fill the container while maintaining aspect ratio */
     border-radius: 8px;
     box-shadow: 0 1px 4px rgba(60,64,67,0.10);
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
     cursor: pointer; /* Indicate images are clickable */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: block !important;
 }
 
 /* Photo hover effect */
@@ -969,10 +1115,11 @@ html, body, #pmt-store-landing-page-container {
     background: rgba(255, 255, 255, 1);
 }
 
-/* Close button icon */
-.pmt-image-popup-close::before {
-    content: '×';
+/* Close button icon - now uses actual text content instead of ::before */
+.pmt-image-popup-close span {
+    font-size: 2rem;
     font-weight: bold;
+    line-height: 1;
 }
 
 /* Responsive adjustments for popup */

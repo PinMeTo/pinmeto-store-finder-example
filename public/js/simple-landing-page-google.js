@@ -1105,7 +1105,9 @@
         popup.className = 'pmt-image-popup';
         popup.innerHTML = `
             <div class="pmt-image-popup-content">
-                <button class="pmt-image-popup-close" aria-label="Close image popup"></button>
+                <button class="pmt-image-popup-close" aria-label="Close image popup">
+                    <span aria-hidden="true">×</span>
+                </button>
                 <img class="pmt-image-popup-img" src="" alt="">
             </div>
         `;
