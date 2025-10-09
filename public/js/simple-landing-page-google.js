@@ -554,12 +554,14 @@
         const storeName = store.name || 'Store';
         const city = store.address?.city || '';
         const street = store.address?.street || '';
-        const postal = store.address?.postalCode || '';
+        // API uses 'zip' field, with fallbacks for other possible naming conventions
+        const postal = store.address?.zip || store.address?.postalCode || store.address?.zipCode || store.address?.zip_code || '';
         const country = store.address?.country || '';
         const phone = store.contact?.phone || '';
         const lat = store.location?.lat;
         const lon = store.location?.lon;
-        const image = store.imageUrl || PMT_LANDING_PAGE_DEFAULT_IMAGE_URL;
+        // Check for image from multiple possible sources
+        const image = store.imageUrl || store.network?.facebook?.coverImage || store.network?.facebook?.profileImage || PMT_LANDING_PAGE_DEFAULT_IMAGE_URL;
         const url = window.location.href;
         const canonicalUrl = url.split(/[?#]/)[0] + window.location.search;
         const description = store.longDescription && typeof store.longDescription === 'string' && store.longDescription.trim().length > 0
@@ -575,6 +577,22 @@
                     sameAs.push(store.network[key].link);
                 }
             }
+        }
+
+        // --- Calculate Aggregate Rating from reviews ---
+        function calculateAggregateRating(reviews) {
+            if (!reviews || !Array.isArray(reviews) || reviews.length === 0) {
+                return null;
+            }
+            const sum = reviews.reduce((acc, review) => acc + (review.rating || 0), 0);
+            const average = sum / reviews.length;
+            return {
+                "@type": "AggregateRating",
+                "ratingValue": average.toFixed(1),
+                "reviewCount": reviews.length,
+                "bestRating": "5",
+                "worstRating": "1"
+            };
         }
 
         // --- BreadcrumbList JSON-LD ---
@@ -644,10 +662,10 @@
         setMetaTag('meta', 'name="twitter:description"', description);
         setMetaTag('meta', 'name="twitter:image"', image);
 
-        // --- JSON-LD ---
-        setJSONLD({
+        // --- JSON-LD LocalBusiness Schema ---
+        const localBusinessSchema = {
             "@context": "https://schema.org",
-            "@type": "Store",
+            "@type": "LocalBusiness",
             "name": storeName,
             "image": image,
             "address": {
@@ -657,16 +675,123 @@
                 "postalCode": postal,
                 "addressCountry": country
             },
-            "geo": lat && lon ? {
+            "telephone": phone,
+            "openingHours": openingHoursArr,
+            "url": url
+        };
+
+        // Add geo coordinates if available
+        if (lat && lon) {
+            localBusinessSchema.geo = {
                 "@type": "GeoCoordinates",
                 "latitude": lat,
                 "longitude": lon
-            } : undefined,
-            "telephone": phone,
-            "openingHours": openingHoursArr,
-            "url": url,
-            ...(sameAs.length > 0 ? { sameAs } : {})
-        });
+            };
+            // Add hasMap property with Google Maps URL
+            // Prefer the Google Maps link from API, fallback to generated URL
+            localBusinessSchema.hasMap = store.network?.google?.link || `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+        }
+
+        // Add sameAs if social media links exist
+        if (sameAs.length > 0) {
+            localBusinessSchema.sameAs = sameAs;
+        }
+
+        // Add additionalType for business classification
+        // Extract from Google categories (most reliable), then fallback to other sources
+        let businessType = null;
+        if (store.network?.google?.categories?.primaryCategory?.name) {
+            businessType = store.network.google.categories.primaryCategory.name;
+        } else if (store.network?.facebook?.categories?.primaryCategory?.name) {
+            businessType = store.network.facebook.categories.primaryCategory.name;
+        } else if (store.categories?.[0]) {
+            businessType = store.categories[0];
+        } else if (store.businessType) {
+            businessType = store.businessType;
+        }
+
+        if (businessType) {
+            localBusinessSchema.additionalType = businessType;
+        }
+
+        // Add about property with description
+        if (description) {
+            localBusinessSchema.description = description;
+        }
+
+        // Add aggregateRating if reviews exist
+        // Note: PinMeTo API does not include reviews in response, so we use demo REVIEWS_DATA
+        // If your API includes reviews, they should be in store.reviews array
+        const reviewsData = store.reviews || (typeof REVIEWS_DATA !== 'undefined' ? REVIEWS_DATA : null);
+        if (reviewsData && Array.isArray(reviewsData) && reviewsData.length > 0) {
+            const aggregateRating = calculateAggregateRating(reviewsData);
+            if (aggregateRating) {
+                localBusinessSchema.aggregateRating = aggregateRating;
+            }
+        }
+
+        // Add price range if available
+        if (store.priceRange) {
+            localBusinessSchema.priceRange = store.priceRange;
+        }
+
+        // Add payment methods if available
+        if (store.paymentAccepted) {
+            localBusinessSchema.paymentAccepted = store.paymentAccepted;
+        }
+
+        // Add currencies accepted if available
+        if (store.currenciesAccepted) {
+            localBusinessSchema.currenciesAccepted = store.currenciesAccepted;
+        }
+
+        // Add area served if available
+        if (city) {
+            localBusinessSchema.areaServed = {
+                "@type": "City",
+                "name": city
+            };
+        }
+
+        setJSONLD(localBusinessSchema);
+
+        // --- Add Organization Schema (Parent Brand) ---
+        // Extract brand name from store name (e.g., "RTV EURO AGD - Location" -> "RTV EURO AGD")
+        const brandName = storeName.split(/[-–—]/)[0].trim();
+
+        // Check if we should add Organization schema (if brand name is different from store name or has identifiable brand)
+        if (brandName && (brandName !== storeName || store.brandUrl || store.brandLogo)) {
+            const organizationSchema = {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": brandName
+            };
+
+            // Add brand URL if available
+            if (store.brandUrl) {
+                organizationSchema.url = store.brandUrl;
+            }
+
+            // Add brand logo if available
+            if (store.brandLogo) {
+                organizationSchema.logo = store.brandLogo;
+            }
+
+            // Add sameAs for brand social media if available
+            if (store.brandSocialMedia && Array.isArray(store.brandSocialMedia)) {
+                organizationSchema.sameAs = store.brandSocialMedia;
+            }
+
+            // Add Organization schema as separate script
+            let orgScript = document.querySelector('script[data-pmt-organization]');
+            if (!orgScript) {
+                orgScript = document.createElement('script');
+                orgScript.type = 'application/ld+json';
+                orgScript.setAttribute('data-pmt-organization', 'true');
+                document.head.appendChild(orgScript);
+            }
+            orgScript.textContent = JSON.stringify(organizationSchema, null, 2);
+        }
     }
 
     // Add sanitization function near the top with other helper functions
