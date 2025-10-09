@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Isolation Test - Landing Page Widget</title>
+
+    <!-- Aggressive parent page styles to test widget isolation -->
+    <style>
+        /* Simulate a customer's aggressive CSS that should NOT affect the widget */
+        * {
+            box-sizing: content-box !important;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif !important;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            padding: 20px;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Courier New', monospace !important;
+            text-transform: uppercase !important;
+            color: #ff0000 !important;
+            letter-spacing: 0.2em !important;
+        }
+
+        p {
+            font-size: 24px !important;
+            line-height: 3 !important;
+            color: purple !important;
+        }
+
+        a {
+            color: orange !important;
+            text-decoration: underline wavy !important;
+            font-weight: 900 !important;
+        }
+
+        button {
+            background: yellow !important;
+            border: 5px dashed red !important;
+            font-size: 20px !important;
+            padding: 20px !important;
+        }
+
+        img {
+            border: 10px solid pink !important;
+            border-radius: 50% !important;
+        }
+
+        ul, ol {
+            list-style: square inside !important;
+            margin-left: 50px !important;
+        }
+
+        /* Test wrapper with distinctive styles */
+        .test-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .test-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .test-info {
+            background: #fff3cd;
+            border: 3px solid #ffaa00;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        .test-info h2 {
+            margin-top: 0;
+            color: #ff6600 !important;
+        }
+
+        .test-info ul {
+            list-style: disc inside !important;
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="test-wrapper">
+        <div class="test-header">
+            <h1>🧪 CSS Isolation Test Page</h1>
+            <p style="font-size: 16px !important; line-height: 1.5 !important; color: #666 !important;">
+                This page has aggressive parent CSS styles to test if the widget properly isolates itself.
+            </p>
+        </div>
+
+        <div class="test-info">
+            <h2>Parent Page Aggressive Styles Applied:</h2>
+            <ul style="font-size: 14px !important; line-height: 1.8 !important; color: #333 !important;">
+                <li>Font: Comic Sans MS (body), Courier New (headings)</li>
+                <li>Headings: UPPERCASE, red color, extra letter-spacing</li>
+                <li>Paragraphs: 24px font, purple color, 3x line-height</li>
+                <li>Links: Orange, wavy underline, bold</li>
+                <li>Buttons: Yellow background, dashed red border</li>
+                <li>Images: Pink border, 50% border-radius</li>
+                <li>Box-sizing: content-box (non-standard)</li>
+            </ul>
+            <p style="font-size: 14px !important; line-height: 1.5 !important; color: #d9534f !important; font-weight: bold !important;">
+                ⚠️ If the widget below inherits ANY of these styles, the isolation is broken!
+            </p>
+        </div>
+
+        <h2 style="margin-bottom: 20px;">Widget Below (Should Look Normal):</h2>
+
+        <!-- The widget container - should be completely isolated -->
+        <div id="pmt-store-landing-page-container"></div>
+    </div>
+
+    <script src="js/simple-landing-page-google.js"></script>
+</body>
+</html>
