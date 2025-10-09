@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Isolation Test - PinMeTo Store Locator</title>
+    <style>
+        /* AGGRESSIVE PARENT PAGE STYLES - Testing CSS Isolation */
+        /* These styles intentionally try to break the component styling */
+
+        /* Global resets that might interfere */
+        * {
+            font-family: 'Comic Sans MS', cursive !important;
+            color: red !important;
+            border: 2px solid green !important;
+            background: yellow !important;
+            margin: 20px !important;
+            padding: 20px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 5px !important;
+        }
+
+        /* High specificity selectors */
+        html body div {
+            font-size: 50px !important;
+            line-height: 3 !important;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 100 !important;
+            font-style: italic !important;
+        }
+
+        a {
+            text-decoration: line-through !important;
+        }
+
+        button {
+            cursor: not-allowed !important;
+            opacity: 0.3 !important;
+        }
+
+        input {
+            transform: rotate(5deg) !important;
+        }
+
+        /* CSS variables override attempt */
+        :root {
+            --pmt-color-primary: #ff00ff !important;
+            --pmt-color-text-primary: #00ff00 !important;
+            --pmt-sl-text-primary: #0000ff !important;
+        }
+
+        /* Try to override container styles */
+        #pmt-store-locator-root {
+            max-width: 100px !important;
+            background: orange !important;
+        }
+
+        /* SVG override */
+        svg {
+            fill: magenta !important;
+            stroke: cyan !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS Isolation Test Page - Store Locator</h1>
+    <p>This page has EXTREMELY aggressive parent styles. The store locator below should maintain its design.</p>
+
+    <!-- Store Locator Component -->
+    <div
+        id="pmt-store-locator-root"
+        data-language="en"
+        data-api-url="/data-example/locations.json"
+        data-google-maps-api-key="AIzaSyAWZ68gP7Hbdsw6sy3qwBLxEXLvjCaWKiQ"
+    ></div>
+
+    <p>Text after component should still be affected by parent CSS</p>
+
+    <script src="/js/simple-store-locator-google.js"></script>
+</body>
+</html>

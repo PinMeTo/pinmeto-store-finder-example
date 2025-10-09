@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Isolation Test - Landing Page Component</title>
+
+    <style>
+        /* Intentionally Bad Parent CSS - Designed to Break Components */
+
+        /* Global box-sizing override */
+        * {
+            box-sizing: content-box !important;
+        }
+
+        /* Universal margin/padding resets with !important */
+        * {
+            margin: 15px !important;
+            padding: 10px !important;
+        }
+
+        /* Global font chaos */
+        * {
+            font-family: "Comic Sans MS", cursive, sans-serif !important;
+            letter-spacing: 5px !important;
+        }
+
+        /* All text uppercase */
+        * {
+            text-transform: uppercase !important;
+        }
+
+        /* Body styles */
+        body {
+            font-size: 24px !important;
+            background-color: #ffccff !important;
+            line-height: 3 !important;
+        }
+
+        /* Heading chaos */
+        h1, h2, h3, h4, h5, h6 {
+            color: red !important;
+            font-size: 50px !important;
+            font-weight: 900 !important;
+            text-decoration: underline !important;
+        }
+
+        /* Button chaos */
+        button, .button, [type="button"], [type="submit"] {
+            background: yellow !important;
+            border: 5px solid purple !important;
+            color: black !important;
+            font-size: 30px !important;
+            padding: 20px !important;
+            border-radius: 0 !important;
+        }
+
+        /* Link chaos */
+        a {
+            color: lime !important;
+            text-decoration: underline wavy !important;
+            font-size: 28px !important;
+            font-weight: bold !important;
+        }
+
+        /* Image chaos */
+        img {
+            border: 10px solid orange !important;
+            border-radius: 50% !important;
+            transform: rotate(15deg) !important;
+        }
+
+        /* Div chaos */
+        div {
+            border: 3px dashed cyan !important;
+            background: rgba(255, 255, 0, 0.3) !important;
+        }
+
+        /* Paragraph chaos */
+        p {
+            color: purple !important;
+            font-size: 26px !important;
+            line-height: 4 !important;
+        }
+
+        /* Span chaos */
+        span {
+            background: orange !important;
+            padding: 5px !important;
+        }
+
+        /* List chaos */
+        ul, ol, li {
+            list-style: square !important;
+            margin-left: 50px !important;
+        }
+
+        /* Table chaos */
+        table, td, th {
+            border: 5px solid red !important;
+            padding: 20px !important;
+        }
+
+        /* Input chaos */
+        input, textarea, select {
+            border: 5px solid green !important;
+            background: yellow !important;
+            font-size: 30px !important;
+        }
+
+        /* SVG chaos */
+        svg {
+            fill: magenta !important;
+            stroke: cyan !important;
+            stroke-width: 5px !important;
+        }
+    </style>
+</head>
+<body>
+    <div style="margin: 20px; padding: 20px; background: white; border: 5px solid red;">
+        <h1>CSS Isolation Test</h1>
+        <p>This page contains intentionally bad CSS to test the landing page component's isolation.</p>
+        <p>The component below should resist all the terrible styling applied to this page.</p>
+    </div>
+
+    <!-- Landing Page Component -->
+    <!-- Note: Landing page requires ?storeId=XXXXX in URL -->
+    <div
+        id="pmt-store-landing-page-container"
+        data-api-url="/data-example/locations.json"
+        data-google-maps-api-key="AIzaSyAWZ68gP7Hbdsw6sy3qwBLxEXLvjCaWKiQ"
+        data-show-images="true"
+        data-show-reviews="true"
+        data-language="en"
+    ></div>
+
+    <script>
+        // Redirect to add storeId if missing
+        const urlParams = new URLSearchParams(window.location.search);
+        if (!urlParams.get('storeId')) {
+            window.location.href = window.location.pathname + '?storeId=1338';
+        }
+    </script>
+
+    <div style="margin: 20px; padding: 20px; background: white; border: 5px solid red;">
+        <h2>Below the Component</h2>
+        <p>This content shows that the parent CSS is still active.</p>
+        <button>Sample Button</button>
+        <a href="#">Sample Link</a>
+    </div>
+
+    <!-- Load the landing page scripts -->
+    <script src="/js/simple-landing-page-google.js"></script>
+</body>
+</html>

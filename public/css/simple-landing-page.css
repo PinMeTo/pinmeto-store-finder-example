@@ -9,25 +9,25 @@
 /* Main container for the store landing page - ISOLATED from parent page */
 #pmt-store-landing-page-container {
     /* Core layout */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    width: 100%;
-    margin: 0;
-    padding: 16px 0 0 0;
-    box-sizing: border-box;
-    background: #f4f6fa;
-    overflow-x: hidden;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    min-height: 100vh !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 16px 0 0 0 !important;
+    box-sizing: border-box !important;
+    background: #f4f6fa !important;
+    overflow-x: hidden !important;
 
     /* Typography foundation - must be set explicitly to prevent parent inheritance */
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #374151;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    color: #374151 !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
 
     /* Reset potentially inherited properties */
     text-transform: none !important;
@@ -68,37 +68,37 @@
 #pmt-store-landing-page-container blockquote,
 #pmt-store-landing-page-container dl,
 #pmt-store-landing-page-container dd {
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* Reset list styles */
 #pmt-store-landing-page-container ul,
 #pmt-store-landing-page-container ol {
-    list-style: none;
+    list-style: none !important;
 }
 
 /* Reset button styles */
 #pmt-store-landing-page-container button {
-    background: none;
-    border: none;
-    padding: 0;
-    font: inherit;
-    color: inherit;
-    cursor: pointer;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    font: inherit !important;
+    color: inherit !important;
+    cursor: pointer !important;
 }
 
 /* Reset link styles */
 #pmt-store-landing-page-container a {
-    color: inherit;
-    text-decoration: none;
+    color: inherit !important;
+    text-decoration: none !important;
 }
 
 /* Reset image styles */
 #pmt-store-landing-page-container img {
-    max-width: 100%;
-    height: auto;
-    display: block;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
 }
 
 /* ==========================================================================
@@ -183,28 +183,28 @@
         --pmt-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
 
         /* Apply dark mode colors */
-        background: var(--pmt-color-bg-page);
-        color: var(--pmt-color-text-primary);
+        background: var(--pmt-color-bg-page) !important;
+        color: var(--pmt-color-text-primary) !important;
     }
 }
 
 /* Universal focus styles for accessibility */
 #pmt-store-landing-page-container a:focus,
 #pmt-store-landing-page-container button:focus {
-    outline: 3px solid var(--pmt-color-primary);
-    outline-offset: 2px;
-    border-radius: 2px;
+    outline: 3px solid var(--pmt-color-primary) !important;
+    outline-offset: 2px !important;
+    border-radius: 2px !important;
 }
 
 #pmt-store-landing-page-container a:focus:not(:focus-visible),
 #pmt-store-landing-page-container button:focus:not(:focus-visible) {
-    outline: none;
+    outline: none !important;
 }
 
 #pmt-store-landing-page-container a:focus-visible,
 #pmt-store-landing-page-container button:focus-visible {
-    outline: 3px solid var(--pmt-color-primary);
-    outline-offset: 2px;
+    outline: 3px solid var(--pmt-color-primary) !important;
+    outline-offset: 2px !important;
 }
 
 /* ==========================================================================
@@ -212,50 +212,50 @@
    ========================================================================== */
 /* Card-like container for main content */
 #pmt-store-landing-page-container .pmt-container {
-    max-width: 600px;
-    width: 100%;
-    margin: 24px auto;
-    background: var(--pmt-color-bg-card);
-    padding: 24px 16px 16px 16px;
-    border-radius: 12px;
-    box-shadow: var(--pmt-shadow-md);
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    border: 1px solid var(--pmt-color-border);
+    max-width: 600px !important;
+    width: 100% !important;
+    margin: 24px auto !important;
+    background: var(--pmt-color-bg-card) !important;
+    padding: 24px 16px 16px 16px !important;
+    border-radius: 12px !important;
+    box-shadow: var(--pmt-shadow-md) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    border: 1px solid var(--pmt-color-border) !important;
 }
 
 /* Main heading styles */
 #pmt-store-landing-page-container h1 {
-    font-size: 1.8em;
-    font-weight: 800;
-    margin: 0 0 24px 0;
-    color: var(--pmt-color-text-heading);
-    text-align: center;
-    letter-spacing: 0.01em;
+    font-size: 1.8em !important;
+    font-weight: 800 !important;
+    margin: 0 0 24px 0 !important;
+    color: var(--pmt-color-text-heading) !important;
+    text-align: center !important;
+    letter-spacing: 0.01em !important;
 }
 
 /* Section heading styles with decorative bar */
 #pmt-store-landing-page-container h2 {
-    font-size: 1.1em;
-    font-weight: 700;
-    margin: 36px 0 14px 0;
-    color: var(--pmt-color-text-heading);
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-    position: relative;
+    font-size: 1.1em !important;
+    font-weight: 700 !important;
+    margin: 36px 0 14px 0 !important;
+    color: var(--pmt-color-text-heading) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5em !important;
+    position: relative !important;
 }
 
 /* Decorative bar before section headings */
 #pmt-store-landing-page-container h2::before {
-    content: '';
-    display: inline-block;
-    width: 6px;
-    height: 22px;
-    background: linear-gradient(135deg, #2563eb 60%, #60a5fa 100%);
-    border-radius: 3px;
-    margin-right: 12px;
+    content: '' !important;
+    display: inline-block !important;
+    width: 6px !important;
+    height: 22px !important;
+    background: linear-gradient(135deg, #2563eb 60%, #60a5fa 100%) !important;
+    border-radius: 3px !important;
+    margin-right: 12px !important;
 }
 
 /* ==========================================================================
@@ -263,14 +263,14 @@
    ========================================================================== */
 /* Section container styles */
 #pmt-store-landing-page-container section {
-    margin-bottom: 24px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--pmt-color-border);
+    margin-bottom: 24px !important;
+    padding-bottom: 12px !important;
+    border-bottom: 1px solid var(--pmt-color-border) !important;
 }
 
 /* Remove border from last section */
 #pmt-store-landing-page-container section:last-child {
-    border-bottom: none;
+    border-bottom: none !important;
 }
 
 /* Section content spacing and colors */
@@ -278,46 +278,46 @@
 #pmt-store-landing-page-container section > ul,
 #pmt-store-landing-page-container section > address,
 #pmt-store-landing-page-container section > div:not(.pmt-store-map, .pmt-address-map-container) {
-    margin-left: 18px;
-    color: var(--pmt-color-text-secondary);
+    margin-left: 18px !important;
+    color: var(--pmt-color-text-secondary) !important;
 }
 
 /* List styles */
 #pmt-store-landing-page-container ul {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 5px;
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin-top: 5px !important;
 }
 
 #pmt-store-landing-page-container li {
-    margin-bottom: 6px;
-    font-size: 1em;
+    margin-bottom: 6px !important;
+    font-size: 1em !important;
 }
 
 /* Special list item styles */
 #pmt-store-landing-page-container li.pmt-no-exceptions-message {
-    font-style: italic;
-    color: var(--pmt-color-text-muted);
+    font-style: italic !important;
+    color: var(--pmt-color-text-muted) !important;
 }
 
 /* Label styles for list items */
 #pmt-store-landing-page-container li span.pmt-label {
-    font-weight: 500;
-    display: inline-block;
+    font-weight: 500 !important;
+    display: inline-block !important;
 }
 
 /* Dynamic spacing for longer weekday names in different languages */
 #pmt-store-landing-page-container li {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: flex-start;
-    gap: 12px; /* Consistent spacing between day name and hours */
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    align-items: flex-start !important;
+    gap: 12px !important; /* Consistent spacing between day name and hours */
 }
 
 #pmt-store-landing-page-container li span.pmt-day-name-label {
-    grid-column: 1;
-    text-align: left;
-    white-space: nowrap; /* Prevent day names from wrapping */
+    grid-column: 1 !important;
+    text-align: left !important;
+    white-space: nowrap !important; /* Prevent day names from wrapping */
 }
 
 /* ==========================================================================
@@ -325,145 +325,145 @@
    ========================================================================== */
 /* Container for address and map side-by-side layout */
 #pmt-store-landing-page-container .pmt-address-map-container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 40px;
-    margin-left: 0;
-    margin-top: 10px;
-    width: 100%;
-    box-sizing: border-box;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 40px !important;
+    margin-left: 0 !important;
+    margin-top: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 /* Address section container */
 #pmt-store-landing-page-container #pmt-store-address-container {
-    flex: 1;
-    min-width: 200px;
-    margin: 0;
-    background: none;
-    border: none;
-    box-shadow: none;
-    padding: 0;
+    flex: 1 !important;
+    min-width: 200px !important;
+    margin: 0 !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
 
 /* Address heading styles */
 #pmt-store-landing-page-container #pmt-store-address-container h2 {
-    margin: 0 0 10px 0;
-    font-size: 1.08em;
+    margin: 0 0 10px 0 !important;
+    font-size: 1.08em !important;
 }
 
 /* Address text styles */
 #pmt-store-landing-page-container #pmt-store-address {
-    color: var(--pmt-color-text-secondary);
-    margin-bottom: 10px;
-    font-size: 1.05em;
+    color: var(--pmt-color-text-secondary) !important;
+    margin-bottom: 10px !important;
+    font-size: 1.05em !important;
 }
 
 /* Address line formatting */
-.pmt-address-lines {
-    line-height: 1.4;
-    font-size: 0.95em;
-    color: var(--pmt-color-text-secondary);
-    margin: 0 0;
-    font-style: normal; /* Use normal style for better readability of critical wayfinding information */
+#pmt-store-landing-page-container .pmt-address-lines {
+    line-height: 1.4 !important;
+    font-size: 0.95em !important;
+    color: var(--pmt-color-text-secondary) !important;
+    margin: 0 0 !important;
+    font-style: normal !important; /* Use normal style for better readability of critical wayfinding information */
 }
 
-.pmt-address-lines br {
-    margin: 0.2em 0;
+#pmt-store-landing-page-container .pmt-address-lines br {
+    margin: 0.2em 0 !important;
 }
 
 /* Directions link styles */
 #pmt-store-landing-page-container #pmt-directions-paragraph {
-    margin-top: 10px;
-    font-size: 1em;
+    margin-top: 10px !important;
+    font-size: 1em !important;
 }
 
 /* Directions button styles */
 #pmt-store-landing-page-container #pmt-directions-paragraph a {
-    color: #fff;
-    background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3em;
-    font-weight: 600;
-    border-radius: 6px;
-    padding: 6px 16px;
-    box-shadow: 0 2px 8px rgba(60,64,67,0.08);
-    transition: background 0.18s;
+    color: #fff !important;
+    background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%) !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.3em !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    padding: 6px 16px !important;
+    box-shadow: 0 2px 8px rgba(60,64,67,0.08) !important;
+    transition: background 0.18s !important;
 }
 
 /* Directions button hover state */
 #pmt-store-landing-page-container #pmt-directions-paragraph a:hover {
-    background: linear-gradient(90deg, #1d4ed8 60%, #2563eb 100%);
+    background: linear-gradient(90deg, #1d4ed8 60%, #2563eb 100%) !important;
 }
 
 /* Map container styles */
 #pmt-store-landing-page-container #pmt-store-map-wrapper {
-    flex-shrink: 0;
-    width: 100%;
-    border-radius: var(--pmt-radius-xl);
-    overflow: hidden;
-    box-shadow: var(--pmt-shadow-md);
-    margin-left: 0;
-    margin-bottom: 0;
+    flex-shrink: 0 !important;
+    width: 100% !important;
+    border-radius: var(--pmt-radius-xl) !important;
+    overflow: hidden !important;
+    box-shadow: var(--pmt-shadow-md) !important;
+    margin-left: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 /* Map element styles */
 #pmt-store-landing-page-container #pmt-store-map {
-    width: 100%;
-    height: 100%;
-    border-radius: 0; /* Wrapper handles border-radius */
-    background: #eee;
-    margin: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important; /* Wrapper handles border-radius */
+    background: #eee !important;
+    margin: 0 !important;
 }
 
 /* ==========================================================================
    5. Concepts & Tags
    ========================================================================== */
 /* Back to Store Locator link styles */
-.pmt-back-to-store-locator {
-    margin-bottom: 24px;
+#pmt-store-landing-page-container .pmt-back-to-store-locator {
+    margin-bottom: 24px !important;
 }
 
-.pmt-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5em;
-    color: var(--pmt-color-primary);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95em;
-    transition: color 0.2s;
+#pmt-store-landing-page-container .pmt-back-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5em !important;
+    color: var(--pmt-color-primary) !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 0.95em !important;
+    transition: color 0.2s !important;
 }
 
-.pmt-back-link:hover {
-    color: var(--pmt-color-primary-dark);
-    text-decoration: underline;
+#pmt-store-landing-page-container .pmt-back-link:hover {
+    color: var(--pmt-color-primary-dark) !important;
+    text-decoration: underline !important;
 }
 
-.pmt-back-link svg {
-    width: 16px;
-    height: 16px;
+#pmt-store-landing-page-container .pmt-back-link svg {
+    width: 16px !important;
+    height: 16px !important;
 }
 
 /* Concepts container layout */
 #pmt-store-landing-page-container .pmt-concepts-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-left: 18px;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    margin-left: 18px !important;
 }
 
 /* Concept badge styles */
 #pmt-store-landing-page-container .pmt-concept-badge {
-    display: inline-block;
-    background-color: #e0f2fe;
-    color: #0c4a6e;
-    font-size: 0.9em;
-    font-weight: 500;
-    padding: 4px 12px;
-    border-radius: 12px;
+    display: inline-block !important;
+    background-color: #e0f2fe !important;
+    color: #0c4a6e !important;
+    font-size: 0.9em !important;
+    font-weight: 500 !important;
+    padding: 4px 12px !important;
+    border-radius: 12px !important;
 }
 
 /* ==========================================================================
@@ -471,17 +471,17 @@
    ========================================================================== */
 /* Phone link styles */
 #pmt-store-landing-page-container #pmt-store-phone a {
-    color: var(--pmt-color-primary);
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 1.05em;
+    color: var(--pmt-color-primary) !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    font-weight: 500 !important;
+    font-size: 1.05em !important;
 }
 
 /* Phone link hover state */
 #pmt-store-landing-page-container #pmt-store-phone a:hover,
 #pmt-store-landing-page-container #pmt-store-phone a:focus {
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 
 /* ==========================================================================
@@ -489,59 +489,59 @@
    ========================================================================== */
 /* Hide elements */
 #pmt-store-landing-page-container .pmt-hidden {
-    display: none;
+    display: none !important;
 }
 
 /* Loading state styles */
 #pmt-store-landing-page-container #pmt-loading-state,
 #pmt-store-landing-page-container #pmt-error-state {
-    text-align: center;
-    padding: 40px 0;
+    text-align: center !important;
+    padding: 40px 0 !important;
 }
 
 #pmt-store-landing-page-container #pmt-loading-state p {
-    margin-left: 0;
-    color: var(--pmt-color-text-muted);
+    margin-left: 0 !important;
+    color: var(--pmt-color-text-muted) !important;
 }
 
 /* Error state styles */
 #pmt-store-landing-page-container #pmt-error-state {
-    background-color: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 20px;
+    background-color: #fef2f2 !important;
+    border: 1px solid #fecaca !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    margin-top: 20px !important;
 }
 
 @media (prefers-color-scheme: dark) {
     #pmt-store-landing-page-container #pmt-error-state {
-        background-color: #7f1d1d;
-        border: 1px solid #991b1b;
+        background-color: #7f1d1d !important;
+        border: 1px solid #991b1b !important;
     }
 }
 
 #pmt-store-landing-page-container #pmt-error-message {
-    color: #b91c1c;
-    font-weight: 500;
-    margin-left: 0;
+    color: #b91c1c !important;
+    font-weight: 500 !important;
+    margin-left: 0 !important;
 }
 
 @media (prefers-color-scheme: dark) {
     #pmt-store-landing-page-container #pmt-error-message {
-        color: #fca5a5;
+        color: #fca5a5 !important;
     }
 }
 
 #pmt-store-landing-page-container #pmt-error-state p:last-child {
-    color: #dc2626;
-    font-size: 0.9em;
-    margin-top: 8px;
-    margin-left: 0;
+    color: #dc2626 !important;
+    font-size: 0.9em !important;
+    margin-top: 8px !important;
+    margin-left: 0 !important;
 }
 
 @media (prefers-color-scheme: dark) {
     #pmt-store-landing-page-container #pmt-error-state p:last-child {
-        color: #fca5a5;
+        color: #fca5a5 !important;
     }
 }
 
@@ -550,32 +550,32 @@
    ========================================================================== */
 /* Message box container */
 #pmt-store-landing-page-container #pmt-message-box {
-    display: none;
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 1rem 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    font-family: 'Inter', sans-serif;
+    display: none !important;
+    position: fixed !important;
+    top: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    z-index: 1000 !important;
+    font-family: 'Inter', sans-serif !important;
 }
 
 /* Message box variants */
 #pmt-store-landing-page-container #pmt-message-box.pmt-success {
-    background-color: #d1fae5;
-    color: #065f46;
+    background-color: #d1fae5 !important;
+    color: #065f46 !important;
 }
 
 #pmt-store-landing-page-container #pmt-message-box.pmt-error {
-    background-color: #fee2e2;
-    color: #991b1b;
+    background-color: #fee2e2 !important;
+    color: #991b1b !important;
 }
 
 #pmt-store-landing-page-container #pmt-message-box.pmt-info {
-    background-color: #dbeafe;
-    color: #1e40af;
+    background-color: #dbeafe !important;
+    color: #1e40af !important;
 }
 
 /* ==========================================================================
@@ -584,91 +584,91 @@
 @media (max-width: 900px) {
     /* Container adjustments */
     #pmt-store-landing-page-container .pmt-container {
-        margin: 16px auto;
-        padding: 20px 12px 12px 12px;
-        border-radius: 10px;
+        margin: 16px auto !important;
+        padding: 20px 12px 12px 12px !important;
+        border-radius: 10px !important;
     }
 
     /* Typography adjustments */
     #pmt-store-landing-page-container h1 {
-        font-size: 1.5em;
-        margin-bottom: 20px;
+        font-size: 1.5em !important;
+        margin-bottom: 20px !important;
     }
 
     #pmt-store-landing-page-container h2 {
-        font-size: 1em;
-        margin: 24px 0 12px 0;
+        font-size: 1em !important;
+        margin: 24px 0 12px 0 !important;
     }
 
     /* Section spacing adjustments */
     #pmt-store-landing-page-container section {
-        margin-bottom: 20px;
-        padding-bottom: 10px;
+        margin-bottom: 20px !important;
+        padding-bottom: 10px !important;
     }
 
     /* Content spacing adjustments */
     #pmt-store-landing-page-container section > p,
     #pmt-store-landing-page-container section > ul,
     #pmt-store-landing-page-container section > div:not(.pmt-address-map-container):not(.pmt-concepts-container) {
-        margin-left: 12px;
+        margin-left: 12px !important;
     }
 
     /* List item adjustments */
     #pmt-store-landing-page-container li {
-        margin-bottom: 4px;
-        font-size: 0.95em;
+        margin-bottom: 4px !important;
+        font-size: 0.95em !important;
     }
 
     /* Address and map layout adjustments */
     #pmt-store-landing-page-container .pmt-address-map-container {
-        flex-direction: column;
-        gap: 16px;
-        width: 100%;
+        flex-direction: column !important;
+        gap: 16px !important;
+        width: 100% !important;
     }
 
     /* Map size adjustments */
     #pmt-store-map-wrapper {
-        width: 100%;
-        height: 254px;
-        margin: 0 auto;
-        border-radius: 8px;
+        width: 100% !important;
+        height: 254px !important;
+        margin: 0 auto !important;
+        border-radius: 8px !important;
     }
 
     #pmt-store-map {
-        border-radius: 8px;
+        border-radius: 8px !important;
     }
 
     /* Photo album responsive adjustments */
-    .pmt-photo-album-img {
-        height: 150px; /* Smaller height for tablets */
+    #pmt-store-landing-page-container .pmt-photo-album-img {
+        height: 150px !important; /* Smaller height for tablets */
     }
 
     /* Card layout adjustments */
-    .pmt-info-card,
-    .pmt-map-album-column {
+    #pmt-store-landing-page-container .pmt-info-card,
+    #pmt-store-landing-page-container .pmt-map-album-column {
         width: 100% !important;
         max-width: 100% !important;
-        box-sizing: border-box;
+        box-sizing: border-box !important;
     }
 
-    .pmt-info-card {
-        padding: 16px 8px 10px 8px;
-        border-radius: 10px;
+    #pmt-store-landing-page-container .pmt-info-card {
+        padding: 16px 8px 10px 8px !important;
+        border-radius: 10px !important;
     }
 
     /* Social links adjustments */
-    .pmt-social-links {
-        gap: 0.4rem;
-        margin-left: 12px;
+    #pmt-store-landing-page-container .pmt-social-links {
+        gap: 0.4rem !important;
+        margin-left: 12px !important;
     }
 
-    .pmt-social-link {
-        width: 1.8rem;
-        height: 1.8rem;
+    #pmt-store-landing-page-container .pmt-social-link {
+        width: 1.8rem !important;
+        height: 1.8rem !important;
     }
 
-    .pmt-social-link i {
-        font-size: 1rem;
+    #pmt-store-landing-page-container .pmt-social-link i {
+        font-size: 1rem !important;
     }
 }
 
@@ -678,77 +678,77 @@
 @media (max-width: 375px) {
     /* Container adjustments */
     #pmt-store-landing-page-container .pmt-container {
-        margin: 12px auto;
-        padding: 16px 10px 10px 10px;
-        border-radius: 8px;
+        margin: 12px auto !important;
+        padding: 16px 10px 10px 10px !important;
+        border-radius: 8px !important;
     }
 
     /* Typography adjustments */
     #pmt-store-landing-page-container h1 {
-        font-size: 1.3em;
-        margin-bottom: 16px;
+        font-size: 1.3em !important;
+        margin-bottom: 16px !important;
     }
 
     #pmt-store-landing-page-container h2 {
-        font-size: 0.95em;
-        margin: 20px 0 10px 0;
+        font-size: 0.95em !important;
+        margin: 20px 0 10px 0 !important;
     }
 
     /* Section spacing adjustments */
     #pmt-store-landing-page-container section {
-        margin-bottom: 16px;
-        padding-bottom: 8px;
+        margin-bottom: 16px !important;
+        padding-bottom: 8px !important;
     }
 
     /* Content spacing adjustments */
     #pmt-store-landing-page-container section > p,
     #pmt-store-landing-page-container section > ul,
     #pmt-store-landing-page-container section > div:not(.pmt-address-map-container):not(.pmt-concepts-container) {
-        margin-left: 10px;
+        margin-left: 10px !important;
     }
 
     /* List item adjustments */
     #pmt-store-landing-page-container li {
-        margin-bottom: 3px;
-        font-size: 0.9em;
+        margin-bottom: 3px !important;
+        font-size: 0.9em !important;
     }
 
     /* Map size adjustments */
     #pmt-store-map-wrapper {
-        height: 254px;
+        height: 254px !important;
     }
 
     /* Photo album mobile adjustments */
-    .pmt-photo-album-img {
-        height: 120px; /* Smaller height for mobile devices */
+    #pmt-store-landing-page-container .pmt-photo-album-img {
+        height: 120px !important; /* Smaller height for mobile devices */
     }
 
     /* Card layout adjustments */
-    .pmt-info-card,
-    .pmt-map-album-column {
+    #pmt-store-landing-page-container .pmt-info-card,
+    #pmt-store-landing-page-container .pmt-map-album-column {
         width: 100% !important;
         max-width: 100% !important;
-        box-sizing: border-box;
+        box-sizing: border-box !important;
     }
 
-    .pmt-info-card {
-        padding: 10px 2px 6px 2px;
-        border-radius: 8px;
+    #pmt-store-landing-page-container .pmt-info-card {
+        padding: 10px 2px 6px 2px !important;
+        border-radius: 8px !important;
     }
 
     /* Social links adjustments */
-    .pmt-social-links {
-        gap: 0.3rem;
-        margin-left: 10px;
+    #pmt-store-landing-page-container .pmt-social-links {
+        gap: 0.3rem !important;
+        margin-left: 10px !important;
     }
 
-    .pmt-social-link {
-        width: 1.6rem;
-        height: 1.6rem;
+    #pmt-store-landing-page-container .pmt-social-link {
+        width: 1.6rem !important;
+        height: 1.6rem !important;
     }
 
-    .pmt-social-link i {
-        font-size: 0.9rem;
+    #pmt-store-landing-page-container .pmt-social-link i {
+        font-size: 0.9rem !important;
     }
 }
 
@@ -757,98 +757,98 @@
    ========================================================================== */
 /* Social media section container */
 #pmt-social-media-section {
-    margin-top: 1.5rem;
-    padding: 0 0 1.5rem 0;
-    background: none;
-    border-radius: 0;
-    box-shadow: none;
-    border-bottom: 1px solid #ececec;
+    margin-top: 1.5rem !important;
+    padding: 0 0 1.5rem 0 !important;
+    background: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid #ececec !important;
 }
 
 /* Remove border from last section */
 #pmt-social-media-section:last-child {
-    border-bottom: none;
+    border-bottom: none !important;
 }
 
 /* Social media heading styles */
 #pmt-social-media-section h2 {
-    margin-bottom: 0.5rem;
-    color: #22223b;
-    font-size: 1.1em;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-    background: none;
-    padding: 0;
+    margin-bottom: 0.5rem !important;
+    color: #22223b !important;
+    font-size: 1.1em !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5em !important;
+    background: none !important;
+    padding: 0 !important;
 }
 
 /* Social media icon styles - using inline SVG icons, not Font Awesome */
 #pmt-social-media-section h2 svg {
-    width: 1em;
-    height: 1em;
-    color: #2563eb;
-    margin-right: 0.4em;
-    vertical-align: middle;
+    width: 1em !important;
+    height: 1em !important;
+    color: #2563eb !important;
+    margin-right: 0.4em !important;
+    vertical-align: middle !important;
 }
 
 /* Social links container */
-.pmt-social-links {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-left: 18px;
-    margin-top: 0.2rem;
+#pmt-store-landing-page-container .pmt-social-links {
+    display: flex !important;
+    gap: 0.5rem !important;
+    flex-wrap: wrap !important;
+    margin-left: 18px !important;
+    margin-top: 0.2rem !important;
 }
 
 /* Individual social link styles */
-.pmt-social-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background: #f4f6fa;
-    border: 1px solid #e5e7eb;
-    color: #2563eb;
-    text-decoration: none;
-    transition: background 0.18s, border 0.18s, color 0.18s, transform 0.18s;
-    box-shadow: none;
+#pmt-store-landing-page-container .pmt-social-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 2rem !important;
+    height: 2rem !important;
+    border-radius: 50% !important;
+    background: #f4f6fa !important;
+    border: 1px solid #e5e7eb !important;
+    color: #2563eb !important;
+    text-decoration: none !important;
+    transition: background 0.18s, border 0.18s, color 0.18s, transform 0.18s !important;
+    box-shadow: none !important;
 }
 
 /* Social link hover state */
-.pmt-social-link:hover,
-.pmt-social-link:focus {
-    background: #e0e7ef;
-    border: 1px solid #2563eb;
-    color: #174ea6;
-    transform: scale(1.08);
+#pmt-store-landing-page-container .pmt-social-link:hover,
+#pmt-store-landing-page-container .pmt-social-link:focus {
+    background: #e0e7ef !important;
+    border: 1px solid #2563eb !important;
+    color: #174ea6 !important;
+    transform: scale(1.08) !important;
 }
 
 /* Social link icon size */
-.pmt-social-link i {
-    font-size: 1.1rem;
+#pmt-store-landing-page-container .pmt-social-link i {
+    font-size: 1.1rem !important;
 }
 
 /* Dark mode styles for social media section */
 @media (prefers-color-scheme: dark) {
     #pmt-social-media-section {
-        background: none;
-        border-bottom: 1px solid #374151;
+        background: none !important;
+        border-bottom: 1px solid #374151 !important;
     }
 
-    .pmt-social-link {
-        background: #23293a;
-        border: 1px solid #374151;
-        color: #60a5fa;
+    #pmt-store-landing-page-container .pmt-social-link {
+        background: #23293a !important;
+        border: 1px solid #374151 !important;
+        color: #60a5fa !important;
     }
 
-    .pmt-social-link:hover,
-    .pmt-social-link:focus {
-        background: #1e293b;
-        border: 1px solid #60a5fa;
-        color: #2563eb;
+    #pmt-store-landing-page-container .pmt-social-link:hover,
+    #pmt-store-landing-page-container .pmt-social-link:focus {
+        background: #1e293b !important;
+        border: 1px solid #60a5fa !important;
+        color: #2563eb !important;
     }
 }
 
@@ -856,152 +856,152 @@
    12. Store Info Card
    ========================================================================== */
 /* Store info card container */
-.pmt-info-card {
-    background: var(--pmt-color-bg-card);
-    border: 1px solid var(--pmt-color-border);
-    border-radius: 16px;
-    box-shadow: var(--pmt-shadow-md);
-    padding: 28px 28px 18px 28px;
-    max-width: 420px;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    flex-shrink: 0;
-    box-sizing: border-box;
+#pmt-store-landing-page-container .pmt-info-card {
+    background: var(--pmt-color-bg-card) !important;
+    border: 1px solid var(--pmt-color-border) !important;
+    border-radius: 16px !important;
+    box-shadow: var(--pmt-shadow-md) !important;
+    padding: 28px 28px 18px 28px !important;
+    max-width: 420px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 18px !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
 }
 
 /* Store details section */
 #pmt-store-details {
-    background: none;
-    border: none;
-    box-shadow: none;
-    padding: 0;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
 
 /* Store details subsections */
 #pmt-store-details section {
-    background: none;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    margin: 0 0 0 0;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 0 0 0 !important;
 }
 
 /* Remove margin from last section */
 #pmt-store-details section:last-child {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
 }
 
 /* Store details heading */
 #pmt-store-landing-page-container h2 {
-    margin: 0px 0 10px 0;
-    font-size: 1.08em;
+    margin: 0px 0 10px 0 !important;
+    font-size: 1.08em !important;
 }
 
 /* Services section styles */
 #pmt-services-section {
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 #pmt-services-section h2 {
-    margin: 0 0 10px 0;
-    font-size: 1.08em;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    margin: 0 0 10px 0 !important;
+    font-size: 1.08em !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
 }
 
-.pmt-services-container {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+#pmt-store-landing-page-container .pmt-services-container {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
 }
 
-.pmt-service-item {
-    background: var(--pmt-color-bg-secondary);
-    border: 1px solid var(--pmt-color-border);
-    border-radius: 6px;
-    padding: 6px 12px;
-    font-size: 0.9em;
-    color: var(--pmt-color-text-primary);
-    display: inline-flex;
-    align-items: center;
+#pmt-store-landing-page-container .pmt-service-item {
+    background: var(--pmt-color-bg-secondary) !important;
+    border: 1px solid var(--pmt-color-border) !important;
+    border-radius: 6px !important;
+    padding: 6px 12px !important;
+    font-size: 0.9em !important;
+    color: var(--pmt-color-text-primary) !important;
+    display: inline-flex !important;
+    align-items: center !important;
 }
 
 /* Fuel Prices section styles */
 #pmt-fuel-prices-section {
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 #pmt-fuel-prices-section h2 {
-    margin: 0 0 10px 0;
-    font-size: 1.08em;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    margin: 0 0 10px 0 !important;
+    font-size: 1.08em !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
 }
 
-.pmt-fuel-prices-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+#pmt-store-landing-page-container .pmt-fuel-prices-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
 }
 
-.pmt-fuel-price-item {
-    background: var(--pmt-color-bg-secondary);
-    border: 1px solid var(--pmt-color-border);
-    border-radius: 6px;
-    padding: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+#pmt-store-landing-page-container .pmt-fuel-price-item {
+    background: var(--pmt-color-bg-secondary) !important;
+    border: 1px solid var(--pmt-color-border) !important;
+    border-radius: 6px !important;
+    padding: 12px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
 }
 
-.pmt-fuel-type {
-    font-weight: 500;
-    color: var(--pmt-color-text-primary);
+#pmt-store-landing-page-container .pmt-fuel-type {
+    font-weight: 500 !important;
+    color: var(--pmt-color-text-primary) !important;
 }
 
-.pmt-fuel-price {
-    font-size: 1.1em;
-    font-weight: 600;
-    color: var(--pmt-color-primary);
+#pmt-store-landing-page-container .pmt-fuel-price {
+    font-size: 1.1em !important;
+    font-weight: 600 !important;
+    color: var(--pmt-color-primary) !important;
 }
 
 /* ==========================================================================
    13. Photo Album Layout
    ========================================================================== */
 /* Photo album column container */
-.pmt-map-album-column {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    max-width: 100%;
-    gap: 16px; /* Add spacing between map and photos */
+#pmt-store-landing-page-container .pmt-map-album-column {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 16px !important; /* Add spacing between map and photos */
 }
 
 /* Photo album section */
-.pmt-photo-album-section {
-    width: 100%;
-    margin-top: 0;
+#pmt-store-landing-page-container .pmt-photo-album-section {
+    width: 100% !important;
+    margin-top: 0 !important;
 }
 
 /* Photo gallery grid */
 #pmt-store-landing-page-container .pmt-photo-album-gallery {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    width: 100%;
-    margin: 10px 0 0 0;
-    padding: 0;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin: 10px 0 0 0 !important;
+    padding: 0 !important;
 }
 
 /* Individual photo styles */
@@ -1009,159 +1009,159 @@
     width: 100% !important;
     height: 200px !important; /* Fixed height for consistent aspect ratio */
     object-fit: cover !important; /* Crop to fill the container while maintaining aspect ratio */
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(60,64,67,0.10);
+    border-radius: 8px !important;
+    box-shadow: 0 1px 4px rgba(60,64,67,0.10) !important;
     margin: 0 !important;
     padding: 0 !important;
-    cursor: pointer; /* Indicate images are clickable */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer !important; /* Indicate images are clickable */
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
     display: block !important;
 }
 
 /* Photo hover effect */
-.pmt-photo-album-img:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(60,64,67,0.15);
+#pmt-store-landing-page-container .pmt-photo-album-img:hover {
+    transform: scale(1.02) !important;
+    box-shadow: 0 4px 12px rgba(60,64,67,0.15) !important;
 }
 
 /* ==========================================================================
    14. Powered By Section
    ========================================================================== */
 /* Powered by container */
-.pmt-powered-by {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.95em;
-    margin: 18px 0 8px 0;
-    padding: 0;
-    gap: 0.4em;
+#pmt-store-landing-page-container .pmt-powered-by {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.95em !important;
+    margin: 18px 0 8px 0 !important;
+    padding: 0 !important;
+    gap: 0.4em !important;
 }
 
 /* Powered by text */
-.pmt-powered-by-text {
-    font-size: 0.95em;
-    color: #888;
-    margin-right: 0.3em;
+#pmt-store-landing-page-container .pmt-powered-by-text {
+    font-size: 0.95em !important;
+    color: #888 !important;
+    margin-right: 0.3em !important;
 }
 
 /* Powered by link */
-.pmt-powered-by-link {
-    display: flex;
-    align-items: center;
-    gap: 0.2em;
-    text-decoration: none;
-    font-size: 1em;
+#pmt-store-landing-page-container .pmt-powered-by-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.2em !important;
+    text-decoration: none !important;
+    font-size: 1em !important;
 }
 
 /* Powered by logo */
-.pmt-powered-by-link svg {
-    width: 18px;
-    height: 30px;
-    vertical-align: middle;
+#pmt-store-landing-page-container .pmt-powered-by-link svg {
+    width: 18px !important;
+    height: 30px !important;
+    vertical-align: middle !important;
 }
 
 /* Powered by brand text */
-.pmt-powered-by-brand {
-    font-weight: 600;
-    color: #3399FF;
-    font-size: 1em;
-    margin-left: 0.1em;
+#pmt-store-landing-page-container .pmt-powered-by-brand {
+    font-weight: 600 !important;
+    color: #3399FF !important;
+    font-size: 1em !important;
+    margin-left: 0.1em !important;
 }
 
 /* ==========================================================================
    15. Image Popup Modal
    ========================================================================== */
 /* Popup modal overlay */
-.pmt-image-popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: 10000;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+#pmt-store-landing-page-container .pmt-image-popup {
+    display: none !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    z-index: 10000 !important;
+    cursor: pointer !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
 }
 
 /* Show popup */
-.pmt-image-popup.show {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 1;
+#pmt-store-landing-page-container .pmt-image-popup.show {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 1 !important;
 }
 
 /* Popup content container */
-.pmt-image-popup-content {
-    position: relative;
-    max-width: 90vw;
-    max-height: 90vh;
-    cursor: default;
-    transform: scale(0.8);
-    transition: transform 0.3s ease;
+#pmt-store-landing-page-container .pmt-image-popup-content {
+    position: relative !important;
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+    cursor: default !important;
+    transform: scale(0.8) !important;
+    transition: transform 0.3s ease !important;
 }
 
 /* Show popup content */
-.pmt-image-popup.show .pmt-image-popup-content {
-    transform: scale(1);
+#pmt-store-landing-page-container .pmt-image-popup.show .pmt-image-popup-content {
+    transform: scale(1) !important;
 }
 
 /* Popup image */
-.pmt-image-popup-img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    border-radius: 8px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+#pmt-store-landing-page-container .pmt-image-popup-img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* Close button */
-.pmt-image-popup-close {
-    position: absolute;
-    top: -40px;
-    right: 0;
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: #333;
-    transition: background 0.2s ease;
-    z-index: 10001;
+#pmt-store-landing-page-container .pmt-image-popup-close {
+    position: absolute !important;
+    top: -40px !important;
+    right: 0 !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 24px !important;
+    color: #333 !important;
+    transition: background 0.2s ease !important;
+    z-index: 10001 !important;
 }
 
-.pmt-image-popup-close:hover {
-    background: rgba(255, 255, 255, 1);
+#pmt-store-landing-page-container .pmt-image-popup-close:hover {
+    background: rgba(255, 255, 255, 1) !important;
 }
 
 /* Close button icon - now uses actual text content instead of ::before */
-.pmt-image-popup-close span {
-    font-size: 2rem;
-    font-weight: bold;
-    line-height: 1;
+#pmt-store-landing-page-container .pmt-image-popup-close span {
+    font-size: 2rem !important;
+    font-weight: bold !important;
+    line-height: 1 !important;
 }
 
 /* Responsive adjustments for popup */
 @media (max-width: 768px) {
-    .pmt-image-popup-content {
-        max-width: 95vw;
-        max-height: 95vh;
-        margin: 20px;
+    #pmt-store-landing-page-container .pmt-image-popup-content {
+        max-width: 95vw !important;
+        max-height: 95vh !important;
+        margin: 20px !important;
     }
     
-    .pmt-image-popup-close {
-        top: -35px;
-        width: 35px;
-        height: 35px;
-        font-size: 20px;
+    #pmt-store-landing-page-container .pmt-image-popup-close {
+        top: -35px !important;
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 20px !important;
     }
 }

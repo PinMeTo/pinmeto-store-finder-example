@@ -1,23 +1,7 @@
 /* ==========================================================================
-   Base Styles & CSS Variables
+   Base Styles & CSS Variables - CSS ISOLATION
    ========================================================================== */
-html, body, #pmt-store-landing-page-container {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-#pmt-store-landing-page-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    width: 100vw;
-    background: #f9fafb;
-}
+/* IMPORTANT: All styles use !important to prevent parent CSS bleeding */
 
 /* CSS Custom Properties (Variables) for theming */
 :root {
@@ -95,235 +79,330 @@ html.dark {
 }
 
 /* ==========================================================================
-   Root Container & Layout
+   Root Container & Layout - ISOLATED FROM PARENT CSS
    ========================================================================== */
 #pmt-store-locator-root {
-    height: 100vh;
-    max-height: 800px;
-    width: 100%;
-    overflow: hidden;
-    font-family: Inter, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: var(--pmt-sl-text-primary);
-    background-color: var(--pmt-sl-bg-secondary);
-    display: flex;
-    flex-direction: column;
+    /* Box Model - Force our layout regardless of parent */
+    height: 100vh !important;
+    max-height: 800px !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    /* Typography - Force our fonts */
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+
+    /* Colors - Force our palette */
+    color: var(--pmt-sl-text-primary) !important;
+    background-color: var(--pmt-sl-bg-secondary) !important;
+
+    /* Layout */
+    display: flex !important;
+    flex-direction: column !important;
+
+    /* Reset text transforms from parent */
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    text-decoration: none !important;
+    font-weight: 400 !important;
+}
+
+/* Universal reset for ALL child elements - prevent parent CSS bleeding */
+#pmt-store-locator-root *,
+#pmt-store-locator-root *::before,
+#pmt-store-locator-root *::after {
+    box-sizing: border-box !important;
+    font-family: inherit !important;
+    line-height: inherit !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+}
+
+/* Reset margins and padding for common elements */
+#pmt-store-locator-root h1,
+#pmt-store-locator-root h2,
+#pmt-store-locator-root h3,
+#pmt-store-locator-root h4,
+#pmt-store-locator-root h5,
+#pmt-store-locator-root h6,
+#pmt-store-locator-root p,
+#pmt-store-locator-root ul,
+#pmt-store-locator-root ol,
+#pmt-store-locator-root li,
+#pmt-store-locator-root figure,
+#pmt-store-locator-root figcaption,
+#pmt-store-locator-root blockquote,
+#pmt-store-locator-root dl,
+#pmt-store-locator-root dd {
+    margin: 0 !important;
+}
+
+/* Reset button styles */
+#pmt-store-locator-root button {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    font: inherit !important;
+    color: inherit !important;
+    cursor: pointer !important;
+}
+
+/* Reset link styles */
+#pmt-store-locator-root a {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* Reset image styles */
+#pmt-store-locator-root img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    border: none !important;
+    border-radius: 0 !important;
+    transform: none !important;
+}
+
+/* Reset SVG styles */
+#pmt-store-locator-root svg {
+    display: block !important;
+    border: none !important;
+}
+
+/* Reset div styles */
+#pmt-store-locator-root div {
+    border: none !important;
+    background: transparent !important;
+}
+
+/* Reset span styles */
+#pmt-store-locator-root span {
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+/* Reset list styles */
+#pmt-store-locator-root ul,
+#pmt-store-locator-root ol {
+    list-style: none !important;
+    padding: 0 !important;
 }
 
 /* Desktop Layout: Switch to row direction */
 @media (min-width: 768px) {
     #pmt-store-locator-root {
-        flex-direction: row;
+        flex-direction: row !important;
     }
 }
 
 /* ==========================================================================
-   Typography & Base Elements
-   ========================================================================== */
-body {
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-/* ==========================================================================
-   Panel Layout & Structure
+   Panel Layout & Structure - ISOLATED
    ========================================================================== */
 /* Left Panel: Contains search, list, and controls */
-.pmt-sl-left-panel {
-    background-color: var(--pmt-sl-bg-primary);
-    border-right: 1px solid var(--pmt-sl-panel-border-color);
-    box-shadow: var(--pmt-sl-shadow);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    flex-shrink: 0;
+#pmt-store-locator-root .pmt-sl-left-panel {
+    background-color: var(--pmt-sl-bg-primary) !important;
+    border: none !important;
+    border-right: 1px solid var(--pmt-sl-panel-border-color) !important;
+    box-shadow: var(--pmt-sl-shadow) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    width: 100% !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* Responsive panel widths */
 @media (min-width: 768px) {
-    .pmt-sl-left-panel {
-        width: 350px;
+    #pmt-store-locator-root .pmt-sl-left-panel {
+        width: 350px !important;
     }
 }
 
 @media (min-width: 1024px) {
-    .pmt-sl-left-panel {
-        width: 400px;
+    #pmt-store-locator-root .pmt-sl-left-panel {
+        width: 400px !important;
     }
 }
 
 /* Right Panel: Contains the map */
-.pmt-sl-right-panel {
-    flex-grow: 1;
-    min-width: 0;
-    height: 100%;
+#pmt-store-locator-root .pmt-sl-right-panel {
+    flex-grow: 1 !important;
+    min-width: 0 !important;
+    height: 100% !important;
 }
 
 /* ==========================================================================
    Header, Search, and Footer Components
    ========================================================================== */
-.pmt-sl-header,
-.pmt-sl-search-area,
-.pmt-sl-footer {
-    padding: 0.75rem 0.5rem;
-    flex-shrink: 0;
-    border-color: var(--pmt-sl-border-color);
+#pmt-store-locator-root .pmt-sl-header,
+#pmt-store-locator-root .pmt-sl-search-area,
+#pmt-store-locator-root .pmt-sl-footer {
+    padding: 0.75rem 0.5rem !important;
+    flex-shrink: 0 !important;
+    border-color: var(--pmt-sl-border-color) !important;
 }
 
 /* Header Styles */
-.pmt-sl-header {
-    border-bottom-width: 1px;
-    text-align: center;
+#pmt-store-locator-root .pmt-sl-header {
+    border-bottom-width: 1px !important;
+    text-align: center !important;
 }
 
-.pmt-sl-header h1 {
-    font-size: 1.5rem; /* Increased from 1.125rem for stronger hierarchy */
-    font-weight: 700; /* Increased from 600 for more prominence */
-    color: var(--pmt-sl-text-primary);
-    margin: 0;
-    line-height: 1.3;
+#pmt-store-locator-root .pmt-sl-header h1 {
+    font-size: 1.5rem !important; /* Increased from 1.125rem for stronger hierarchy */
+    font-weight: 700 !important; /* Increased from 600 for more prominence */
+    color: var(--pmt-sl-text-primary) !important;
+    margin: 0 !important;
+    line-height: 1.3 !important;
 }
 
 /* Footer Styles */
-.pmt-sl-footer {
-    border-top-width: 1px;
-    text-align: center;
-    font-size: 0.75rem;
-    color: var(--pmt-sl-text-muted);
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+#pmt-store-locator-root .pmt-sl-footer {
+    border-top-width: 1px !important;
+    text-align: center !important;
+    font-size: 0.75rem !important;
+    color: var(--pmt-sl-text-muted) !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
 }
 
 /* Search Area Styles */
-.pmt-sl-search-area {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+#pmt-store-locator-root .pmt-sl-search-area {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
 }
 
 /* ==========================================================================
    Search Input Styling
    ========================================================================== */
-.pmt-sl-search-input {
-    display: flex;
-    height: 2.5rem;
-    width: 100%;
-    border-radius: var(--pmt-sl-radius-md);
-    border: 1px solid var(--pmt-sl-input-border);
-    background-color: var(--pmt-sl-input-bg);
-    font-size: 0.875rem;
-    color: var(--pmt-sl-text-primary);
+#pmt-store-locator-root .pmt-sl-search-input {
+    display: flex !important;
+    height: 2.5rem !important;
+    width: 100% !important;
+    border-radius: var(--pmt-sl-radius-md) !important;
+    border: 1px solid var(--pmt-sl-input-border) !important;
+    background-color: var(--pmt-sl-input-bg) !important;
+    font-size: 0.875rem !important;
+    color: var(--pmt-sl-text-primary) !important;
 }
 
-.pmt-sl-search-input::placeholder {
-    color: var(--pmt-sl-text-muted);
+#pmt-store-locator-root .pmt-sl-search-input::placeholder {
+    color: var(--pmt-sl-text-muted) !important;
 }
 
-.pmt-sl-search-input:focus {
-    outline: 2px solid var(--pmt-sl-primary);
-    outline-offset: 2px;
+#pmt-store-locator-root .pmt-sl-search-input:focus {
+    outline: 2px solid var(--pmt-sl-primary) !important;
+    outline-offset: 2px !important;
 }
 
-.pmt-sl-search-input:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
+#pmt-store-locator-root .pmt-sl-search-input:disabled {
+    cursor: not-allowed !important;
+    opacity: 0.5 !important;
 }
 
 /* ==========================================================================
    Store List Container & Items
    ========================================================================== */
-.pmt-sl-list-container {
-    flex-grow: 1;
-    overflow-y: auto;
-    min-height: 0;
-    padding: 0 0.5rem 0.5rem 0.5rem;
+#pmt-store-locator-root .pmt-sl-list-container {
+    flex-grow: 1 !important;
+    overflow-y: auto !important;
+    min-height: 0 !important;
+    padding: 0 0.5rem 0.5rem 0.5rem !important;
 }
 
 /* Store List Item Styles */
-.pmt-store-list-item {
-    margin-bottom: 0.125rem;
-    border-radius: var(--pmt-sl-radius-md);
-    border: 1px solid var(--pmt-sl-border-color);
-    box-shadow: var(--pmt-sl-shadow);
-    cursor: pointer;
-    transition: background-color 0.15s ease-in-out;
-    background-color: var(--pmt-sl-bg-primary);
+#pmt-store-locator-root .pmt-store-list-item {
+    margin-bottom: 0.125rem !important;
+    border-radius: var(--pmt-sl-radius-md) !important;
+    border: 1px solid var(--pmt-sl-border-color) !important;
+    box-shadow: var(--pmt-sl-shadow) !important;
+    cursor: pointer !important;
+    transition: background-color 0.15s ease-in-out !important;
+    background-color: var(--pmt-sl-bg-primary) !important;
 }
 
-.pmt-store-list-item:hover {
-    background-color: var(--pmt-sl-bg-secondary);
+#pmt-store-locator-root .pmt-store-list-item:hover {
+    background-color: var(--pmt-sl-bg-secondary) !important;
 }
 
-.pmt-store-list-item:focus-within {
-    outline: 2px solid var(--pmt-sl-primary);
-    outline-offset: 2px;
+#pmt-store-locator-root .pmt-store-list-item:focus-within {
+    outline: 2px solid var(--pmt-sl-primary) !important;
+    outline-offset: 2px !important;
 }
 
 /* Store List Item Header */
-.pmt-store-list-item>div.pmt-store-list-item-header {
-    padding: 0.25rem 0.75rem;
+#pmt-store-locator-root .pmt-store-list-item>div.pmt-store-list-item-header {
+    padding: 0.25rem 0.75rem !important;
 }
 
-.pmt-store-list-item>div.pmt-store-list-item-header h3 {
-    font-size: 0.875rem;
-    font-weight: 600;
-    line-height: 1.25;
-    color: var(--pmt-sl-text-primary);
-    margin: 0;
+#pmt-store-locator-root .pmt-store-list-item>div.pmt-store-list-item-header h3 {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    color: var(--pmt-sl-text-primary) !important;
+    margin: 0 !important;
 }
 
 /* Store List Item Content */
-.pmt-store-list-item>div.pmt-store-list-item-content {
-    padding: 0.125rem 0.75rem 0.25rem 0.75rem;
-    font-size: 0.75rem;
+#pmt-store-locator-root .pmt-store-list-item>div.pmt-store-list-item-content {
+    padding: 0.125rem 0.75rem 0.25rem 0.75rem !important;
+    font-size: 0.75rem !important;
 }
 
-.pmt-store-list-item>div.pmt-store-list-item-content p {
-    margin: 0;
-    color: var(--pmt-sl-text-secondary);
-    line-height: 1.3;
+#pmt-store-locator-root .pmt-store-list-item>div.pmt-store-list-item-content p {
+    margin: 0 !important;
+    color: var(--pmt-sl-text-secondary) !important;
+    line-height: 1.3 !important;
 }
 
-.pmt-store-list-item>div.pmt-store-list-item-content span {
-    font-weight: 500;
+#pmt-store-locator-root .pmt-store-list-item>div.pmt-store-list-item-content span {
+    font-weight: 500 !important;
 }
 
 /* ==========================================================================
    Map Container & Controls
    ========================================================================== */
-.pmt-sl-map-container {
-    height: 100%;
-    width: 100%;
-    background-color: var(--pmt-sl-map-bg);
-    border-radius: var(--pmt-sl-radius-lg);
-    box-shadow: var(--pmt-sl-shadow);
+#pmt-store-locator-root .pmt-sl-map-container {
+    height: 100% !important;
+    width: 100% !important;
+    background-color: var(--pmt-sl-map-bg) !important;
+    border-radius: var(--pmt-sl-radius-lg) !important;
+    box-shadow: var(--pmt-sl-shadow) !important;
 }
 
 .leaflet-container {
-    height: 100%;
-    width: 100%;
-    border-radius: var(--pmt-sl-radius-lg);
+    height: 100% !important;
+    width: 100% !important;
+    border-radius: var(--pmt-sl-radius-lg) !important;
 }
 
 /* ==========================================================================
    Interactive States & Selection
    ========================================================================== */
 /* Selected list item highlight */
-.pmt-store-list-item.selected {
-    background-color: var(--pmt-sl-highlight-bg);
+#pmt-store-locator-root .pmt-store-list-item.selected {
+    background-color: var(--pmt-sl-highlight-bg) !important;
 }
 
 /* ==========================================================================
    Loading States & Animations
    ========================================================================== */
-.pmt-loader {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
-    border-radius: var(--pmt-sl-radius-full);
-    width: 30px;
-    height: 30px;
-    animation: pmt-spin 1s linear infinite;
-    margin: 20px auto;
+#pmt-store-locator-root .pmt-loader {
+    border: 4px solid #f3f3f3 !important;
+    border-top: 4px solid #3498db !important;
+    border-radius: var(--pmt-sl-radius-full) !important;
+    width: 30px !important;
+    height: 30px !important;
+    animation: pmt-spin 1s linear infinite !important;
+    margin: 20px auto !important;
 }
 
 @keyframes pmt-spin {
@@ -335,88 +414,88 @@ body {
    Utility Classes & Messages
    ========================================================================== */
 /* Error State */
-.pmt-sl-error-text {
-    text-align: center;
-    color: #dc2626;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: var(--pmt-sl-radius-md);
-    padding: var(--pmt-sl-space-5);
-    margin: var(--pmt-sl-space-5);
-    font-size: 0.875rem;
-    line-height: 1.5;
+#pmt-store-locator-root .pmt-sl-error-text {
+    text-align: center !important;
+    color: #dc2626 !important;
+    background: #fef2f2 !important;
+    border: 1px solid #fecaca !important;
+    border-radius: var(--pmt-sl-radius-md) !important;
+    padding: var(--pmt-sl-space-5) !important;
+    margin: var(--pmt-sl-space-5) !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
 }
 
 html.dark .pmt-sl-error-text {
-    color: #fca5a5;
-    background: #7f1d1d;
-    border-color: #991b1b;
+    color: #fca5a5 !important;
+    background: #7f1d1d !important;
+    border-color: #991b1b !important;
 }
 
 /* Empty State */
-.pmt-sl-muted-text {
-    text-align: center;
-    color: var(--pmt-sl-text-muted);
-    background: var(--pmt-sl-bg-secondary);
-    border: 1px solid var(--pmt-sl-border-color);
-    border-radius: var(--pmt-sl-radius-md);
-    padding: var(--pmt-sl-space-6);
-    margin: var(--pmt-sl-space-5);
-    font-size: 0.875rem;
-    line-height: 1.5;
+#pmt-store-locator-root .pmt-sl-muted-text {
+    text-align: center !important;
+    color: var(--pmt-sl-text-muted) !important;
+    background: var(--pmt-sl-bg-secondary) !important;
+    border: 1px solid var(--pmt-sl-border-color) !important;
+    border-radius: var(--pmt-sl-radius-md) !important;
+    padding: var(--pmt-sl-space-6) !important;
+    margin: var(--pmt-sl-space-5) !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
 }
 
-.pmt-sl-empty-icon {
-    font-size: 2.5rem;
-    color: var(--pmt-sl-text-muted);
-    margin-bottom: var(--pmt-sl-space-3);
-    opacity: 0.5;
+#pmt-store-locator-root .pmt-sl-empty-icon {
+    font-size: 2.5rem !important;
+    color: var(--pmt-sl-text-muted) !important;
+    margin-bottom: var(--pmt-sl-space-3) !important;
+    opacity: 0.5 !important;
 }
 
 /* ==========================================================================
    Link Styles & Interactive Elements
    ========================================================================== */
-.pmt-sl-item-links {
-    margin-top: 0.25rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
+#pmt-store-locator-root .pmt-sl-item-links {
+    margin-top: 0.25rem !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
 }
 
-.pmt-sl-details-link,
-.pmt-sl-directions-link {
-    color: var(--pmt-sl-link-color);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.75rem;
+#pmt-store-locator-root .pmt-sl-details-link,
+#pmt-store-locator-root .pmt-sl-directions-link {
+    color: var(--pmt-sl-link-color) !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 0.75rem !important;
 }
 
-.pmt-sl-details-link:hover,
-.pmt-sl-directions-link:hover {
-    text-decoration: underline;
+#pmt-store-locator-root .pmt-sl-details-link:hover,
+#pmt-store-locator-root .pmt-sl-directions-link:hover {
+    text-decoration: underline !important;
 }
 
-.pmt-sl-details-link:focus,
-.pmt-sl-directions-link:focus {
-    outline: 2px solid var(--pmt-sl-primary);
-    outline-offset: 2px;
-    border-radius: var(--pmt-sl-radius-sm);
+#pmt-store-locator-root .pmt-sl-details-link:focus,
+#pmt-store-locator-root .pmt-sl-directions-link:focus {
+    outline: 2px solid var(--pmt-sl-primary) !important;
+    outline-offset: 2px !important;
+    border-radius: var(--pmt-sl-radius-sm) !important;
 }
 
 /* Phone Link Styles */
-.pmt-sl-phone-link {
-    color: inherit;
-    text-decoration: none;
+#pmt-store-locator-root .pmt-sl-phone-link {
+    color: inherit !important;
+    text-decoration: none !important;
 }
 
-.pmt-sl-phone-link:hover {
-    text-decoration: underline;
+#pmt-store-locator-root .pmt-sl-phone-link:hover {
+    text-decoration: underline !important;
 }
 
-.pmt-sl-phone-link:focus {
-    outline: 2px solid var(--pmt-sl-primary);
-    outline-offset: 2px;
-    border-radius: var(--pmt-sl-radius-sm);
+#pmt-store-locator-root .pmt-sl-phone-link:focus {
+    outline: 2px solid var(--pmt-sl-primary) !important;
+    outline-offset: 2px !important;
+    border-radius: var(--pmt-sl-radius-sm) !important;
 }
 
 /* ==========================================================================
@@ -439,43 +518,43 @@ html.dark .pmt-sl-error-text {
 
 /* Custom Info Window Styles */
 #pmt-store-locator-root .pmt-map-info-window {
-    background: var(--pmt-sl-bg-primary);
-    box-shadow: var(--pmt-sl-shadow);
-    border-radius: var(--pmt-sl-radius-md);
-    border: 1px solid var(--pmt-sl-border-color);
-    padding: 0.25rem 0.75rem;
-    max-width: 280px;
-    min-width: 180px;
-    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: var(--pmt-sl-bg-primary) !important;
+    box-shadow: var(--pmt-sl-shadow) !important;
+    border-radius: var(--pmt-sl-radius-md) !important;
+    border: 1px solid var(--pmt-sl-border-color) !important;
+    padding: 0.25rem 0.75rem !important;
+    max-width: 280px !important;
+    min-width: 180px !important;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
 }
 
 /* Info Window Header */
 #pmt-store-locator-root .pmt-map-info-window .pmt-store-list-item-header {
-    padding: 0.25rem 0;
+    padding: 0.25rem 0 !important;
 }
 
 #pmt-store-locator-root .pmt-map-info-window .pmt-store-list-item-header h3 {
-    font-size: 0.875rem;
-    font-weight: 600;
-    line-height: 1.25;
-    color: var(--pmt-sl-text-primary);
-    margin: 0;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    color: var(--pmt-sl-text-primary) !important;
+    margin: 0 !important;
 }
 
 /* Info Window Content */
 #pmt-store-locator-root .pmt-map-info-window .pmt-store-list-item-content {
-    padding: 0.125rem 0 0.25rem 0;
-    font-size: 0.8125rem; /* Increased from 0.75rem for better readability */
+    padding: 0.125rem 0 0.25rem 0 !important;
+    font-size: 0.8125rem !important; /* Increased from 0.75rem for better readability */
 }
 
 #pmt-store-locator-root .pmt-map-info-window .pmt-store-list-item-content p {
-    margin: 0;
-    color: var(--pmt-sl-text-primary); /* Changed from text-secondary for better contrast */
-    line-height: 1.4; /* Increased for better readability */
+    margin: 0 !important;
+    color: var(--pmt-sl-text-primary) !important; /* Changed from text-secondary for better contrast */
+    line-height: 1.4 !important; /* Increased for better readability */
 }
 
 #pmt-store-locator-root .pmt-map-info-window .pmt-store-list-item-content span {
-    font-weight: 500;
+    font-weight: 500 !important;
 }
 
 /* ==========================================================================
@@ -483,206 +562,206 @@ html.dark .pmt-sl-error-text {
    ========================================================================== */
 /* Week Hours in Info Window */
 #pmt-store-locator-root .pmt-map-info-window .pmt-week-hours {
-    display: block;
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--pmt-sl-border-color);
+    display: block !important;
+    margin-top: 0.5rem !important;
+    padding-top: 0.5rem !important;
+    border-top: 1px solid var(--pmt-sl-border-color) !important;
 }
 
 #pmt-store-locator-root .pmt-map-info-window .pmt-week-hours-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 #pmt-store-locator-root .pmt-map-info-window .pmt-week-hours-list li {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.25rem 0;
-    font-size: 0.75rem;
-    color: var(--pmt-sl-text-secondary);
-    flex-wrap: wrap;
-    gap: 0.25rem;
+    display: flex !important;
+    justify-content: space-between !important;
+    padding: 0.25rem 0 !important;
+    font-size: 0.75rem !important;
+    color: var(--pmt-sl-text-secondary) !important;
+    flex-wrap: wrap !important;
+    gap: 0.25rem !important;
 }
 
 /* Hours Display Elements */
 #pmt-store-locator-root .pmt-map-info-window .pmt-week-hours-list .pmt-day-name {
-    font-weight: 500;
-    color: var(--pmt-sl-text-primary);
-    min-width: 80px;
+    font-weight: 500 !important;
+    color: var(--pmt-sl-text-primary) !important;
+    min-width: 80px !important;
 }
 
 #pmt-store-locator-root .pmt-map-info-window .pmt-week-hours-list .pmt-special-hours {
-    color: var(--pmt-sl-link-color);
-    font-weight: 500;
+    color: var(--pmt-sl-link-color) !important;
+    font-weight: 500 !important;
 }
 
 #pmt-store-locator-root .pmt-map-info-window .pmt-week-hours-list .pmt-special-hours .pmt-day-name {
-    color: var(--pmt-sl-link-color);
+    color: var(--pmt-sl-link-color) !important;
 }
 
 /* ==========================================================================
    Social Media Integration
    ========================================================================== */
-.pmt-sl-social-links {
-    display: flex;
-    gap: 0.5em;
-    margin: 0.5em 0 0.25em 0;
-    align-items: center;
+#pmt-store-locator-root .pmt-sl-social-links {
+    display: flex !important;
+    gap: 0.5em !important;
+    margin: 0.5em 0 0.25em 0 !important;
+    align-items: center !important;
 }
 
-.pmt-sl-social-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.8em;
-    height: 1.8em;
-    border-radius: var(--pmt-sl-radius-full);
-    background: var(--pmt-sl-social-bg);
-    color: inherit;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.2s;
+#pmt-store-locator-root .pmt-sl-social-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 1.8em !important;
+    height: 1.8em !important;
+    border-radius: var(--pmt-sl-radius-full) !important;
+    background: var(--pmt-sl-social-bg) !important;
+    color: inherit !important;
+    text-decoration: none !important;
+    transition: background 0.2s, transform 0.2s !important;
 }
 
-.pmt-sl-social-link:hover {
-    background: var(--pmt-sl-social-bg-hover);
-    transform: scale(1.1);
+#pmt-store-locator-root .pmt-sl-social-link:hover {
+    background: var(--pmt-sl-social-bg-hover) !important;
+    transform: scale(1.1) !important;
 }
 
-.pmt-sl-social-link:focus {
-    background: var(--pmt-sl-social-bg-hover);
-    transform: scale(1.1);
-    outline: 2px solid var(--pmt-sl-primary);
-    outline-offset: 2px;
+#pmt-store-locator-root .pmt-sl-social-link:focus {
+    background: var(--pmt-sl-social-bg-hover) !important;
+    transform: scale(1.1) !important;
+    outline: 2px solid var(--pmt-sl-primary) !important;
+    outline-offset: 2px !important;
 }
 
-.pmt-sl-social-link svg {
-    width: 1.2em;
-    height: 1.2em;
-    display: block;
+#pmt-store-locator-root .pmt-sl-social-link svg {
+    width: 1.2em !important;
+    height: 1.2em !important;
+    display: block !important;
 }
 
 /* Social Links in Info Window */
-.pmt-map-info-window .pmt-sl-social-links {
-    margin-top: 0.75rem;
-    justify-content: flex-start;
+#pmt-store-locator-root .pmt-map-info-window .pmt-sl-social-links {
+    margin-top: 0.75rem !important;
+    justify-content: flex-start !important;
 }
 
-.pmt-map-info-window .pmt-sl-social-link {
-    width: 1.75rem;
-    height: 1.75rem;
+#pmt-store-locator-root .pmt-map-info-window .pmt-sl-social-link {
+    width: 1.75rem !important;
+    height: 1.75rem !important;
 }
 
-.pmt-map-info-window .pmt-sl-social-link i {
-    font-size: 1rem;
+#pmt-store-locator-root .pmt-map-info-window .pmt-sl-social-link i {
+    font-size: 1rem !important;
 }
 
 /* ==========================================================================
    Expanded List Item Styles
    ========================================================================== */
-.pmt-store-list-item.expanded {
-    background-color: var(--pmt-sl-bg-secondary);
+#pmt-store-locator-root .pmt-store-list-item.expanded {
+    background-color: var(--pmt-sl-bg-secondary) !important;
 }
 
-.pmt-store-list-item .pmt-week-hours {
-    display: none;
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--pmt-sl-border-color);
+#pmt-store-locator-root .pmt-store-list-item .pmt-week-hours {
+    display: none !important;
+    margin-top: 0.5rem !important;
+    padding-top: 0.5rem !important;
+    border-top: 1px solid var(--pmt-sl-border-color) !important;
 }
 
-.pmt-store-list-item.expanded .pmt-week-hours {
-    display: block;
+#pmt-store-locator-root .pmt-store-list-item.expanded .pmt-week-hours {
+    display: block !important;
 }
 
 /* Hours List Styles */
-.pmt-week-hours-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+#pmt-store-locator-root .pmt-week-hours-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-.pmt-week-hours-list li {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.25rem 0;
-    font-size: 0.75rem;
-    color: var(--pmt-sl-text-secondary);
-    flex-wrap: wrap;
-    gap: 0.25rem;
+#pmt-store-locator-root .pmt-week-hours-list li {
+    display: flex !important;
+    justify-content: space-between !important;
+    padding: 0.25rem 0 !important;
+    font-size: 0.75rem !important;
+    color: var(--pmt-sl-text-secondary) !important;
+    flex-wrap: wrap !important;
+    gap: 0.25rem !important;
 }
 
-.pmt-week-hours-list .pmt-day-name {
-    font-weight: 500;
-    color: var(--pmt-sl-text-primary);
-    min-width: 80px;
+#pmt-store-locator-root .pmt-week-hours-list .pmt-day-name {
+    font-weight: 500 !important;
+    color: var(--pmt-sl-text-primary) !important;
+    min-width: 80px !important;
 }
 
-.pmt-week-hours-list .pmt-special-hours {
-    color: var(--pmt-sl-link-color);
-    font-weight: 500;
+#pmt-store-locator-root .pmt-week-hours-list .pmt-special-hours {
+    color: var(--pmt-sl-link-color) !important;
+    font-weight: 500 !important;
 }
 
-.pmt-week-hours-list .pmt-special-hours .pmt-day-name {
-    color: var(--pmt-sl-link-color);
+#pmt-store-locator-root .pmt-week-hours-list .pmt-special-hours .pmt-day-name {
+    color: var(--pmt-sl-link-color) !important;
 }
 
 /* ==========================================================================
    Hours Button Styles
    ========================================================================== */
-.pmt-store-list-item .pmt-hours-button {
-    background: transparent;
-    border: 1px solid var(--pmt-sl-border-color);
-    padding: 0.25rem 0.5rem;
-    color: var(--pmt-sl-text-primary);
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 0.75rem;
-    font-family: inherit;
-    border-radius: var(--pmt-sl-radius-sm);
-    transition: all 0.15s ease-in-out;
+#pmt-store-locator-root .pmt-store-list-item .pmt-hours-button {
+    background: transparent !important;
+    border: 1px solid var(--pmt-sl-border-color) !important;
+    padding: 0.25rem 0.5rem !important;
+    color: var(--pmt-sl-text-primary) !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    font-size: 0.75rem !important;
+    font-family: inherit !important;
+    border-radius: var(--pmt-sl-radius-sm) !important;
+    transition: all 0.15s ease-in-out !important;
 }
 
-.pmt-store-list-item .pmt-hours-button:hover {
-    background: var(--pmt-sl-bg-secondary);
-    border-color: var(--pmt-sl-primary);
-    color: var(--pmt-sl-primary);
+#pmt-store-locator-root .pmt-store-list-item .pmt-hours-button:hover {
+    background: var(--pmt-sl-bg-secondary) !important;
+    border-color: var(--pmt-sl-primary) !important;
+    color: var(--pmt-sl-primary) !important;
 }
 
-.pmt-store-list-item .pmt-hours-button:focus {
-    outline: 2px solid var(--pmt-sl-primary);
-    outline-offset: 2px;
+#pmt-store-locator-root .pmt-store-list-item .pmt-hours-button:focus {
+    outline: 2px solid var(--pmt-sl-primary) !important;
+    outline-offset: 2px !important;
 }
 
 /* ==========================================================================
    Powered By Footer
    ========================================================================== */
-.pmt-powered-by {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4em;
-    font-size: 0.85em;
-    margin-top: 0.25em;
-    color: var(--pmt-sl-text-muted);
+#pmt-store-locator-root .pmt-powered-by {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.4em !important;
+    font-size: 0.85em !important;
+    margin-top: 0.25em !important;
+    color: var(--pmt-sl-text-muted) !important;
 }
 
-.pmt-powered-by svg {
-    height: 1.8em;
-    width: auto;
-    display: inline-block;
+#pmt-store-locator-root .pmt-powered-by svg {
+    height: 1.8em !important;
+    width: auto !important;
+    display: inline-block !important;
 }
 
-.pmt-powered-by-text {
-    font-weight: 400;
-    color: var(--pmt-sl-text-muted);
+#pmt-store-locator-root .pmt-powered-by-text {
+    font-weight: 400 !important;
+    color: var(--pmt-sl-text-muted) !important;
 }
 
-.pmt-powered-by-brand {
-    font-weight: 600;
-    color: #2196F3;
-    letter-spacing: 0.01em;
-    margin-left: 0.1em;
+#pmt-store-locator-root .pmt-powered-by-brand {
+    font-weight: 600 !important;
+    color: #2196F3 !important;
+    letter-spacing: 0.01em !important;
+    margin-left: 0.1em !important;
 }
 
 /* ==========================================================================
@@ -690,68 +769,68 @@ html.dark .pmt-sl-error-text {
    ========================================================================== */
 /* Mobile Layout */
 @media (max-width: 767px) {
-    .pmt-sl-left-panel {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
+    #pmt-store-locator-root .pmt-sl-left-panel {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
     }
 
-    .pmt-sl-header,
-    .pmt-sl-search-area {
-        flex-shrink: 0;
+    #pmt-store-locator-root .pmt-sl-header,
+    #pmt-store-locator-root .pmt-sl-search-area {
+        flex-shrink: 0 !important;
     }
 
-    .pmt-sl-map-container {
-        height: 200px; /* Fixed height for mobile map */
-        margin: 0.5rem;
-        border-radius: var(--pmt-sl-radius-md);
+    #pmt-store-locator-root .pmt-sl-map-container {
+        height: 200px !important; /* Fixed height for mobile map */
+        margin: 0.5rem !important;
+        border-radius: var(--pmt-sl-radius-md) !important;
     }
 
-    .pmt-sl-list-container {
-        flex: 1;
-        overflow-y: auto;
-        margin-top: 0.5rem;
+    #pmt-store-locator-root .pmt-sl-list-container {
+        flex: 1 !important;
+        overflow-y: auto !important;
+        margin-top: 0.5rem !important;
     }
 
     /* Hide desktop map container on mobile */
-    .pmt-sl-right-panel {
-        display: none;
+    #pmt-store-locator-root .pmt-sl-right-panel {
+        display: none !important;
     }
 
     #pmt-map-container-mobile {
-        display: block;
+        display: block !important;
     }
     #pmt-map-container {
         display: none !important;
     }
 
     /* Increase touch targets on mobile */
-    .pmt-sl-details-link,
-    .pmt-sl-directions-link {
-        padding: var(--pmt-sl-space-3) var(--pmt-sl-space-4);
-        font-size: 0.875rem;
-        min-height: 44px;
-        display: inline-flex;
-        align-items: center;
+    #pmt-store-locator-root .pmt-sl-details-link,
+    #pmt-store-locator-root .pmt-sl-directions-link {
+        padding: var(--pmt-sl-space-3) var(--pmt-sl-space-4) !important;
+        font-size: 0.875rem !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
     }
 
-    .pmt-store-list-item .pmt-hours-button {
-        padding: var(--pmt-sl-space-3) var(--pmt-sl-space-4);
-        min-height: 44px;
-        font-size: 0.875rem;
+    #pmt-store-locator-root .pmt-store-list-item .pmt-hours-button {
+        padding: var(--pmt-sl-space-3) var(--pmt-sl-space-4) !important;
+        min-height: 44px !important;
+        font-size: 0.875rem !important;
     }
 
-    .pmt-sl-social-link {
-        width: 44px;
-        height: 44px;
+    #pmt-store-locator-root .pmt-sl-social-link {
+        width: 44px !important;
+        height: 44px !important;
     }
 }
 
 /* Desktop Layout */
 @media (min-width: 768px) {
-    .pmt-sl-map-container {
-        height: 100%;
-        margin: 0;
+    #pmt-store-locator-root .pmt-sl-map-container {
+        height: 100% !important;
+        margin: 0 !important;
     }
 
     #pmt-map-container-mobile {
@@ -762,21 +841,21 @@ html.dark .pmt-sl-error-text {
 /* ==========================================================================
    Utility Classes
    ========================================================================== */
-.pmt-no-select {
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
+#pmt-store-locator-root .pmt-no-select {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -ms-user-select: none !important;
 }
 
 /* Screen reader only - visually hidden but accessible to assistive tech */
-.pmt-sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+#pmt-store-locator-root .pmt-sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border-width: 0 !important;
 }
