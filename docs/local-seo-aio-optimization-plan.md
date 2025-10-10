@@ -334,9 +334,9 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
 **Priority:** Medium-High - Optimizes for AI-generated summaries
 **Estimated Impact:** 60-70% better chance of being featured in AI Overviews
 **Time Estimate:** 3-4 hours
-**Status:** 🚧 IN PROGRESS - Task 13 Complete (2025-10-10)
+**Status:** 🚧 IN PROGRESS - Tasks 13 & 14 Complete (2025-10-10)
 
-**Completed:** 1/6 tasks ✅
+**Completed:** 2/6 tasks ✅
 
 #### Tasks:
 
@@ -419,7 +419,7 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
     - **Validation:** ✅ PASSED Schema.org Validator (0 errors, 0 warnings) - 2025-10-10
     - **Test Result:** Successfully generated 5 dynamic FAQ questions on test page
 
-- [ ] **14. Add about property with concise business description**
+- [x] **14. Add about property with concise business description** ✅ COMPLETED (2025-10-10)
   - Add to LocalBusiness schema:
     ```json
     "about": "RTV EURO AGD is Poland's leading electronics and home appliance retailer, offering a wide selection of TVs, audio equipment, home appliances, and consumer electronics with expert advice and comprehensive after-sales support."
@@ -427,6 +427,15 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
   - Keep concise: 1-2 sentences
   - Include: Key offerings, unique value proposition
   - Optimize for: AI summary generation
+  - **Implementation Details:**
+    - Helper function: `generateAboutText()` (lines 583-625 in simple-landing-page-google.js)
+    - Generates concise 1-2 sentence summary based on available data
+    - Uses store.about if provided, otherwise generates from store name, business type, and city
+    - Includes value propositions customized by business type
+    - Max length: ~200 characters for optimal AI parsing
+    - Example output: "RTV EURO AGD is a Sklep AGD located in Świnoujście, dedicated to serving our local community with quality products and services."
+  - **Validation:** ✅ PASSED Schema.org Validator (0 errors, 1 warning - "about" is inherited from Thing type) - 2025-10-10
+  - **Note:** The validator shows 1 warning because "about" is not explicitly listed in LocalBusiness but is inherited from the Thing base type. This is acceptable and will be processed correctly by search engines.
 
 - [ ] **15. Add structured Service or Product offerings**
   - Option A: Add `makesOffer` property with offers/services

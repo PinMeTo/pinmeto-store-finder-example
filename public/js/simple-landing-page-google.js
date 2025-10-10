@@ -580,6 +580,50 @@
             }
         }
 
+        // --- Generate concise About text for AI Overviews ---
+        function generateAboutText(store, storeName, city, businessType) {
+            // If store has a concise about field, use it
+            if (store.about && typeof store.about === 'string' && store.about.trim().length > 0) {
+                return store.about.trim();
+            }
+
+            // Otherwise, generate a concise 1-2 sentence summary
+            let aboutText = '';
+
+            // Start with business name and type
+            if (businessType) {
+                aboutText = `${storeName} is ${/^[aeiou]/i.test(businessType) ? 'an' : 'a'} ${businessType}`;
+            } else {
+                aboutText = `${storeName} is a local business`;
+            }
+
+            // Add location context
+            if (city) {
+                aboutText += ` located in ${city}`;
+            }
+
+            // Add value proposition based on business type or generic
+            const valueProps = {
+                'Electronics Store': 'offering a wide selection of electronics, home appliances, and consumer technology with expert advice and competitive pricing',
+                'Restaurant': 'serving quality food and providing excellent dining experiences',
+                'Retail Store': 'offering quality products and excellent customer service',
+                'default': 'dedicated to serving our local community with quality products and services'
+            };
+
+            const valueProp = businessType && valueProps[businessType]
+                ? valueProps[businessType]
+                : valueProps.default;
+
+            aboutText += `, ${valueProp}.`;
+
+            // Keep it concise (max ~160 characters for optimal AI parsing)
+            if (aboutText.length > 200) {
+                aboutText = aboutText.substring(0, 197) + '...';
+            }
+
+            return aboutText;
+        }
+
         // --- Calculate Aggregate Rating from reviews ---
         function calculateAggregateRating(reviews) {
             if (!reviews || !Array.isArray(reviews) || reviews.length === 0) {
@@ -715,9 +759,15 @@
             localBusinessSchema.additionalType = businessType;
         }
 
-        // Add about property with description
+        // Add description property
         if (description) {
             localBusinessSchema.description = description;
+        }
+
+        // Add concise about property optimized for AI Overviews
+        const aboutText = generateAboutText(store, storeName, city, businessType);
+        if (aboutText) {
+            localBusinessSchema.about = aboutText;
         }
 
         // Add aggregateRating if reviews exist
