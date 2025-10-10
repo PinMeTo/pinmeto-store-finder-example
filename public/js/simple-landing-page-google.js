@@ -565,9 +565,70 @@
         const image = store.imageUrl || store.network?.facebook?.coverImage || store.network?.facebook?.profileImage || PMT_LANDING_PAGE_DEFAULT_IMAGE_URL;
         const url = window.location.href;
         const canonicalUrl = url.split(/[?#]/)[0] + window.location.search;
-        const description = store.longDescription && typeof store.longDescription === 'string' && store.longDescription.trim().length > 0
-            ? store.longDescription.trim()
-            : `Visit ${storeName}${city ? ' in ' + city : ''}. Find opening hours, address, phone number, and services. Get directions and more information about our store.`;
+
+        // --- Generate Enhanced Meta Description with Local Keywords ---
+        function generateEnhancedDescription(store, storeName, city, street, businessType) {
+            // If store has custom meta description, use it
+            if (store.metaDescription && typeof store.metaDescription === 'string' && store.metaDescription.trim().length > 0) {
+                return store.metaDescription.trim();
+            }
+
+            // If store has longDescription that's reasonably sized for meta, use it
+            if (store.longDescription && typeof store.longDescription === 'string' && store.longDescription.trim().length > 0) {
+                const longDesc = store.longDescription.trim();
+                // If it's under 160 chars, use as-is, otherwise fall through to generate
+                if (longDesc.length <= 160) {
+                    return longDesc;
+                }
+            }
+
+            // Generate SEO-optimized description with local context
+            let desc = '';
+
+            // Start with action word and store name
+            desc = `Visit ${storeName}`;
+
+            // Add business type for category context
+            if (businessType) {
+                // Clean business type (remove "Store" suffix if present for better flow)
+                const cleanType = businessType.replace(/\s+store$/i, '').toLowerCase();
+                desc += ` - ${cleanType}`;
+            }
+
+            // Add specific location with street address
+            if (city && street) {
+                // Extract street name without number for readability
+                const streetName = street.replace(/^\d+\s*/, '').trim();
+                desc += ` in ${city}`;
+                if (streetName) {
+                    desc += ` on ${streetName}`;
+                }
+            } else if (city) {
+                desc += ` in ${city}`;
+            }
+
+            // Add key benefits/services
+            desc += `. Opening hours, directions, contact info`;
+
+            // Add location context if available
+            if (store.locationDescriptor && store.locationDescriptor.trim()) {
+                desc += ` - ${store.locationDescriptor.trim()}`;
+            }
+
+            // Ensure we stay under 160 characters (optimal length)
+            if (desc.length > 160) {
+                // Trim to 157 chars and add ellipsis
+                desc = desc.substring(0, 157) + '...';
+            }
+
+            return desc;
+        }
+
+        const description = generateEnhancedDescription(store, storeName, city, street,
+            store.network?.google?.categories?.primaryCategory?.name ||
+            store.network?.facebook?.categories?.primaryCategory?.name ||
+            store.categories?.[0] ||
+            store.businessType);
         const title = `${storeName}${city ? ' – ' + city : ''} | Opening Hours, Address & Contact`;
 
         // --- Social Media Links for sameAs ---
