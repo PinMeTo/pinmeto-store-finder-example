@@ -32,10 +32,11 @@
     const CSS_PATH = getConfigFromDataAttr(rootEl, 'data-css-path', '/css/simple-landing-page.css');
     
     // Feature toggles
-    const SHOW_IMAGES = getConfigFromDataAttr(rootEl, 'data-show-images', 'true') !== 'false' && 
+    const SHOW_IMAGES = getConfigFromDataAttr(rootEl, 'data-show-images', 'true') !== 'false' &&
                        (typeof window.SHOW_IMAGES === 'undefined' || window.SHOW_IMAGES);
-    const SHOW_REVIEWS = getConfigFromDataAttr(rootEl, 'data-show-reviews', 'true') !== 'false' && 
+    const SHOW_REVIEWS = getConfigFromDataAttr(rootEl, 'data-show-reviews', 'true') !== 'false' &&
                         (typeof window.SHOW_REVIEWS === 'undefined' || window.SHOW_REVIEWS);
+    const ENABLE_FAQ = getConfigFromDataAttr(rootEl, 'data-enable-faq', 'false') === 'true';
 
     // --- DOM Elements Reference ---
 
@@ -792,6 +793,189 @@
             }
             orgScript.textContent = JSON.stringify(organizationSchema, null, 2);
         }
+
+        // --- FAQPage Schema (if enabled) ---
+        if (ENABLE_FAQ) {
+            const faqQuestions = generateFAQQuestions(store, storeName, city, postal, country, phone);
+
+            if (faqQuestions && faqQuestions.length > 0) {
+                const faqPageSchema = {
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    "mainEntity": faqQuestions
+                };
+
+                let faqScript = document.querySelector('script[data-pmt-faq]');
+                if (!faqScript) {
+                    faqScript = document.createElement('script');
+                    faqScript.type = 'application/ld+json';
+                    faqScript.setAttribute('data-pmt-faq', 'true');
+                    document.head.appendChild(faqScript);
+                }
+                faqScript.textContent = JSON.stringify(faqPageSchema, null, 2);
+            }
+        }
+    }
+
+    // Helper function to generate FAQ questions dynamically from store data
+    function generateFAQQuestions(store, storeName, city, postal, country, phone) {
+        const questions = [];
+
+        // Q1: Opening Hours (always included if data exists)
+        if (store.openHours) {
+            const hoursText = formatOpeningHoursNaturally(store.openHours);
+            if (hoursText) {
+                questions.push({
+                    "@type": "Question",
+                    "name": "What are the opening hours?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": hoursText
+                    }
+                });
+            }
+        }
+
+        // Q2: Location
+        if (city || postal || country) {
+            const addressParts = [];
+            if (store.address?.street) addressParts.push(store.address.street);
+            if (city && postal) {
+                addressParts.push(`${city}, ${postal}`);
+            } else if (city) {
+                addressParts.push(city);
+            } else if (postal) {
+                addressParts.push(postal);
+            }
+            if (country) addressParts.push(country);
+
+            const locationText = `We are located at ${addressParts.join(', ')}.`;
+            questions.push({
+                "@type": "Question",
+                "name": "Where is the store located?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": locationText
+                }
+            });
+        }
+
+        // Q3: Phone Contact
+        if (phone) {
+            questions.push({
+                "@type": "Question",
+                "name": "How can I contact the store?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `You can call us at ${phone}.`
+                }
+            });
+        }
+
+        // Q4: Directions/How to get there
+        if (store.location?.lat && store.location?.lon) {
+            questions.push({
+                "@type": "Question",
+                "name": "How do I get directions to the store?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `You can get directions by clicking on the "Get Directions" link on our store page, which will open Google Maps with our location.`
+                }
+            });
+        }
+
+        // Q5: Payment methods (if configured via data attribute)
+        const paymentMethods = getConfigFromDataAttr(rootEl, 'data-payment-methods', null);
+        if (paymentMethods) {
+            questions.push({
+                "@type": "Question",
+                "name": "What payment methods do you accept?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `We accept ${paymentMethods}.`
+                }
+            });
+        }
+
+        // Q6: Special hours
+        if (store.specialHours && Object.keys(store.specialHours).length > 0) {
+            questions.push({
+                "@type": "Question",
+                "name": "Do you have any special opening hours?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, we have special opening hours on certain dates. Please check our opening hours section for the most up-to-date information."
+                }
+            });
+        }
+
+        // Q7: Services (if business type is known)
+        const businessType = store.network?.google?.categories?.primaryCategory?.name;
+        if (businessType) {
+            questions.push({
+                "@type": "Question",
+                "name": "What services or products do you offer?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `${storeName} specializes in ${businessType.toLowerCase()}. Visit us for a wide selection and expert advice.`
+                }
+            });
+        }
+
+        return questions;
+    }
+
+    // Helper function to format opening hours in natural language
+    function formatOpeningHoursNaturally(openHours) {
+        if (!openHours || typeof openHours !== 'object') return null;
+
+        const dayOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        const dayNames = {
+            monday: 'Monday',
+            tuesday: 'Tuesday',
+            wednesday: 'Wednesday',
+            thursday: 'Thursday',
+            friday: 'Friday',
+            saturday: 'Saturday',
+            sunday: 'Sunday'
+        };
+
+        const schedules = [];
+
+        for (const day of dayOrder) {
+            const dayData = openHours[day];
+            if (!dayData) continue;
+
+            const dayName = dayNames[day];
+
+            // Handle closed days
+            if (!dayData.state || dayData.state.toLowerCase() === 'closed') {
+                schedules.push(`${dayName}: Closed`);
+                continue;
+            }
+
+            // Handle open days with time spans
+            if (dayData.state.toLowerCase() === 'open' && Array.isArray(dayData.span) && dayData.span.length > 0) {
+                const times = dayData.span.map(span => {
+                    if (span.open && span.close) {
+                        // Convert '0900' to '09:00'
+                        const open = span.open.length === 4 ? `${span.open.slice(0,2)}:${span.open.slice(2)}` : span.open;
+                        const close = span.close.length === 4 ? `${span.close.slice(0,2)}:${span.close.slice(2)}` : span.close;
+                        return `${open}-${close}`;
+                    }
+                    return null;
+                }).filter(Boolean);
+
+                if (times.length > 0) {
+                    schedules.push(`${dayName}: ${times.join(' and ')}`);
+                }
+            }
+        }
+
+        if (schedules.length === 0) return null;
+
+        // Create natural language summary
+        return `We are open ${schedules.join(', ')}.`;
     }
 
     // Add sanitization function near the top with other helper functions

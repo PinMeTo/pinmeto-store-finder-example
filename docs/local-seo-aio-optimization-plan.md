@@ -2,8 +2,30 @@
 ## Landing Page Enhancement Strategy
 
 **Date Created:** 2025-10-09
+**Last Updated:** 2025-10-10
 **Test URL:** http://localhost:3000/landingpage-path/CT?test=true
 **Target File:** `public/js/simple-landing-page-google.js`
+
+---
+
+## 📋 Phase 1 Status (Updated 2025-10-10)
+
+**Completed:** 5/7 tasks ✅
+**Deferred:** 2/7 tasks ⏸️ (pending API updates)
+
+### ✅ Working
+- LocalBusiness @type
+- additionalType (business classification)
+- postalCode (fixed)
+- hasMap (Google Maps link)
+- description
+- areaServed
+
+### ⏸️ Pending API Data
+- **aggregateRating**: Requires `store.reviews[]` array in API response
+- **parentOrganization**: Requires `store.brandUrl`, `store.brandLogo`, `store.brandSocialMedia[]`
+
+**Schema Validation:** ✅ PASSED (Schema.org Validator: 0 errors, 0 warnings)
 
 ---
 
@@ -179,7 +201,7 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
   - Check API response structure for zip_code/postal_code field
   - **Implementation:** Now uses `store.address.zip` (primary field in PinMeTo API)
 
-- [x] **4. Add aggregateRating from reviews data** ✅ COMPLETED (2025-10-09)
+- [ ] **4. Add aggregateRating from reviews data** ⏸️ DEFERRED - Pending API Update (2025-10-10)
   - Calculate from reviews array
   - Add to schema:
     ```json
@@ -192,7 +214,11 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
     }
     ```
   - Use actual review data from API or test data
-  - **Implementation:** Created `calculateAggregateRating()` helper function at lines 580-594
+  - **Implementation Status:** Code exists (`calculateAggregateRating()` helper at lines 580-594) but not executing because:
+    - `REVIEWS_DATA` is defined inside `initializeApp()` function (line 1339)
+    - Schema is generated before reviews data is available
+  - **TODO**: Once API provides `store.reviews` array, this will work automatically
+  - **Alternative**: Move `REVIEWS_DATA` to global scope for testing with demo data
 
 - [x] **5. Add hasMap property with Google Maps URL** ✅ COMPLETED (2025-10-09)
   - Add property: `"hasMap": "https://maps.google.com/maps?cid=1884650547752002378"`
@@ -200,7 +226,7 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
   - Already have coordinates, just need to add property
   - **Implementation:** Prefers `store.network.google.link` from API, fallback to generated URL
 
-- [x] **6. Add parent Organization schema for brand** ✅ COMPLETED (2025-10-09)
+- [ ] **6. Add parent Organization schema for brand** ⏸️ DEFERRED - Pending API Update (2025-10-10)
   - Create separate script tag or nested structure
   - Schema:
     ```json
@@ -217,7 +243,11 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
     }
     ```
   - Link LocalBusiness to Organization with `"parentOrganization"` property
-  - **Implementation:** Auto-extracts brand name from store name at lines 755-791
+  - **Implementation Status:** Code exists (lines 758-794) but not executing because:
+    - Logic requires: `brandName !== storeName` OR `store.brandUrl` OR `store.brandLogo`
+    - Current: "RTV EURO AGD" has brandName === storeName, no brandUrl/brandLogo in API
+  - **TODO**: API should provide `store.brandUrl`, `store.brandLogo`, and `store.brandSocialMedia[]`
+  - **Alternative**: Adjust logic to always create Organization for known brands
 
 - [x] **7. Added enhanced LocalBusiness properties** ✅ COMPLETED (2025-10-09)
   - description (from store.longDescription)
@@ -225,10 +255,10 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
   - priceRange, paymentAccepted, currenciesAccepted (configurable via data attributes)
 
 **Validation:**
-- [ ] Test with: https://search.google.com/test/rich-results
-- [ ] Test with: https://validator.schema.org/
+- [ ] Test with: https://search.google.com/test/rich-results (requires public URL)
+- [x] Test with: https://validator.schema.org/ ✅ **PASSED: 0 ERRORS, 0 WARNINGS** (2025-10-10)
 - [x] Check: All required LocalBusiness properties present ✅
-- [ ] Check: No errors or warnings in validation
+- [x] Check: No errors or warnings in validation ✅
 
 ---
 
@@ -237,16 +267,17 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
 **Priority:** High - Improves ranking signals
 **Estimated Impact:** 20-30% improvement in local pack inclusion
 **Time Estimate:** 2-3 hours
+**Status:** ⏸️ DEFERRED - Pending API Updates (2025-10-10)
 
 #### Tasks:
 
-- [ ] **7. Add priceRange property**
+- [ ] **7. Add priceRange property** ⏸️ PENDING API
   - Determine price range: "$", "$$", "$$$", "$$$$"
   - Add: `"priceRange": "$$"`
   - Base on: Average product prices or store positioning
   - Important for: Local search filtering and AI summaries
 
-- [ ] **8. Add areaServed (city/region)**
+- [x] **8. Add areaServed (city/region)** ✅ COMPLETED in Phase 1 (2025-10-09)
   - Add property:
     ```json
     "areaServed": {
@@ -256,8 +287,9 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
     ```
   - Or array if serving multiple areas
   - Helps: Define service radius for local search
+  - **Implementation:** Already added in Phase 1
 
-- [ ] **9. Add paymentAccepted and currenciesAccepted**
+- [ ] **9. Add paymentAccepted and currenciesAccepted** ⏸️ PENDING API
   - Add properties:
     ```json
     "paymentAccepted": "Cash, Credit Card, Debit Card, Mobile Payment",
@@ -265,9 +297,10 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
     ```
   - Source from: API data or default values
   - Important for: Customer decision-making and search filters
+  - **TODO**: API should provide `store.paymentMethods[]` and `store.currency`
 
-- [ ] **10. Add image array with multiple store photos**
-  - Current: Single fallback image
+- [ ] **10. Add image array with multiple store photos** ⏸️ PENDING API
+  - Current: Single image from Facebook
   - Change to: Array of store photos from API
   - Schema:
     ```json
@@ -277,15 +310,17 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
       "https://example.com/store-products.jpg"
     ]
     ```
-  - Source from: `store.images` array in API response
+  - Source from: `store.images[]` array in API response
   - Fallback: Use default if no images available
+  - **TODO**: API should provide `store.images[]` with multiple high-quality store photos
 
-- [ ] **11. Fix phone number consistency**
+- [ ] **11. Fix phone number consistency** ⏸️ PENDING API
   - Standardize format: "+48 85 585 58 55" (international format)
   - Structured data: `"telephone": "+48855855855"`
   - Display: "+48 85 585 58 55" (with spaces for readability)
   - Tel link: `tel:+48855855855` (no spaces, with country code)
   - Ensure: All three match the same phone number
+  - **TODO**: API should provide phone with country code (e.g., `store.phoneInternational`)
 
 **Validation:**
 - [ ] Check: Phone number clickable and dials correctly on mobile
@@ -299,6 +334,9 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
 **Priority:** Medium-High - Optimizes for AI-generated summaries
 **Estimated Impact:** 60-70% better chance of being featured in AI Overviews
 **Time Estimate:** 3-4 hours
+**Status:** 🚧 IN PROGRESS - Task 13 Complete (2025-10-10)
+
+**Completed:** 1/6 tasks ✅
 
 #### Tasks:
 
@@ -328,7 +366,7 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
   - Add as separate schema or within LocalBusiness `review` property
   - Include response if available
 
-- [ ] **13. Add FAQPage schema (common questions)**
+- [x] **13. Add FAQPage schema (common questions)** ✅ COMPLETED (2025-10-10)
   - Create new structured data for common FAQs:
     ```json
     {
@@ -364,6 +402,22 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
     ```
   - Add 5-10 common questions
   - Make configurable via data attribute or API
+  - **Implementation Details:**
+    - Feature toggle: `data-enable-faq="true"` on root element (line 39)
+    - FAQ generation: `generateFAQQuestions()` function (lines 820-926)
+    - Dynamically generates up to 7 questions based on available store data:
+      1. Opening hours (with support for multiple time spans per day)
+      2. Store location (address)
+      3. Contact information (phone)
+      4. Directions (Google Maps link)
+      5. Payment methods (from data attribute)
+      6. Special hours (if available)
+      7. Services/Products (from business type)
+    - Natural language formatter: `formatOpeningHoursNaturally()` (lines 928-979)
+    - Handles variable opening hours with multiple time spans (e.g., "9:00-12:00 and 14:00-18:00")
+    - Schema injected as separate `<script type="application/ld+json">` tag with `data-pmt-faq` attribute
+    - **Validation:** ✅ PASSED Schema.org Validator (0 errors, 0 warnings) - 2025-10-10
+    - **Test Result:** Successfully generated 5 dynamic FAQ questions on test page
 
 - [ ] **14. Add about property with concise business description**
   - Add to LocalBusiness schema:
