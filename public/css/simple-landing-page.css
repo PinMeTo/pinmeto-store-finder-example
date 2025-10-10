@@ -419,8 +419,66 @@
 }
 
 /* ==========================================================================
-   5. Concepts & Tags
+   5. Breadcrumb & Navigation
    ========================================================================== */
+/* Breadcrumb navigation container */
+#pmt-store-landing-page-container .pmt-breadcrumb {
+    margin-bottom: var(--pmt-space-4) !important;
+    padding: 0 !important;
+}
+
+/* Breadcrumb list */
+#pmt-store-landing-page-container .pmt-breadcrumb-list {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    gap: var(--pmt-space-2) !important;
+}
+
+/* Breadcrumb items */
+#pmt-store-landing-page-container .pmt-breadcrumb-item {
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+}
+
+/* Breadcrumb links */
+#pmt-store-landing-page-container .pmt-breadcrumb-link {
+    color: var(--pmt-color-primary) !important;
+    text-decoration: none !important;
+    font-size: 0.9em !important;
+    font-weight: 500 !important;
+    transition: color 0.2s, text-decoration 0.2s !important;
+}
+
+#pmt-store-landing-page-container .pmt-breadcrumb-link:hover {
+    color: var(--pmt-color-primary-dark) !important;
+    text-decoration: underline !important;
+}
+
+/* Breadcrumb separator */
+#pmt-store-landing-page-container .pmt-breadcrumb-separator {
+    color: var(--pmt-color-text-muted) !important;
+    font-size: 0.9em !important;
+    user-select: none !important;
+    margin: 0 !important;
+}
+
+/* Current page (non-clickable) */
+#pmt-store-landing-page-container .pmt-breadcrumb-current-text {
+    color: var(--pmt-color-text-secondary) !important;
+    font-size: 0.9em !important;
+    font-weight: 500 !important;
+}
+
+/* Breadcrumb container spacing */
+#pmt-breadcrumb-container {
+    margin-bottom: var(--pmt-space-3) !important;
+}
+
 /* Back to Store Locator link styles */
 #pmt-store-landing-page-container .pmt-back-to-store-locator {
     margin-bottom: 24px !important;
@@ -447,6 +505,9 @@
     height: 16px !important;
 }
 
+/* ==========================================================================
+   6. Concepts & Tags
+   ========================================================================== */
 /* Concepts container layout */
 #pmt-store-landing-page-container .pmt-concepts-container {
     display: flex !important;

@@ -37,6 +37,7 @@
     const SHOW_REVIEWS = getConfigFromDataAttr(rootEl, 'data-show-reviews', 'true') !== 'false' &&
                         (typeof window.SHOW_REVIEWS === 'undefined' || window.SHOW_REVIEWS);
     const ENABLE_FAQ = getConfigFromDataAttr(rootEl, 'data-enable-faq', 'false') === 'true';
+    const SHOW_BREADCRUMB = getConfigFromDataAttr(rootEl, 'data-show-breadcrumb', 'true') === 'true';
 
     // --- DOM Elements Reference ---
 
@@ -154,6 +155,12 @@
         elements.storeDetailsEl.id = 'pmt-store-details';
         elements.storeDetailsEl.className = 'pmt-hidden';
         mainArticle.appendChild(elements.storeDetailsEl);
+
+        // Add breadcrumb container (will be populated with store data)
+        elements.breadcrumbContainerEl = document.createElement('div');
+        elements.breadcrumbContainerEl.id = 'pmt-breadcrumb-container';
+        elements.breadcrumbContainerEl.className = SHOW_BREADCRUMB ? '' : 'pmt-hidden';
+        elements.storeDetailsEl.appendChild(elements.breadcrumbContainerEl);
 
         // Add back to store locator link
         elements.backToStoreLocatorEl = document.createElement('nav');
@@ -486,7 +493,7 @@
             console.warn('PMT Landing Page: No Google Maps API key available for static map');
             return null;
         }
-        
+
         const baseUrl = 'https://maps.googleapis.com/maps/api/staticmap';
         const params = new URLSearchParams({
             center: `${lat},${lon}`,
@@ -497,8 +504,65 @@
             style: 'feature:poi|visibility:off',
             key: GOOGLE_MAPS_API_KEY
         });
-        
+
         return `${baseUrl}?${params.toString()}`;
+    }
+
+    // Render breadcrumb navigation
+    function renderBreadcrumb(storeName, storeUrl) {
+        const nav = document.createElement('nav');
+        nav.className = 'pmt-breadcrumb';
+        nav.setAttribute('aria-label', 'Breadcrumb');
+
+        const ol = document.createElement('ol');
+        ol.className = 'pmt-breadcrumb-list';
+
+        // Home
+        const homeItem = document.createElement('li');
+        homeItem.className = 'pmt-breadcrumb-item';
+        const homeLink = document.createElement('a');
+        homeLink.href = PMT_HOME_URL;
+        homeLink.className = 'pmt-breadcrumb-link';
+        homeLink.textContent = t('breadcrumb.home') || 'Home';
+        homeItem.appendChild(homeLink);
+        ol.appendChild(homeItem);
+
+        // Separator
+        const separator1 = document.createElement('li');
+        separator1.className = 'pmt-breadcrumb-separator';
+        separator1.setAttribute('aria-hidden', 'true');
+        separator1.textContent = '›';
+        ol.appendChild(separator1);
+
+        // Store Locator
+        const locatorItem = document.createElement('li');
+        locatorItem.className = 'pmt-breadcrumb-item';
+        const locatorLink = document.createElement('a');
+        locatorLink.href = PMT_STORE_LOCATOR_URL;
+        locatorLink.className = 'pmt-breadcrumb-link';
+        locatorLink.textContent = t('breadcrumb.storeLocator') || 'Store Locator';
+        locatorItem.appendChild(locatorLink);
+        ol.appendChild(locatorItem);
+
+        // Separator
+        const separator2 = document.createElement('li');
+        separator2.className = 'pmt-breadcrumb-separator';
+        separator2.setAttribute('aria-hidden', 'true');
+        separator2.textContent = '›';
+        ol.appendChild(separator2);
+
+        // Current Store (not a link)
+        const storeItem = document.createElement('li');
+        storeItem.className = 'pmt-breadcrumb-item pmt-breadcrumb-current';
+        const storeSpan = document.createElement('span');
+        storeSpan.className = 'pmt-breadcrumb-current-text';
+        storeSpan.setAttribute('aria-current', 'page');
+        storeSpan.textContent = storeName;
+        storeItem.appendChild(storeSpan);
+        ol.appendChild(storeItem);
+
+        nav.appendChild(ol);
+        return nav;
     }
 
     async function loadGoogleMapsApiKey() {
@@ -1154,6 +1218,15 @@
                 nameText += ` (${store.locationDescriptor.trim()})`;
             }
             storeNameEl.textContent = nameText;
+        }
+
+        // Render breadcrumb navigation
+        if (SHOW_BREADCRUMB && currentDomElements.breadcrumbContainerEl) {
+            const storeName = store.name || t('fallbackStoreName');
+            const storeUrl = window.location.href;
+            const breadcrumb = renderBreadcrumb(storeName, storeUrl);
+            currentDomElements.breadcrumbContainerEl.innerHTML = '';
+            currentDomElements.breadcrumbContainerEl.appendChild(breadcrumb);
         }
 
         if (storeAddressEl) {

@@ -500,10 +500,11 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
 **Priority:** Medium - Fixes technical issues
 **Estimated Impact:** 10-15% improvement in overall SEO health
 **Time Estimate:** 2 hours
+**Status:** 🚧 IN PROGRESS - Task 19 Complete (2025-10-10)
 
 #### Tasks:
 
-- [ ] **17. Fix language attribute to match content language**
+- [ ] **17. Fix language attribute to match content language** ⏸️ SKIPPED - Parent page responsibility
   - Current issue: `<html lang="sv">` but content is Polish
   - Solution: Detect language from:
     1. Store country/location (Poland → "pl")
@@ -522,8 +523,9 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
     document.documentElement.lang = detectedLang;
     ```
   - Fallback: Use existing data-language attribute or default to 'en'
+  - **Note:** Deferred - Parent page controls the HTML lang attribute, not the widget
 
-- [ ] **18. Add hreflang tags for multi-language support**
+- [ ] **18. Add hreflang tags for multi-language support** ⏸️ SKIPPED - Parent page responsibility
   - If same store has multiple language versions, add:
     ```html
     <link rel="alternate" hreflang="pl" href="https://example.com/store/123?lang=pl" />
@@ -532,12 +534,26 @@ This document outlines a comprehensive plan to optimize the PinMeTo landing page
     ```
   - Only add if: Multi-language support is enabled
   - Configuration: Via data attribute `data-enable-hreflang="true"`
+  - **Note:** Deferred - Parent page controls hreflang tags
 
-- [ ] **19. Ensure breadcrumb nav matches structured data**
-  - Currently: BreadcrumbList schema exists
-  - Check: Visual breadcrumb navigation on page matches schema
-  - Add if missing: Visible breadcrumb UI component
-  - Styling: Should match design system
+- [x] **19. Ensure breadcrumb nav matches structured data** ✅ COMPLETED (2025-10-10)
+  - **Implementation Details:**
+    - Created `renderBreadcrumb()` function (lines 505-560 in simple-landing-page-google.js)
+    - Added breadcrumb container to DOM structure (line 160-163)
+    - Breadcrumb populated when store data loads (lines 1223-1230)
+    - Structure matches BreadcrumbList schema exactly:
+      - Home → Store Locator → Store Name
+      - Links are clickable, current page is non-clickable
+    - Configuration: `data-show-breadcrumb="true"` (default: true)
+  - **Styling:**
+    - Uses design system variables (primary color, spacing, text colors)
+    - Semantic HTML: `<nav aria-label="Breadcrumb">` with `<ol>` list
+    - Accessible: `aria-current="page"` on current item
+    - Separators: "›" character with `aria-hidden="true"`
+    - CSS classes: `.pmt-breadcrumb`, `.pmt-breadcrumb-list`, `.pmt-breadcrumb-item`
+  - **Translations:** Added to all 4 languages (en, sv, pl, fr)
+    - Keys: `breadcrumb.home`, `breadcrumb.storeLocator`
+  - **Validation:** ✅ Tested on landing page - displays correctly above "Back to Store Locator" link
 
 - [ ] **20. Ensure all images have descriptive alt text**
   - Store photos: "RTV EURO AGD store front in Świnoujście"

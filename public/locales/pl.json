@@ -67,5 +67,9 @@
     "storeNotFound": "Nie znaleziono sklepu",
     "goToStoreLocator": "Przejdź do wyszukiwarki sklepów",
     "storeNotFoundMessage": "Nie znaleziono sklepu, którego szukasz. Czy chcesz przeglądać wszystkie nasze sklepy?",
-    "backToStoreLocator": "Powrót do wyszukiwarki sklepów"
-} 
+    "backToStoreLocator": "Powrót do wyszukiwarki sklepów",
+    "breadcrumb": {
+        "home": "Strona główna",
+        "storeLocator": "Wyszukiwarka sklepów"
+    }
+}

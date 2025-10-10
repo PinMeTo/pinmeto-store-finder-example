@@ -67,5 +67,9 @@
     "storeNotFound": "Butiken hittades inte",
     "goToStoreLocator": "Gå till butikssökaren",
     "storeNotFoundMessage": "Butiken du söker kunde inte hittas. Vill du bläddra bland alla våra butiker?",
-    "backToStoreLocator": "Tillbaka till butikssökaren"
+    "backToStoreLocator": "Tillbaka till butikssökaren",
+    "breadcrumb": {
+        "home": "Hem",
+        "storeLocator": "Butikssökaren"
+    }
 }
