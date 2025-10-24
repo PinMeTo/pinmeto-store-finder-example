@@ -21,6 +21,11 @@ app.get('/landingpage', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'landingpage.html'));
 });
 
+// Route for the store locator
+app.get('/locator', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'locator.html'));
+});
+
 // Serve landingpage-path.html for path parameter deep linking
 app.get('/landingpage-path/:storeId', (req, res) => {
   res.sendFile(__dirname + '/public/landingpage-path.html');

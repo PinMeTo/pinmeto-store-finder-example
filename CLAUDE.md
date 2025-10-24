@@ -212,3 +212,4 @@ Invoke the design review agent for thorough design validation when:
 ## Git Commit Guidelines
 
 When creating commits, include all changes made from the last commit in the session (as specified in `.cursor/rules/git-commit.mdc`).
+- use @public/locator.html when testing the store locator and use @public/landingpage-path.html when testing the landing page. use store id 1337

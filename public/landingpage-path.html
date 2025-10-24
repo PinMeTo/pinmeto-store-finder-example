@@ -4,25 +4,21 @@
   Make sure your server is configured to rewrite all /landingpage-path/* URLs to this file.
 -->
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Store Information (Path Parameter Test)</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome removed - widget uses inline SVG icons instead -->
  </head>
 <body>
     <div id="pmt-store-landing-page-container"
     data-use-path-parameter="true"
-    data-api-url="https://public-api.test.pinmeto.com/RTV_EURO_AGD/3e3a5c1a-9a2b-4c3d-8e4f-5a6b7c8d9e0f/RTV_EURO_AGD.json"
+    data-api-url="/data-example/locations.json"
     data-locales-path="/locales/"
     data-show-images="true"
     data-show-reviews="true"
     data-enable-faq="true"
-    data-payment-methods="cash, credit cards, debit cards, and mobile payments"
+    data-store-locator-url="/locator"
     ></div> 
     <script src="/js/simple-landing-page-google.js"></script>
 </body>

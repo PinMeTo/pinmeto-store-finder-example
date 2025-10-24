@@ -1134,7 +1134,7 @@
    15. Image Popup Modal
    ========================================================================== */
 /* Popup modal overlay */
-#pmt-store-landing-page-container .pmt-image-popup {
+.pmt-image-popup {
     display: none !important;
     position: fixed !important;
     top: 0 !important;
@@ -1149,7 +1149,7 @@
 }
 
 /* Show popup */
-#pmt-store-landing-page-container .pmt-image-popup.show {
+.pmt-image-popup.show {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -1157,7 +1157,7 @@
 }
 
 /* Popup content container */
-#pmt-store-landing-page-container .pmt-image-popup-content {
+.pmt-image-popup-content {
     position: relative !important;
     max-width: 90vw !important;
     max-height: 90vh !important;
@@ -1167,12 +1167,12 @@
 }
 
 /* Show popup content */
-#pmt-store-landing-page-container .pmt-image-popup.show .pmt-image-popup-content {
+.pmt-image-popup.show .pmt-image-popup-content {
     transform: scale(1) !important;
 }
 
 /* Popup image */
-#pmt-store-landing-page-container .pmt-image-popup-img {
+.pmt-image-popup-img {
     max-width: 100% !important;
     max-height: 100% !important;
     object-fit: contain !important;
@@ -1181,7 +1181,7 @@
 }
 
 /* Close button */
-#pmt-store-landing-page-container .pmt-image-popup-close {
+.pmt-image-popup-close {
     position: absolute !important;
     top: -40px !important;
     right: 0 !important;
@@ -1200,12 +1200,12 @@
     z-index: 10001 !important;
 }
 
-#pmt-store-landing-page-container .pmt-image-popup-close:hover {
+.pmt-image-popup-close:hover {
     background: rgba(255, 255, 255, 1) !important;
 }
 
 /* Close button icon - now uses actual text content instead of ::before */
-#pmt-store-landing-page-container .pmt-image-popup-close span {
+.pmt-image-popup-close span {
     font-size: 2rem !important;
     font-weight: bold !important;
     line-height: 1 !important;
@@ -1213,13 +1213,13 @@
 
 /* Responsive adjustments for popup */
 @media (max-width: 768px) {
-    #pmt-store-landing-page-container .pmt-image-popup-content {
+    .pmt-image-popup-content {
         max-width: 95vw !important;
         max-height: 95vh !important;
         margin: 20px !important;
     }
-    
-    #pmt-store-landing-page-container .pmt-image-popup-close {
+
+    .pmt-image-popup-close {
         top: -35px !important;
         width: 35px !important;
         height: 35px !important;
