@@ -851,15 +851,23 @@
         };
 
         // Add geo coordinates if available
-        if (lat && lon) {
+        if (lat && lon && !isNaN(lat) && !isNaN(lon) && lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180) {
             localBusinessSchema.geo = {
                 "@type": "GeoCoordinates",
                 "latitude": lat,
                 "longitude": lon
             };
             // Add hasMap property with Google Maps URL
-            // Prefer the Google Maps link from API, fallback to generated URL
-            localBusinessSchema.hasMap = store.network?.google?.link || `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+            // Prefer the Google Maps link from API (if valid), fallback to generated URL
+            let hasMapUrl = store.network?.google?.link;
+            if (hasMapUrl && isValidUrl(hasMapUrl)) {
+                localBusinessSchema.hasMap = hasMapUrl;
+            } else {
+                const generatedUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+                if (isValidUrl(generatedUrl)) {
+                    localBusinessSchema.hasMap = generatedUrl;
+                }
+            }
         }
 
         // Add sameAs if social media links exist
@@ -1164,6 +1172,27 @@
             .replace(/'/g, '&#039;');
     }
 
+    // URL validation function to prevent XSS via malicious URLs
+    function isValidUrl(url) {
+        if (!url || typeof url !== 'string') return false;
+        try {
+            const parsed = new URL(url);
+            // Only allow http and https protocols
+            return ['http:', 'https:'].includes(parsed.protocol);
+        } catch {
+            return false;
+        }
+    }
+
+    // Sanitize URL by validating and encoding
+    function sanitizeUrl(url) {
+        if (!isValidUrl(url)) {
+            console.warn('PMT Landing Page: Invalid URL detected and rejected:', url);
+            return '#';
+        }
+        return sanitizeHTML(url);
+    }
+
     // Add social media link formatting function
     function formatSocialMediaLinks(network) {
         if (!network) return '';
@@ -1189,8 +1218,16 @@
 
         for (const [platform, data] of Object.entries(network)) {
             if (data && data.link) {
-                const icon = icons[platform]?.svg || ICONS.link;
-                links.push(`<a href="${sanitizeHTML(data.link)}" target="_blank" rel="noopener noreferrer" class="pmt-social-link" aria-label="${sanitizeHTML(platform)}">${icon}</a>`);
+                // Validate and sanitize URL to prevent XSS attacks
+                const url = data.link;
+                if (isValidUrl(url)) {
+                    const icon = icons[platform]?.svg || ICONS.link;
+                    const sanitizedUrl = sanitizeUrl(url);
+                    const sanitizedPlatform = sanitizeHTML(platform);
+                    links.push(`<a href="${sanitizedUrl}" target="_blank" rel="noopener noreferrer" class="pmt-social-link" aria-label="${sanitizedPlatform}">${icon}</a>`);
+                } else {
+                    console.warn(`PMT Landing Page: Invalid social media URL for ${platform}, skipping:`, url);
+                }
             }
         }
 
@@ -1253,14 +1290,21 @@
         // --- Google Static Map & Directions ---
         if (directionsParagraphEl) directionsParagraphEl.classList.add('pmt-hidden');
 
-        if (!isNaN(lat) && !isNaN(lon) && storeMapWrapperEl && storeMapEl && directionsParagraphEl && storeDirectionsLinkEl) {
+        // Validate coordinates are within valid ranges
+        const isValidCoordinate = (latitude, longitude) => {
+            return !isNaN(latitude) && !isNaN(longitude) &&
+                   latitude >= -90 && latitude <= 90 &&
+                   longitude >= -180 && longitude <= 180;
+        };
+
+        if (isValidCoordinate(lat, lon) && storeMapWrapperEl && storeMapEl && directionsParagraphEl && storeDirectionsLinkEl) {
             storeMapWrapperEl.classList.remove('pmt-hidden');
             try {
                 console.log("PMT Landing Page: Creating static map.");
-                
+
                 // Clear any existing content
                 storeMapEl.innerHTML = '';
-                
+
                 // Create static map image
                 const staticMapUrl = generateStaticMapUrl(lat, lon, store.name);
                 if (staticMapUrl) {
@@ -1273,24 +1317,24 @@
                     mapContainer.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
                     mapContainer.style.cursor = 'pointer';
                     mapContainer.style.transition = 'transform 0.2s ease';
-                    
+
                     const mapImg = document.createElement('img');
                     mapImg.src = staticMapUrl;
                     mapImg.alt = `Map showing location of ${store.name || 'store'}`;
                     mapImg.style.width = '100%';
                     mapImg.style.height = '100%';
                     mapImg.style.display = 'block';
-                    
+
                     // Add loading and error handling
                     mapImg.addEventListener('load', () => {
                         console.log('PMT Landing Page: Static map loaded successfully');
                     });
-                    
+
                     mapImg.addEventListener('error', () => {
                         console.error('PMT Landing Page: Failed to load static map image');
                         mapContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f5f5f5; color: #666; font-size: 14px;">Map unavailable</div>';
                     });
-                    
+
                     // Add hover effect
                     mapContainer.addEventListener('mouseenter', () => {
                         mapContainer.style.transform = 'scale(1.02)';
@@ -1298,13 +1342,16 @@
                     mapContainer.addEventListener('mouseleave', () => {
                         mapContainer.style.transform = 'scale(1)';
                     });
-                    
+
                     // Make the container clickable to open Google Maps
                     mapContainer.addEventListener('click', () => {
+                        // Validate and construct URL securely
                         const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
-                        window.open(googleMapsUrl, '_blank', 'noopener,noreferrer');
+                        if (isValidUrl(googleMapsUrl)) {
+                            window.open(googleMapsUrl, '_blank', 'noopener,noreferrer');
+                        }
                     });
-                    
+
                     mapContainer.appendChild(mapImg);
                     storeMapEl.appendChild(mapContainer);
                     console.log("PMT Landing Page: Static map created successfully.");
@@ -1312,11 +1359,16 @@
                     console.warn("PMT Landing Page: Could not generate static map URL.");
                     storeMapWrapperEl.classList.add('pmt-hidden');
                 }
-                
-                // Set up directions link
+
+                // Set up directions link with validation
                 const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
-                storeDirectionsLinkEl.href = googleMapsUrl;
-                directionsParagraphEl.classList.remove('pmt-hidden');
+                if (isValidUrl(googleMapsUrl)) {
+                    storeDirectionsLinkEl.href = googleMapsUrl;
+                    directionsParagraphEl.classList.remove('pmt-hidden');
+                } else {
+                    console.warn('PMT Landing Page: Invalid Google Maps URL, hiding directions link');
+                    directionsParagraphEl.classList.add('pmt-hidden');
+                }
 
             } catch (mapError) {
                 console.error("!!! Error creating static map:", mapError);
