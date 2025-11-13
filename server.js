@@ -2,11 +2,40 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Enable CORS for all routes
 app.use(cors());
+
+// Security headers with helmet
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "https://maps.googleapis.com"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", "data:", "https:", "blob:"],
+            connectSrc: ["'self'", "https://maps.googleapis.com", "https://public-api.test.pinmeto.com"],
+            fontSrc: ["'self'", "data:"],
+            objectSrc: ["'none'"],
+            mediaSrc: ["'self'"],
+            frameSrc: ["'none'"],
+        },
+    },
+    crossOriginEmbedderPolicy: false, // Allow embedding resources
+}));
+
+// Rate limiter for API key endpoint to prevent abuse
+const apiKeyLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP, please try again later.',
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,9 +64,15 @@ app.get('/landingpage-path', (req, res) => {
   res.sendFile(__dirname + '/public/landingpage-path.html');
 });
 
-// API endpoint to get the Google Maps API key
-app.get('/api/google-maps-key', (req, res) => {
-    res.json({ key: process.env.GOOGLE_MAPS_API_KEY });
+// API endpoint to get the Google Maps API key (with rate limiting)
+app.get('/api/google-maps-key', apiKeyLimiter, (req, res) => {
+    // Security: Always validate the API key exists before sending
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+    if (!apiKey) {
+        console.error('GOOGLE_MAPS_API_KEY is not set in environment variables');
+        return res.status(500).json({ error: 'API key not configured' });
+    }
+    res.json({ key: apiKey });
 });
 
 // Start the server

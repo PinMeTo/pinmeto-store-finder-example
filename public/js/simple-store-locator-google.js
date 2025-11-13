@@ -260,6 +260,27 @@
             .replace(/'/g, '&#039;');
     }
 
+    // URL validation function to prevent XSS via malicious URLs
+    function isValidUrl(url) {
+        if (!url || typeof url !== 'string') return false;
+        try {
+            const parsed = new URL(url);
+            // Only allow http and https protocols
+            return ['http:', 'https:'].includes(parsed.protocol);
+        } catch {
+            return false;
+        }
+    }
+
+    // Sanitize URL by validating and encoding
+    function sanitizeUrl(url) {
+        if (!isValidUrl(url)) {
+            console.warn('PMT Store Locator: Invalid URL detected and rejected:', url);
+            return '#';
+        }
+        return sanitizeHTML(url);
+    }
+
     // MODIFIED formatAddress for PinMeTo structure
     function formatAddress(addr) {
         if (!addr || !addr.street) return t('fallbackAddress');
@@ -538,12 +559,17 @@
             return;
         }
 
+        // Clean up previously injected schema data to prevent accumulation
+        const existingSchemas = document.head.querySelectorAll('script[type="application/ld+json"][data-pmt-schema="store"]');
+        existingSchemas.forEach(script => script.remove());
+
         const listFragment = document.createDocumentFragment();
         filteredStores.forEach(store => {
             // Generate and inject structured data for each store
             const schemaData = generateStructuredData(store);
             const script = document.createElement('script');
             script.type = 'application/ld+json';
+            script.dataset.pmtSchema = 'store'; // Mark for cleanup on next render
             script.text = JSON.stringify(schemaData);
             document.head.appendChild(script);
 
@@ -568,8 +594,16 @@
 
             let directionsLinkHtml = '';
             if (store.lat != null && store.lng != null) {
-                const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
-                directionsLinkHtml = `<a href="${sanitizeHTML(directionsUrl)}" target="_blank" rel="noopener noreferrer" class="pmt-sl-directions-link" aria-label="${t('getDirections')} - ${sanitizeHTML(store.name || t('fallbackStoreName'))}">${t('getDirections')}</a>`;
+                // Validate coordinates to prevent injection
+                const lat = parseFloat(store.lat);
+                const lng = parseFloat(store.lng);
+                if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+                    const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+                    // Validate the constructed URL
+                    if (isValidUrl(directionsUrl)) {
+                        directionsLinkHtml = `<a href="${sanitizeHTML(directionsUrl)}" target="_blank" rel="noopener noreferrer" class="pmt-sl-directions-link" aria-label="${t('getDirections')} - ${sanitizeHTML(store.name || t('fallbackStoreName'))}">${t('getDirections')}</a>`;
+                    }
+                }
             }
 
             let phoneHtml;
@@ -1297,7 +1331,16 @@
         const links = [];
         for (const key of Object.keys(icons)) {
             if (network[key] && network[key].link) {
-                links.push(`<a href="${network[key].link}" class="pmt-sl-social-link pmt-sl-social-${key}" target="_blank" rel="noopener" aria-label="${key.charAt(0).toUpperCase() + key.slice(1)}">${icons[key].svg}</a>`);
+                // Validate and sanitize URL to prevent XSS attacks
+                const url = network[key].link;
+                if (isValidUrl(url)) {
+                    const sanitizedUrl = sanitizeUrl(url);
+                    const sanitizedKey = sanitizeHTML(key);
+                    const label = sanitizedKey.charAt(0).toUpperCase() + sanitizedKey.slice(1);
+                    links.push(`<a href="${sanitizedUrl}" class="pmt-sl-social-link pmt-sl-social-${sanitizedKey}" target="_blank" rel="noopener" aria-label="${label}">${icons[key].svg}</a>`);
+                } else {
+                    console.warn(`PMT Store Locator: Invalid social media URL for ${key}, skipping:`, url);
+                }
             }
         }
         if (!links.length) return '';
